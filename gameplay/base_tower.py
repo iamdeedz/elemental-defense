@@ -4,9 +4,8 @@ from .attack import Attack # NOQA
 
 
 class Tower:
-    def __init__(self, img, cost, dmg, attack_range, fire_rate, pos):
+    def __init__(self, img, dmg, attack_range, fire_rate, pos):
         self.range = attack_range
-        self.cost = cost
         self.dmg = dmg
         self.fire_rate = fire_rate
         self.img = img
@@ -36,13 +35,3 @@ class Tower:
                 if self.last_shot is None or perf_counter() - self.last_shot >= self.fire_rate:
                     self.attacks.append(Attack(self.vector, enemy, self.dmg))
                     self.last_shot = perf_counter()
-
-
-    def upgrade_dmg(self):
-        self.dmg += 1
-
-    def upgrade_range(self):
-        self.range += 10
-
-    def upgrade_fire_rate(self):
-        self.fire_rate -= 0.1

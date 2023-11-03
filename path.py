@@ -1,4 +1,4 @@
-from constants import screen_width, screen_height
+from constants import screen_width, screen_height, calc_new_pos
 
 base_waypoints = [(1145, 62),
                   (1136, 77),
@@ -44,8 +44,8 @@ base_waypoints = [(1145, 62),
 
 percentages = []
 for waypoint in base_waypoints:
-    percentages.append((waypoint[0] / 1920, waypoint[1] / 1080))
+    percentages.append(calc_new_pos(waypoint))
 
 waypoints = []
 for percentage in percentages:
-    waypoints.append((percentage[0] * screen_width, percentage[1] * screen_height))
+    waypoints.append(calc_new_pos(percentage))

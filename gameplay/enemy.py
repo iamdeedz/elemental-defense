@@ -24,7 +24,7 @@ class Enemy:
         except IndexError:
             self.next_waypoint = self.prev_waypoint
 
-        self.vector.move_towards_ip(self.next_waypoint, 2.5)
+        self.vector.move_towards_ip(self.next_waypoint, self.speed)
 
     def draw(self, screen):
         center = (self.vector.x - (self.img.get_width() // 2), self.vector.y - (self.img.get_height() // 2))

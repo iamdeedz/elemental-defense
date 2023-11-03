@@ -1,10 +1,10 @@
 import pygame as p
-from constants import screen_width, screen_height, fps, bg, imgs
+from constants import screen_width, screen_height, fps, bg, imgs, update_towers
 from gameplay.enemy import Enemy
 from gameplay.spawn_handler import SpawnHandler
-from gameplay.tower import Tower
 from ui.buttons import update_buttons, draw_buttons
 from ui.text import draw_text
+from ui.shop import draw_shop, place_tower, update_shop
 
 
 def main():
@@ -12,12 +12,12 @@ def main():
     screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)
     p.display.set_caption("Tower Defense")
     clock = p.time.Clock()
+    update_towers()
 
     # Game objects
-    dart = Tower(imgs["dart"], 100, 1, 500, 1, (400, 315))
-    dart2 = Tower(imgs["dart"], 100, 1, 500, 1, (636, 321))
-    dart3 = Tower(imgs["dart"], 100, 1, 500, 1, (500, 100))
-    towers = [dart, dart2, dart3]
+    balance = 150
+    towers = []
+    tower_being_placed = None
     ball = Enemy(5, 2.5, imgs["ball"])
     ball2 = Enemy(5, 2.5, imgs["ball"], spawn_delay=1)
     ball3 = Enemy(5, 2.5, imgs["ball"], spawn_delay=2)
@@ -40,7 +40,10 @@ def main():
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    update_buttons(towers)
+                    balance = update_buttons(towers, balance)
+                    if tower_being_placed:
+                        balance = place_tower(towers, balance, tower_being_placed)
+                    tower_being_placed = update_shop(towers, balance)
 
         if paused:
             continue
@@ -67,9 +70,10 @@ def main():
             enemy.draw(screen)
 
         draw_buttons(screen)
+        draw_shop(screen, balance)
 
         # Text
-        draw_text(screen, towers)
+        draw_text(screen, towers, balance)
 
         p.display.update()
         clock.tick(fps)

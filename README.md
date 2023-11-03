@@ -1,2 +1,2 @@
-# tower-defense
-Tower defense game
+# Tower Defense
+Tower defense game made with pygame. This game is still in early development.

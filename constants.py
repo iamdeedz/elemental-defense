@@ -24,3 +24,16 @@ for img in imgs_to_load:
     imgs[img] = img_scale(img_load(f"imgs/{img}.png"), (calc_new_pos((55, 56))))
 
 bg = img_scale(img_load("imgs/test_bg.png"), (screen_width, screen_height))
+
+
+all_towers = {}
+tower_types = ["dart", "ice"]
+tower_costs = {"dart": 100, "ice": 150}
+
+
+def update_towers():
+    global all_towers
+    # This is a workaround to avoid circular imports
+    from gameplay.towers import Dart, Ice
+    all_towers["dart"] = Dart
+    all_towers["ice"] = Ice
