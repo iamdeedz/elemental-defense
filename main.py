@@ -1,10 +1,9 @@
 import pygame as p
-from constants import screen_width, screen_height, fps, bg, imgs, update_towers
-from gameplay.enemy import Enemy
-from gameplay.spawn_handler import SpawnHandler
-from ui.buttons import update_buttons, draw_buttons
+from constants import screen_width, screen_height, fps, bg, update_towers
+from gameplay.waves import waves
 from ui.text import draw_text
 from ui.shop import draw_shop, place_tower, update_shop
+from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 
 
 def main():
@@ -18,15 +17,9 @@ def main():
     balance = 150
     towers = []
     tower_being_placed = None
-    ball = Enemy(5, 2.5, imgs["ball"])
-    ball2 = Enemy(5, 2.5, imgs["ball"], spawn_delay=1)
-    ball3 = Enemy(5, 2.5, imgs["ball"], spawn_delay=2)
-    ball4 = Enemy(5, 2.5, imgs["ball"], spawn_delay=3)
-    ball5 = Enemy(5, 2.5, imgs["ball"], spawn_delay=4)
-    boss_ball = Enemy(100, 1, imgs["ball"], spawn_delay=10)
-    enemies = [ball, ball2, ball3, ball4, ball5, boss_ball]
-    alive_enemies = []
-    spawn_handler = SpawnHandler(enemies)
+    tower_being_upgraded = None
+
+    wave = waves[0]
 
     running = True
     paused = False
@@ -40,7 +33,17 @@ def main():
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    balance = update_buttons(towers, balance)
+                    balance, were_upgrades_visible = update_upgrades(tower_being_upgraded, balance)
+
+                    if not were_upgrades_visible:
+                        tower_being_upgraded = None
+
+                    for tower in towers:
+                        if tower.is_clicked():
+                            tower_being_upgraded = tower
+                            toggle_upgrades()
+                            break
+
                     if tower_being_placed:
                         balance = place_tower(towers, balance, tower_being_placed)
                     tower_being_placed = update_shop(towers, balance)
@@ -48,16 +51,17 @@ def main():
         if paused:
             continue
 
-        spawn_handler.update()
-        alive_enemies += spawn_handler.enemies_to_spawn
+        is_done = wave.update()
+        if is_done:
+            wave = waves[wave.number]
         for tower in towers:
-            tower.update(alive_enemies)
+            balance = tower.update(wave.alive_enemies, balance)
 
         # Move enemies
-        for enemy in alive_enemies:
+        for enemy in wave.alive_enemies:
             kill = enemy.move()
             if kill:
-                alive_enemies.remove(enemy)
+                wave.alive_enemies.remove(enemy)
 
         # Draw
         screen.fill(p.Color("black"))
@@ -66,14 +70,15 @@ def main():
         for tower in towers:
             tower.draw(screen)
 
-        for enemy in alive_enemies:
+        for enemy in wave.alive_enemies:
             enemy.draw(screen)
 
-        draw_buttons(screen)
         draw_shop(screen, balance)
+        if tower_being_upgraded:
+            draw_upgrades(tower_being_upgraded, screen)
 
         # Text
-        draw_text(screen, towers, balance)
+        draw_text(screen, towers, wave.alive_enemies, balance, wave.number)
 
         p.display.update()
         clock.tick(fps)

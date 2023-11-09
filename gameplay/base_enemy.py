@@ -4,6 +4,7 @@ from path import waypoints
 
 class Enemy:
     def __init__(self, hp, speed, img, spawn_delay=0):
+        self.name = __name__
         self.hp = hp
         self.speed = speed
         self.img = img

@@ -1,12 +1,7 @@
 from pgaddons import Button
-from constants import all_towers, tower_types, tower_costs
+from constants import all_towers, tower_types, tower_costs, is_clicked
 from pygame import Color, init as pygame_init
 from pygame.mouse import get_pos as get_mouse_pos
-
-
-def is_clicked(element):
-    mouse_pos = get_mouse_pos()
-    return element.x <= mouse_pos[0] <= element.x + element.width and element.y <= mouse_pos[1] <= element.y + element.height
 
 
 def can_buy_tower(text, balance):
