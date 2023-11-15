@@ -6,13 +6,7 @@ from ui.shop import draw_shop, place_tower, update_shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 
 
-def game_loop():
-    p.init()
-    screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)
-    p.display.set_caption("Tower Defense")
-    clock = p.time.Clock()
-    update_towers()
-
+def game_loop(screen, clock):
     # Game objects
     balance = 1500
     towers = []

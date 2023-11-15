@@ -1,11 +1,18 @@
+import pygame as p
 from gameplay.game_loop import game_loop
-from ui.main_menu import main_menu
-from pymultiplayer import TCPMultiplayerServer, MultiplayerClient  # TODO: Implement multiplayer
+from ui.main_menu.main import main_menu
+from constants import screen_width, screen_height, update_towers
 
 
 def main():
-    main_menu()
-    game_loop()
+    p.init()
+    screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)
+    p.display.set_caption("Tower Defense")
+    clock = p.time.Clock()
+    update_towers()
+
+    main_menu(screen, clock)
+    game_loop(screen, clock)
 
 
 if __name__ == '__main__':
