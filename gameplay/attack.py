@@ -3,10 +3,11 @@ from pygame.draw import circle as draw_circle
 
 
 class Attack:
-    def __init__(self, start_pos, target, dmg):
+    def __init__(self, start_pos, target, dmg, colour):
         self.vector = Vector2(start_pos)
         self.target = target
         self.dmg = dmg
+        self.colour = colour
 
     def update(self, balance):
         self.vector.move_towards_ip(self.target.vector, 10)
@@ -16,4 +17,4 @@ class Attack:
         return balance, False
 
     def draw(self, screen):
-        draw_circle(screen, Color("red"), (int(self.vector.x), int(self.vector.y)), 5)
+        draw_circle(screen, Color(self.colour), (int(self.vector.x), int(self.vector.y)), 5)

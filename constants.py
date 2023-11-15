@@ -36,20 +36,29 @@ def calc_new_pos(pos: tuple | list | int | float, direction=""):
 fps = 60
 
 imgs = {}
-imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart"]
+imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "fire"]
 for img in imgs_to_load:
-    imgs[img] = img_scale(img_load(f"imgs/{img}.png"), (calc_new_pos((55, 55))))
+    imgs[img] = img_scale(img_load(f"imgs/{img}.png"), (calc_new_pos((50, 50))))
 
 bg = img_scale(img_load("imgs/test_bg.png"), (screen_width, screen_height))
 
 all_towers = {}
-tower_types = ["dart", "ice"]
-tower_costs = {"dart": 100, "ice": 150}
+tower = ["dart", "ice", "fire"]
+tower_costs = {"dart": 100, "ice": 150, "fire": 150}
+
+elements = ["Grass", "Air", "Fire", "Water", "Rock"]
+tower_types = ["Guardian", "Tower", "Cannon", "Catapult", "Castle"]
+
+all_tower_combos = []
+for element in elements:
+    for tower_type in tower_types:
+        all_tower_combos.append(f"{element} {tower_type}")
 
 
 def update_towers():
     global all_towers
     # This is a workaround to avoid circular imports
-    from gameplay.towers import Dart, Ice
+    from gameplay.towers import Dart, Ice, Fire
     all_towers["dart"] = Dart
     all_towers["ice"] = Ice
+    all_towers["fire"] = Fire

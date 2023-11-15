@@ -5,7 +5,7 @@ from .attack import Attack # NOQA
 
 
 class Tower:
-    def __init__(self, img, dmg, attack_range, fire_rate, pos):
+    def __init__(self, img, dmg, attack_range, fire_rate, pos, atk_colour):
         self.name = __name__
         self.range = attack_range
         self.dmg = dmg
@@ -14,6 +14,7 @@ class Tower:
         self.vector = Vector2(pos)
         self.last_shot = None
         self.attacks = []
+        self.attack_colour = atk_colour
 
     def draw(self, screen):
         for attack in self.attacks:
@@ -35,7 +36,7 @@ class Tower:
         for enemy in enemies:
             if self.vector.distance_to(enemy.vector) <= self.range:
                 if self.last_shot is None or perf_counter() - self.last_shot >= self.fire_rate:
-                    self.attacks.append(Attack(self.vector, enemy, self.dmg))
+                    self.attacks.append(Attack(self.vector, enemy, self.dmg, self.attack_colour))
                     self.last_shot = perf_counter()
 
         return balance

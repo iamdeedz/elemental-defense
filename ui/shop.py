@@ -1,5 +1,5 @@
 from pgaddons import Button
-from constants import all_towers, tower_types, tower_costs, is_clicked
+from constants import all_towers, tower, tower_costs, is_clicked
 from pygame import Color, init as pygame_init
 from pygame.mouse import get_pos as get_mouse_pos
 
@@ -31,7 +31,7 @@ def draw_shop(screen, balance):
 
 pygame_init()
 buttons = []
-for i, tower_type in enumerate(tower_types):
+for i, tower_type in enumerate(tower):
     tower_cost = tower_costs[tower_type]
     button = Button((25, 25 + (i * 90)), (100, 50), Color("grey 50"), f"{tower_type.capitalize()} ({tower_cost})",
                     (0, 0, 0))

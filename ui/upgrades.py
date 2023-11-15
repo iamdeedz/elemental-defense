@@ -17,29 +17,32 @@ are_upgrades_visible = False
 buttons = []
 for i, upgrade in enumerate(upgrades):
     button = Button((margin[0] * 2, upgrade_rect.height // 3 + (i * 100)), (upgrade_rect.width - (margin[0] * 4), 75),
-                    Color("grey 75"), f"Upgrade {upgrades_long[upgrade].capitalize()}", Color("grey 25"))
+                    Color("grey 75"), [f"Upgrade {upgrades_long[upgrade].capitalize()}"], Color("grey 25"))
     exec(f"button.on_click = lambda tower, balance: upgrade_{upgrade}(tower, balance)")
     buttons.append(button)
 
 
 def upgrade_dmg(tower, balance):
-    if balance >= 10:
+    cost = 10 * tower.dmg
+    if balance >= cost:
         tower.dmg += 1
-        return balance - 10
+        return balance - cost
     return balance
 
 
 def upgrade_range(tower, balance):
-    if balance >= 10:
-        tower.range += 10
-        return balance - 10
+    cost = 10 * tower.range
+    if balance >= cost:
+        tower.range += 20
+        return balance - cost
     return balance
 
 
 def upgrade_fire_rate(tower, balance):
-    if balance >= 20:
+    cost = 20 * tower.fire_rate
+    if balance >= cost:
         tower.fire_rate -= 0.025
-        return balance - 20
+        return balance - cost
     return balance
 
 
