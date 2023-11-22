@@ -42,6 +42,4 @@ base_waypoints = [(1145, 62),
                   (377, 994),
                   (331, 1072)]
 
-waypoints = []
-for waypoint in base_waypoints:
-    waypoints.append(calc_new_pos(waypoint))
+waypoints = [calc_new_pos(waypoint) for waypoint in base_waypoints]

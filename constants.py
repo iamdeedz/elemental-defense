@@ -38,7 +38,7 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "fire"]
 for img in imgs_to_load:
-    imgs[img] = img_scale(img_load(f"imgs/{img}.png"), (calc_new_pos((50, 50))))
+    imgs[img] = img_scale(img_load(f"imgs/{img}.png"), (calc_new_pos((75, 75))))
 
 bg = img_scale(img_load("imgs/test_bg.png"), (screen_width, screen_height))
 
@@ -49,10 +49,7 @@ tower_costs = {"dart": 100, "ice": 150, "fire": 150}
 elements = ["Grass", "Air", "Fire", "Water", "Rock"]
 tower_types = ["Guardian", "Tower", "Cannon", "Catapult", "Castle"]
 
-all_tower_combos = []
-for element in elements:
-    for tower_type in tower_types:
-        all_tower_combos.append(f"{element} {tower_type}")
+all_tower_combos = [f"{element} {tower_type}" for element in elements for tower_type in tower_types]
 
 
 def update_towers():
