@@ -2,18 +2,18 @@ import pygame as p
 from constants import screen_width, screen_height, fps, bg, update_towers
 from gameplay.waves import waves
 from ui.text import draw_text
-from ui.shop import draw_shop, place_tower, update_shop
+from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 
 
 def game_loop(screen, clock):
     # Game objects
-    balance = 1500
+    balance = 150
     towers = []
-    tower_being_placed = None
     tower_being_upgraded = None
 
     wave = waves[0]
+    shop = Shop()
 
     running = True
     paused = False
@@ -39,9 +39,7 @@ def game_loop(screen, clock):
                             toggle_upgrades()
                             break
 
-                    if tower_being_placed:
-                        balance = place_tower(towers, balance, tower_being_placed)
-                    tower_being_placed = update_shop(towers, balance)
+                    shop.update(towers, balance)
 
         if paused:
             continue
@@ -68,7 +66,7 @@ def game_loop(screen, clock):
         for enemy in wave.alive_enemies:
             enemy.draw(screen)
 
-        draw_shop(screen, balance)
+        shop.draw(screen)
         if tower_being_upgraded:
             draw_upgrades(tower_being_upgraded, screen)
 
