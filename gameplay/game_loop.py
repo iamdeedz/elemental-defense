@@ -39,7 +39,7 @@ def game_loop(screen, clock):
                             toggle_upgrades()
                             break
 
-                    shop.update(towers, balance)
+                    balance = shop.update(towers, balance)
 
         if paused:
             continue

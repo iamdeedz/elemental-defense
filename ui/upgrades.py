@@ -56,10 +56,13 @@ def draw_upgrades(tower, screen):
 
 
 def update_upgrades(tower, balance):
+    global are_upgrades_visible
+
     if not are_upgrades_visible:
         return balance, False
 
     if not is_clicked(upgrade_rect):
+        are_upgrades_visible = False
         return balance, False
 
     for button in buttons:

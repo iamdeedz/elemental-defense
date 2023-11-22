@@ -43,6 +43,8 @@ class Tower:
 
         return balance
 
+    # The towers need a special is_clicked method because they don't have some necessary variables that the buttons
+    # have.
     def is_clicked(self):
         mouse_pos = get_mouse_pos()
         x, y = self.vector.xy
