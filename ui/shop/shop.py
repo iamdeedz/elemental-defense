@@ -14,6 +14,7 @@ class Shop:
         self.toggle_button = Button((0, 0), (200, 50), Color("grey 50"), "Toggle Shop", Color("white"))
         self.toggle_button.on_click = toggle_shop
         self.tower_being_placed = None
+        self.element_being_placed = None
 
     def draw(self, screen):
         self.toggle_button.draw(screen)
@@ -48,16 +49,17 @@ class Shop:
                     # Otherwise, place the tower
                     elif button.on_click(button, balance):
                         should_tower_place = False
-                        self.tower_being_placed = button.text.split(" (")[0].lower()
+                        tower = button.text.split(" (")[0].lower()
+                        self.element_being_placed, self.tower_being_placed = tower.split(" ")
 
         if self.tower_being_placed and should_tower_place:
-            balance = self.place_tower(towers, balance, self.tower_being_placed)
+            balance = self.place_tower(towers, balance, self.tower_being_placed, self.element_being_placed)
             self.tower_being_placed = None
 
         return balance
 
-    def place_tower(self, towers, balance, tower_type):
+    def place_tower(self, towers, balance, tower_type, element):
         mouse_pos = get_mouse_pos()
-        towers.append(all_towers[tower_type](mouse_pos))
+        towers.append(all_towers[element + " " + tower_type](mouse_pos))
         balance -= tower_costs[tower_type]
         return balance

@@ -43,7 +43,7 @@ for img in imgs_to_load:
 bg = img_scale(img_load("imgs/test_bg.png"), (screen_width, screen_height))
 
 all_towers = {}
-tower_costs = {"dart": 100, "ice": 150, "fire tower": 150}
+tower_costs = {"dart": 100, "ice": 150, "tower": 150}
 
 elements = ["Grass", "Air", "Fire", "Water", "Rock"]
 tower_types = ["Guardian", "Tower", "Cannon", "Catapult", "Castle"]

@@ -10,7 +10,8 @@ def toggle_shop(shop):
 
 def tower_button_on_click(button, balance):
     tower = button.text.split(" (")[0].lower()
-    if tower_costs[tower] <= balance:
+    tower_type = tower.split(" ")[1]
+    if tower_costs[tower_type] <= balance:
         return True
 
 

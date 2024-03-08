@@ -9,6 +9,7 @@ from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 def game_loop(screen, clock):
     # Game objects
     balance = 150
+    lives = 3
     towers = []
     tower_being_upgraded = None
 
@@ -46,7 +47,11 @@ def game_loop(screen, clock):
 
         is_done = wave.update()
         if is_done:
-            wave = waves[wave.number]
+            try:
+                wave = waves[wave.number]
+            except IndexError:
+                print("you win but i dont have a win screen yet")
+                running = False
         for tower in towers:
             balance = tower.update(wave.alive_enemies, balance)
 
