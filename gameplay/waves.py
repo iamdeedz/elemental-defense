@@ -1,4 +1,4 @@
-from .enemies import RedBall, BlueBall, YellowBall # NOQA
+from gameplay.enemies.enemies import RedBall, BlueBall, YellowBall # NOQA
 from .spawn_handler import SpawnHandler # NOQA
 
 

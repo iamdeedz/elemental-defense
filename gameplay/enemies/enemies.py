@@ -1,4 +1,4 @@
-from .base_enemy import Enemy # NOQA
+from gameplay.enemies.base_enemy import Enemy # NOQA
 from constants import imgs
 
 

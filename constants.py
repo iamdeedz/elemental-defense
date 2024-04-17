@@ -46,15 +46,17 @@ all_towers = {}
 tower_costs = {"dart": 100, "ice": 150, "tower": 150}
 
 elements = ["Grass", "Air", "Fire", "Water", "Rock"]
-tower_types = ["Guardian", "Tower", "Cannon", "Catapult", "Castle"]
+tower_types = ["Guardian", "Tower", "Cannon", "Catapult", "Castle", "dart", "ice"]
 
 all_tower_combos = [f"{element} {tower_type}" for element in elements for tower_type in tower_types]
+
+buffs = {"test": "Test Buff", "ice": "Ice Buff"}
 
 
 def update_towers():
     global all_towers
     # This is a workaround to avoid circular imports
-    from gameplay.towers import Dart, Ice, Fire
-    all_towers["dart"] = Dart
-    all_towers["ice"] = Ice
+    from gameplay.towers.towers import Dart, Ice, Fire
+    all_towers["fire dart"] = Dart
+    all_towers["fire ice"] = Ice
     all_towers["fire tower"] = Fire

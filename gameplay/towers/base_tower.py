@@ -1,7 +1,8 @@
 from pygame import Vector2
 from pygame.mouse import get_pos as get_mouse_pos
-from time import perf_counter
-from .attack import Attack # NOQA
+from time import time, perf_counter
+from gameplay.towers.attack import Attack # NOQA
+from constants import buffs
 
 
 class Tower:
@@ -17,6 +18,9 @@ class Tower:
         self.attacks = []
         self.attack_pos = Vector2(self.top_left + Vector2(atk_pos))
         self.attack_colour = atk_colour
+        self.buffs = []
+        self.buff = None
+        self.id = time() / 1000000000
 
     def draw(self, screen):
         for attack in self.attacks:
@@ -25,7 +29,18 @@ class Tower:
         center = (self.vector.x - (self.img.get_width() // 2), self.vector.y - (self.img.get_height() // 2))
         screen.blit(self.img, center)
 
-    def update(self, enemies, balance):
+    def update(self, enemies, towers, balance):
+        for tower in towers:
+            if self == tower or not tower.buff:
+                continue
+            if buffs[tower.buff] in self.buffs:
+                continue
+
+            if self.vector.distance_to(tower.vector) <= tower.range:
+                self.buffs.append(buffs[tower.buff])
+            else:
+                self.buffs.remove(buffs[tower.buff])
+
         for attack in self.attacks:
             if attack.target.hp <= 0:
                 self.attacks.remove(attack)
@@ -52,3 +67,9 @@ class Tower:
         x -= width / 2
         y -= height / 2
         return x <= mouse_pos[0] <= x + width and y <= mouse_pos[1] <= y + height
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+    def __ne__(self, other):
+        return self.id != other.id

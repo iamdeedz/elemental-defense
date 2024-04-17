@@ -60,6 +60,8 @@ class Shop:
 
     def place_tower(self, towers, balance, tower_type, element):
         mouse_pos = get_mouse_pos()
-        towers.append(all_towers[element + " " + tower_type](mouse_pos))
+        tower = all_towers[element + " " + tower_type](mouse_pos)
+        tower.name = element + " " + tower_type
+        towers.append(tower)
         balance -= tower_costs[tower_type]
         return balance

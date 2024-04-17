@@ -1,11 +1,12 @@
-from .base_tower import Tower # NOQA
+from gameplay.towers.base_tower import Tower # NOQA
 from constants import imgs
 
 
 class Dart(Tower):
     def __init__(self, pos):
-        super().__init__(imgs["dart"], 1, 250, 0.75, pos, (0, 0), "grey 50")
+        super().__init__(imgs["dart"], 0, 250, 0, pos, (0, 0), "grey 50")
         self.name = "Dart Tower"
+        self.buff = "test"
 
 
 class Ice(Tower):

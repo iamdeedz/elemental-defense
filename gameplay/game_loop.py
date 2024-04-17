@@ -8,7 +8,7 @@ from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 
 def game_loop(screen, clock):
     # Game objects
-    balance = 150
+    balance = 250
     lives = 3
     towers = []
     tower_being_upgraded = None
@@ -29,7 +29,10 @@ def game_loop(screen, clock):
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    balance, were_upgrades_visible = update_upgrades(tower_being_upgraded, balance)
+                    balance, were_upgrades_visible, sold = update_upgrades(tower_being_upgraded, balance)
+                    if sold:
+                        towers.remove(tower_being_upgraded)
+                        tower_being_upgraded = None
 
                     if not were_upgrades_visible:
                         tower_being_upgraded = None
@@ -53,7 +56,7 @@ def game_loop(screen, clock):
                 print("you win but i dont have a win screen yet")
                 running = False
         for tower in towers:
-            balance = tower.update(wave.alive_enemies, balance)
+            balance = tower.update(wave.alive_enemies, towers, balance)
 
         # Move enemies
         for enemy in wave.alive_enemies:
