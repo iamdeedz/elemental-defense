@@ -1,5 +1,6 @@
 import pygame as p
 from constants import screen_width, screen_height, fps
+# from pages import
 
 
 def main_menu(screen, clock):
