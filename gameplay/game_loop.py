@@ -1,6 +1,6 @@
 import pygame as p
-from constants import screen_width, screen_height, fps, bg, update_towers
-from gameplay.waves import waves
+from constants import fps, bg
+from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades

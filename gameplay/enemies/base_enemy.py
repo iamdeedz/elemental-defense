@@ -1,5 +1,5 @@
 from pygame import Vector2
-from path import waypoints
+from gameplay.levels.path import waypoints
 
 
 class Enemy:

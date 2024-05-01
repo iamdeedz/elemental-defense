@@ -30,6 +30,7 @@ class Tower:
         screen.blit(self.img, center)
 
     def update(self, enemies, towers, balance):
+        # Buffs
         for tower in towers:
             if self == tower or not tower.buff:
                 continue
@@ -41,6 +42,7 @@ class Tower:
             else:
                 self.buffs.remove(buffs[tower.buff])
 
+        # Attacks
         for attack in self.attacks:
             if attack.target.hp <= 0:
                 self.attacks.remove(attack)
@@ -50,6 +52,7 @@ class Tower:
             if hit:
                 self.attacks.remove(attack)
 
+        # Attack enemies
         for enemy in enemies:
             if self.vector.distance_to(enemy.vector) <= self.range:
                 if self.last_shot is None or perf_counter() - self.last_shot >= self.fire_rate:

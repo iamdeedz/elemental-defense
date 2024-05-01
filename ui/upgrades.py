@@ -14,12 +14,15 @@ upgrades = ["dmg", "range", "fire_rate"]
 upgrades_long = {"dmg": "Damage", "range": "Range", "fire_rate": "Fire Rate"}
 
 are_upgrades_visible = False
+# Upgrade buttons
 buttons = []
 for i, upgrade in enumerate(upgrades):
     button = Button((margin[0] * 2, upgrade_rect.height // 3 + (i * 100)), (upgrade_rect.width - (margin[0] * 4), 75),
                     Color("grey 75"), [f"Upgrade {upgrades_long[upgrade].capitalize()}"], Color("grey 25"))
     exec(f"button.on_click = lambda tower, balance: upgrade_{upgrade}(tower, balance)")
     buttons.append(button)
+
+# Sell button
 button = Button((margin[0] * 2, upgrade_rect.height // 3 + (len(upgrades) * 100)), (upgrade_rect.width - (margin[0] * 4), 75),
                       Color("grey 75"), ["Sell"], Color("grey 25"))
 button.on_click = lambda tower, balance: sell_tower(tower, balance)
@@ -51,7 +54,6 @@ def upgrade_fire_rate(tower, balance):
 
 
 def sell_tower(tower, balance):
-    print(tower.name)
     return balance + (tower_costs[tower.name.lower().split()[1]] / 2)
 
 
@@ -60,6 +62,8 @@ def draw_upgrades(tower, screen):
     screen.blit(img_scale(tower.img, (100, 100)), (margin[0] * 2, margin[1] * 2))
     text = font.render(tower.name, True, Color("black"))
     screen.blit(text, (margin[0] * 5, margin[1] * 2))
+
+    # Buffs
     buff_font = Font(None, 30)
     for buff_index, buff in enumerate(tower.buffs):
         buff_text = buff_font.render(f"{buff}", True, Color("black"))

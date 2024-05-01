@@ -38,7 +38,7 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "fire"]
 for img in imgs_to_load:
-    imgs[img] = img_scale(img_load(f"imgs/{img}.png"), (calc_new_pos((75, 75))))
+    imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (calc_new_pos((75, 75))))
 
 bg = img_scale(img_load("imgs/test_bg.png"), (screen_width, screen_height))
 
