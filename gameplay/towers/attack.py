@@ -10,10 +10,14 @@ class Attack:
         self.colour = colour
 
     def update(self, balance):
+        # Move
         self.vector.move_towards_ip(self.target.vector, 10)
+
+        # Check if hit
         if self.vector.distance_to(self.target.vector) <= 2:
             self.target.hp -= self.dmg
             return balance + self.dmg, True
+
         return balance, False
 
     def draw(self, screen):

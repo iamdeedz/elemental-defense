@@ -1,5 +1,5 @@
 from gameplay.enemies.enemies import RedBall, BlueBall, YellowBall  # NOQA
-from gameplay.spawn_handler import SpawnHandler  # NOQA
+from gameplay.enemies.spawn_handler import SpawnHandler  # NOQA
 
 
 class Wave:
