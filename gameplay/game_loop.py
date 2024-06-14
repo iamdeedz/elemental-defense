@@ -51,7 +51,7 @@ def game_loop(screen, clock, level_id):
         is_done = wave.update()
         if is_done:
             try:
-                wave = waves[wave.number]
+                wave = waves[level_id][wave.number]
             except IndexError:
                 print("you win but i dont have a win screen yet")
                 running = False

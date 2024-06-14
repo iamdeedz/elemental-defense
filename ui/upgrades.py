@@ -46,7 +46,7 @@ def upgrade_range(tower, balance):
 
 
 def upgrade_fire_rate(tower, balance):
-    cost = 20 * tower.fire_rate
+    cost = round(20 / tower.fire_rate)
     if balance >= cost:
         tower.fire_rate -= 0.025
         return balance - cost
