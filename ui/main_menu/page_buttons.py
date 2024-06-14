@@ -4,8 +4,8 @@ from constants import screen_width, screen_height
 
 buttons_by_page = {
     "main": [
-        Button((0, 0), (200, 50), "grey 50", "Back", "white"),
-        Button((screen_width // 2, screen_height // 2), (200, 50), "grey 50", "Play", "white")
+        Button((screen_width // 2, screen_height // 2), (200, 50), "grey 50", "Play", "white"),
+        Button((screen_width // 2, screen_height // 2 + 200), (200, 50), "grey 50", "Settings", "white")
     ],
 
     "play": [

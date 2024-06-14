@@ -6,14 +6,14 @@ from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 
 
-def game_loop(screen, clock):
+def game_loop(screen, clock, level_id):
     # Game objects
     balance = 250
     lives = 3
     towers = []
     tower_being_upgraded = None
 
-    wave = waves[0]
+    wave = waves[level_id][0]
     shop = Shop()
 
     running = True

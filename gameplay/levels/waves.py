@@ -1,5 +1,5 @@
-from gameplay.enemies.enemies import RedBall, BlueBall, YellowBall # NOQA
-from gameplay.spawn_handler import SpawnHandler # NOQA
+from gameplay.enemies.enemies import RedBall, BlueBall, YellowBall  # NOQA
+from gameplay.spawn_handler import SpawnHandler  # NOQA
 
 
 class Wave:
@@ -19,15 +19,19 @@ class Wave:
                 self.enemies.remove(enemy)
 
 
-waves = [
-    Wave(1, [RedBall()]),
-    Wave(2, [RedBall(), RedBall()]),
-    Wave(3, [RedBall(), RedBall(), RedBall()]),
-    Wave(4, [RedBall(), RedBall(), RedBall(), RedBall()]),
-    Wave(5, [BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall()]),
-    Wave(6, [BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall()]),
-    Wave(7, [BlueBall(), BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall()]),
-    Wave(8, [YellowBall(), YellowBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall(), RedBall()]),
-    Wave(9, [YellowBall(), YellowBall(), YellowBall(), BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall()]),
-    Wave(10, [YellowBall(), YellowBall(), YellowBall(), YellowBall(), BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall()]),
-]
+waves = {
+    -999: [
+        Wave(1, [RedBall()]),
+        Wave(2, [RedBall(), RedBall()]),
+        Wave(3, [RedBall(), RedBall(), RedBall()]),
+        Wave(4, [RedBall(), RedBall(), RedBall(), RedBall()]),
+        Wave(5, [BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall()]),
+        Wave(6, [BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall()]),
+        Wave(7, [BlueBall(), BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall()]),
+        Wave(8, [YellowBall(), YellowBall(), BlueBall(), BlueBall(), RedBall(), RedBall(), RedBall(), RedBall()]),
+        Wave(9, [YellowBall(), YellowBall(), YellowBall(), BlueBall(), BlueBall(), BlueBall(), RedBall(), RedBall(),
+                 RedBall()]),
+        Wave(10, [YellowBall(), YellowBall(), YellowBall(), YellowBall(), BlueBall(), BlueBall(), BlueBall(), RedBall(),
+                  RedBall(), RedBall()])
+    ],
+}

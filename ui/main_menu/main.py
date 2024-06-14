@@ -17,15 +17,17 @@ def main_menu(screen, clock):
                 if current_page == "start":
                     current_page = pages[page_keys["main"]]
 
-                else:
+                elif event.button == 1:
                     for button in current_page.buttons:
                         if is_clicked(button):
                             if button.on_click:
                                 return_value = button.on_click()
-                                if return_value == -999:
-                                    return
+                                if return_value[0] == "level":
+                                    return return_value[1]
+
                                 elif return_value == "back":
                                     current_page = pages[page_keys[current_page.parent]]
+
                                 else:
                                     current_page = pages[page_keys[return_value]]
 

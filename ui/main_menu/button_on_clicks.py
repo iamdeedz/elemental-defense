@@ -7,7 +7,7 @@ def play():
 
 
 def test_level():
-    return -999
+    return "level", -999
 
 
 button_on_clicks = {

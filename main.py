@@ -11,8 +11,9 @@ def main():
     clock = p.time.Clock()
     update_towers()
 
-    main_menu(screen, clock)
-    game_loop(screen, clock)
+    level_id = main_menu(screen, clock)
+
+    game_loop(screen, clock, level_id)
 
 
 if __name__ == '__main__':
