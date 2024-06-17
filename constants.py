@@ -2,6 +2,8 @@ from pygame.transform import scale as img_scale
 from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
 from screeninfo import get_monitors
+from urllib.request import urlopen
+import io
 
 screen_width = 720
 screen_height = 405
@@ -38,9 +40,15 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "fire"]
 for img in imgs_to_load:
-    imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (calc_new_pos((75, 75))))
+    imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+    imgStr = urlopen(imgUrl).read()
+    imgFile = io.BytesIO(imgStr)
+    imgs[img] = img_scale(img_load(imgFile), (calc_new_pos((75, 75))))
 
-bg = img_scale(img_load("imgs/test_bg.png"), (screen_width, screen_height))
+bgUrl = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
+bgStr = urlopen(bgUrl).read()
+bgFile = io.BytesIO(bgStr)
+bg = img_scale(img_load(bgFile), (screen_width, screen_height))
 
 all_towers = {}
 tower_costs = {"dart": 100, "ice": 150, "tower": 150}
