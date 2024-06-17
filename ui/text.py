@@ -6,7 +6,7 @@ pygame_init()
 font = Font(None, 30)
 
 
-def draw_text(screen, towers, enemies, balance, wave):
+def draw_text(screen, enemies, balance, wave, lives):
     for i, enemy in enumerate(enemies):
         type_text = font.render(f"Enemy {i+1} Type: {enemy.name}", True, Color("black"))
         hp_text = font.render(f"Enemy {i+1} HP: {enemy.hp}", True, Color("black"))
@@ -17,3 +17,5 @@ def draw_text(screen, towers, enemies, balance, wave):
     screen.blit(balance_text, (25, screen_height - 40))
     wave_text = font.render(f"Wave: {wave}", True, Color("black"))
     screen.blit(wave_text, (25, screen_height - balance_text.get_height() - 50))
+    lives_text = font.render(f"Lives: {lives}", True, Color("black"))
+    screen.blit(lives_text, (25, screen_height - balance_text.get_height() - wave_text.get_height() - 60))

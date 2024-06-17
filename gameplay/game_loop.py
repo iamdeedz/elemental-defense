@@ -84,7 +84,7 @@ def game_loop(screen, clock, level_id):
             draw_upgrades(tower_being_upgraded, screen)
 
         # Text
-        draw_text(screen, towers, wave.alive_enemies, balance, wave.number)
+        draw_text(screen, wave.alive_enemies, balance, wave.number, lives)
 
         p.display.update()
         clock.tick(fps)
