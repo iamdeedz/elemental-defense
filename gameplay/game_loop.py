@@ -60,8 +60,13 @@ def game_loop(screen, clock, level_id):
 
         # Move enemies
         for enemy in wave.alive_enemies:
-            kill = enemy.move()
-            if kill:
+            return_values = enemy.move()
+            is_dead = return_values[0]
+            reached_end = return_values[1]
+            if is_dead:
+                wave.alive_enemies.remove(enemy)
+            elif reached_end:
+                lives -= 1
                 wave.alive_enemies.remove(enemy)
 
         # Draw

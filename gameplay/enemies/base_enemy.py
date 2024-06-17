@@ -15,7 +15,7 @@ class Enemy:
 
     def move(self):
         if self.hp <= 0:
-            return True
+            return True, False
 
         if self.vector.distance_to(self.next_waypoint) < 2:
             self.prev_waypoint = self.next_waypoint
@@ -23,9 +23,10 @@ class Enemy:
         try:
             self.next_waypoint = waypoints[waypoints.index(self.prev_waypoint) + 1]
         except IndexError:
-            self.next_waypoint = self.prev_waypoint
+            return False, True
 
         self.vector.move_towards_ip(self.next_waypoint, self.speed)
+        return False, False
 
     def draw(self, screen):
         center = (self.vector.x - (self.img.get_width() // 2), self.vector.y - (self.img.get_height() // 2))
