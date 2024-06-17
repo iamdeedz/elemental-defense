@@ -20,6 +20,11 @@ def game_loop(screen, clock, level_id):
     paused = False
 
     while running:
+        if lives <= 0:
+            print("you lose because you lost all of your lives")
+            running = False
+            continue
+
         for event in p.event.get():
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 running = False

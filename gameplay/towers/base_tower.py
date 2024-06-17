@@ -39,7 +39,7 @@ class Tower:
 
             if self.vector.distance_to(tower.vector) <= tower.range:
                 self.buffs.append(buffs[tower.buff])
-            else:
+            elif buffs[tower.buff] in self.buffs:
                 self.buffs.remove(buffs[tower.buff])
 
         # Attacks
