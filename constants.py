@@ -97,3 +97,9 @@ def update_towers():
     all_towers["fire dart"] = Dart
     all_towers["fire ice"] = Ice
     all_towers["fire tower"] = Fire
+
+
+class Pos:
+    def __init__(self, x, y):
+        self.x = (x / 1920) * screen_width
+        self.y = (y / 1080) * screen_height
