@@ -14,12 +14,15 @@ class Tower:
         self.img = img
         self.vector = Vector2(pos)
         self.top_left = Vector2(pos[0] - (self.img.get_width() // 2), pos[1] - (self.img.get_height() // 2))
+
         self.last_shot = None
         self.attacks = []
         self.attack_pos = Vector2(self.top_left + Vector2(atk_pos))
         self.attack_colour = atk_colour
+
         self.buffs = []
         self.buff = None
+
         self.id = time() / 1000000000
 
     def draw(self, screen):

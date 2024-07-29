@@ -15,7 +15,7 @@ class Ice(Tower):
         self.name = "Ice Tower"
 
 
-class Fire(Tower):
+class Inferno(Tower):
     def __init__(self, pos):
-        super().__init__(imgs["fire"], 2, 300, 0.5, pos, (imgs["fire"].get_width()//2, (imgs["fire"].get_height()//2)-26), "dark red")
-        self.name = "Fire Tower"
+        super().__init__(imgs["inferno"], 2, 300, 0.5, pos, (imgs["fire"].get_width()//2, (imgs["fire"].get_height()//2)-26), "dark red")
+        self.name = "Inferno Beam"
