@@ -3,6 +3,8 @@ from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
 from screeninfo import get_monitors
 from urllib.request import urlopen
+from os import makedirs
+from os.path import exists
 import io
 
 screen_width = 720
@@ -37,19 +39,47 @@ def calc_new_pos(pos: tuple | list | int | float, direction=""):
 
 fps = 60
 
+
+# Images
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire"]
-for img in imgs_to_load:
-    imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
-    imgStr = urlopen(imgUrl).read()
-    imgFile = io.BytesIO(imgStr)
-    imgs[img] = img_scale(img_load(imgFile), (calc_new_pos((75, 75))))
 
-bgUrl = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
-bgStr = urlopen(bgUrl).read()
-bgFile = io.BytesIO(bgStr)
-bg = img_scale(img_load(bgFile), (screen_width, screen_height))
+imgs_exist = exists("./imgs/")
+if not imgs_exist:
+    makedirs("./imgs/")
 
+print("Images exist") if imgs_exist else None
+
+if imgs_exist:
+    # Images are stored locally
+    for img in imgs_to_load:
+        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (calc_new_pos((75, 75))))
+
+    # Background
+    bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
+
+else:
+    # Images are not stored locally, get them from GitHub Page
+    for img in imgs_to_load:
+        imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+        imgStr = urlopen(imgUrl).read()
+        imgFile = io.BytesIO(imgStr)
+        imgs[img] = img_scale(img_load(imgFile), (calc_new_pos((75, 75))))
+
+        with open(f"./imgs/{img}.png", "wb") as localImgFile:
+            localImgFile.write(imgStr)
+
+    # Background
+    bgUrl = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
+    bgStr = urlopen(bgUrl).read()
+    bgFile = io.BytesIO(bgStr)
+    bg = img_scale(img_load(bgFile), (screen_width, screen_height))
+
+    with open("./imgs/test_bg.png", "wb") as localBgFile:
+        localBgFile.write(bgStr)
+
+
+# Towers
 all_towers = {}
 tower_costs = {"Dart": 100, "Ice": 150, "Inferno Beam": 150, "Hellfire Launcher": 200}
 
@@ -75,3 +105,9 @@ def update_towers():
     all_towers["Ice"] = Ice
     all_towers["Inferno Beam"] = Inferno
     all_towers["Hellfire Launcher"] = Hellfire
+
+
+class Pos:
+    def __init__(self, x, y):
+        self.x = (x / 1920) * screen_width
+        self.y = (y / 1080) * screen_height
