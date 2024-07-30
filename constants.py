@@ -42,7 +42,8 @@ fps = 60
 
 # Images
 imgs = {}
-imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "fire"]
+imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire"]
+
 imgs_exist = exists("./imgs/")
 if not imgs_exist:
     makedirs("./imgs/")
@@ -80,12 +81,18 @@ else:
 
 # Towers
 all_towers = {}
-tower_costs = {"dart": 100, "ice": 150, "tower": 150}
+tower_costs = {"Dart": 100, "Ice": 150, "Inferno Beam": 150, "Hellfire Launcher": 200}
 
-elements = ["Grass", "Air", "Fire", "Water", "Rock"]
-tower_types = ["Guardian", "Tower", "Cannon", "Catapult", "Castle", "dart", "ice"]
+elements = ["Grass", "Air", "Fire", "Water", "Rock", "Testing"]
 
-all_tower_combos = [f"{element} {tower_type}" for element in elements for tower_type in tower_types]
+towers_by_element = {
+    "Grass": [],
+    "Air": [],
+    "Water": [],
+    "Rock": [],
+    "Fire": ["Inferno Beam", "Hellfire Launcher"],
+    "Testing": ["Dart", "Ice"]
+}
 
 buffs = {"test": "Test Buff", "ice": "Ice Buff"}
 
@@ -93,10 +100,11 @@ buffs = {"test": "Test Buff", "ice": "Ice Buff"}
 def update_towers():
     global all_towers
     # This is a workaround to avoid circular imports
-    from gameplay.towers.towers import Dart, Ice, Fire
-    all_towers["fire dart"] = Dart
-    all_towers["fire ice"] = Ice
-    all_towers["fire tower"] = Fire
+    from gameplay.towers.towers import Dart, Ice, Inferno, Hellfire
+    all_towers["Dart"] = Dart
+    all_towers["Ice"] = Ice
+    all_towers["Inferno Beam"] = Inferno
+    all_towers["Hellfire Launcher"] = Hellfire
 
 
 class Pos:
