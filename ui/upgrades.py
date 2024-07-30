@@ -14,6 +14,7 @@ upgrades = ["dmg", "range", "fire_rate"]
 upgrades_long = {"dmg": "Damage", "range": "Range", "fire_rate": "Fire Rate"}
 
 are_upgrades_visible = False
+
 # Upgrade buttons
 buttons = []
 for i, upgrade in enumerate(upgrades):
@@ -30,7 +31,7 @@ buttons.append(button)
 
 
 def upgrade_dmg(tower, balance):
-    cost = 10 * tower.dmg
+    cost = 15 * tower.dmg
     if balance >= cost:
         tower.dmg += 1
         return balance - cost
@@ -38,7 +39,7 @@ def upgrade_dmg(tower, balance):
 
 
 def upgrade_range(tower, balance):
-    cost = 10 * tower.range
+    cost = (tower.range / 100) * 15
     if balance >= cost:
         tower.range += 20
         return balance - cost
@@ -54,7 +55,7 @@ def upgrade_fire_rate(tower, balance):
 
 
 def sell_tower(tower, balance):
-    return balance + (tower_costs[tower.name.lower().split()[1]] / 2)
+    return balance + (tower_costs[tower.name] / 2)
 
 
 def draw_upgrades(tower, screen):

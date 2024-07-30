@@ -49,7 +49,7 @@ class Shop:
                     # Otherwise, place the tower
                     elif button.on_click(button, balance):
                         should_tower_place = False
-                        tower = button.text.split(" (")[0].lower()
+                        tower = button.text.split(" (")[0]
                         self.tower_being_placed = tower
 
         if self.tower_being_placed and should_tower_place:
@@ -62,5 +62,5 @@ class Shop:
         mouse_pos = get_mouse_pos()
         tower = all_towers[tower](mouse_pos)
         towers.append(tower)
-        balance -= tower_costs[tower]
+        balance -= tower_costs[tower.name]
         return balance

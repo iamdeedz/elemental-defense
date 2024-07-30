@@ -1,6 +1,6 @@
 from pgaddons import Button
 from pygame import Color
-from constants import tower_types, elements, tower_costs
+from constants import elements, tower_costs, towers_by_element
 from .button_on_clicks import tower_button_on_click, back_button_on_click # NOQA
 
 
@@ -15,8 +15,8 @@ class ShopWindow:
                 for i, element in enumerate(elements)]
 
         elif self.name != "closed":
-            self.buttons = [Button((0, 75 * (i + 1)), (250, 50), Color("grey 50"), f"{self.name} {tower_type.capitalize()} ({tower_costs[tower_type.lower()]})", Color("white")) if tower_type.lower() in tower_costs else Button((0, 75 * (i + 1)), (250, 50), Color("grey 50"), f"{self.name} {tower_type.capitalize()} (N/A)", Color("white"))
-                            for i, tower_type in enumerate(tower_types)]
+            self.buttons = [Button((0, 75 * (i + 1)), (250, 50), Color("grey 50"), f"{tower} ({tower_costs[tower]})", Color("white"))
+                            for i, tower in enumerate(towers_by_element[self.name])]
 
             for button in self.buttons:
                 button.on_click = tower_button_on_click
