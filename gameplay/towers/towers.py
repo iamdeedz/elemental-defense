@@ -17,5 +17,11 @@ class Ice(Tower):
 
 class Inferno(Tower):
     def __init__(self, pos):
-        super().__init__(imgs["inferno"], 2, 300, 0.5, pos, (imgs["inferno"].get_width()//2, (imgs["inferno"].get_height()//2)-26), "dark red")
+        super().__init__(imgs["inferno"], 2, 400, 0.5, pos, (imgs["inferno"].get_width()//2, (imgs["inferno"].get_height()//2)-26), "dark red")
         self.name = "Inferno Beam"
+
+
+class Hellfire(Tower):
+    def __init__(self, pos):
+        super().__init__(imgs["hellfire"], 4, 300, 0.75, pos, (0, 0), "dark red")
+        self.name = "Hellfire Launcher"

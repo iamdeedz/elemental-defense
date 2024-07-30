@@ -51,7 +51,7 @@ bgFile = io.BytesIO(bgStr)
 bg = img_scale(img_load(bgFile), (screen_width, screen_height))
 
 all_towers = {}
-tower_costs = {"Dart": 100, "Ice": 150, "Inferno Beam": 150}
+tower_costs = {"Dart": 100, "Ice": 150, "Inferno Beam": 150, "Hellfire Launcher": 200}
 
 elements = ["Grass", "Air", "Fire", "Water", "Rock", "Testing"]
 
@@ -60,7 +60,7 @@ towers_by_element = {
     "Air": [],
     "Water": [],
     "Rock": [],
-    "Fire": ["Inferno Beam"],
+    "Fire": ["Inferno Beam", "Hellfire Launcher"],
     "Testing": ["Dart", "Ice"]
 }
 
@@ -70,7 +70,8 @@ buffs = {"test": "Test Buff", "ice": "Ice Buff"}
 def update_towers():
     global all_towers
     # This is a workaround to avoid circular imports
-    from gameplay.towers.towers import Dart, Ice, Inferno
+    from gameplay.towers.towers import Dart, Ice, Inferno, Hellfire
     all_towers["Dart"] = Dart
     all_towers["Ice"] = Ice
     all_towers["Inferno Beam"] = Inferno
+    all_towers["Hellfire Launcher"] = Hellfire
