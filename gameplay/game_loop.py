@@ -34,7 +34,7 @@ def game_loop(screen, clock, level_id):
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    balance, were_upgrades_visible, sold = update_upgrades(tower_being_upgraded, balance)
+                    balance, were_upgrades_visible, sold = update_upgrades(tower_being_upgraded, balance, towers)
                     if sold:
                         towers.remove(tower_being_upgraded)
                         tower_being_upgraded = None

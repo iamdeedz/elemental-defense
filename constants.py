@@ -48,8 +48,6 @@ imgs_exist = exists("./imgs/")
 if not imgs_exist:
     makedirs("./imgs/")
 
-print("Images exist") if imgs_exist else None
-
 if imgs_exist:
     # Images are stored locally
     for img in imgs_to_load:
