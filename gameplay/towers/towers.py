@@ -4,7 +4,7 @@ from constants import imgs
 
 class Dart(Tower):
     def __init__(self, pos):
-        super().__init__(imgs["dart"], 0, 250, 0, pos, (0, 0), "grey 50")
+        super().__init__(imgs["dart"], 2, 250, 0.5, pos, (0, 0), "grey 50")
         self.name = "Dart"
         self.buff = "test"
 
