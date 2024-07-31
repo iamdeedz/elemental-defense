@@ -19,14 +19,14 @@ are_upgrades_visible = False
 buttons = []
 for i, upgrade in enumerate(upgrades):
     button = Button((margin[0] * 2, upgrade_rect.height // 3 + (i * 100)), (upgrade_rect.width - (margin[0] * 4), 75),
-                    Color("grey 75"), [f"Upgrade {upgrades_long[upgrade].capitalize()}"], Color("grey 25"))
+                    Color("grey 75"), [f"Upgrade {upgrades_long[upgrade]}"], Color("grey 25"))
     exec(f"button.on_click = lambda tower, balance: upgrade_{upgrade}(tower, balance)")
     buttons.append(button)
 
 # Sell button
 button = Button((margin[0] * 2, upgrade_rect.height // 3 + (len(upgrades) * 100)), (upgrade_rect.width - (margin[0] * 4), 75),
                       Color("grey 75"), ["Sell"], Color("grey 25"))
-button.on_click = lambda tower, balance: sell_tower(tower, balance)
+button.on_click = lambda tower, balance, towers: sell_tower(tower, balance, towers)
 buttons.append(button)
 
 
@@ -54,7 +54,8 @@ def upgrade_fire_rate(tower, balance):
     return balance
 
 
-def sell_tower(tower, balance):
+def sell_tower(tower, balance, towers):
+    tower.sell(towers)
     return balance + (tower_costs[tower.name] / 2)
 
 
@@ -73,7 +74,7 @@ def draw_upgrades(tower, screen):
         button.draw(screen)
 
 
-def update_upgrades(tower, balance):
+def update_upgrades(tower, balance, towers):
     global are_upgrades_visible
 
     if not are_upgrades_visible:
@@ -85,7 +86,7 @@ def update_upgrades(tower, balance):
 
     for button in buttons:
         if is_clicked(button):
-            balance = button.on_click(tower, balance)
+            balance = button.on_click(tower, balance) if button.text[0] != "Sell" else button.on_click(tower, balance, towers)
             if button.text[0] == "Sell":
                 are_upgrades_visible = False
                 return balance, False, True

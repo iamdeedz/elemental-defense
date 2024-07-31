@@ -65,6 +65,14 @@ class Tower:
 
         return balance
 
+    def sell(self, towers):
+        for tower in towers:
+            if self == tower or not self.buff:
+                continue
+
+            if self.vector.distance_to(tower.vector) <= self.range:
+                tower.buffs.remove(buffs[self.buff])
+
     # The towers need a special is_clicked method because they don't have some necessary variables that the buttons
     # have.
     def is_clicked(self):
