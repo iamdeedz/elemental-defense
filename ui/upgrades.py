@@ -68,8 +68,9 @@ def draw_upgrades(tower, screen):
     # Buffs
     buff_font = Font(None, 30)
     for buff_index, buff in enumerate(tower.buffs):
-        buff_text = buff_font.render(f"{buff}", True, Color("black"))
+        buff_text = buff_font.render(f"{buff['name']}", True, Color("black"))
         screen.blit(buff_text, (margin[0] * 4, margin[1] * 1.5 + (buff_index * 100)))
+
     for button in buttons:
         button.draw(screen)
 

@@ -8,10 +8,13 @@ from constants import buffs
 class Tower:
     def __init__(self, img, dmg, attack_range, fire_rate, pos, atk_pos, atk_colour):
         self.name = __name__
-        self.range = attack_range
-        self.dmg = dmg
-        self.fire_rate = fire_rate
+        self.base_range = attack_range
+        self.base_dmg = dmg
+        self.base_fire_rate = fire_rate
         self.img = img
+        self.range = self.base_range
+        self.dmg = self.base_dmg
+        self.fire_rate = self.base_fire_rate
         self.vector = Vector2(pos)
         self.top_left = Vector2(pos[0] - (self.img.get_width() // 2), pos[1] - (self.img.get_height() // 2))
 
@@ -42,8 +45,10 @@ class Tower:
 
             if self.vector.distance_to(tower.vector) <= tower.range:
                 self.buffs.append(buffs[tower.buff])
+                exec(f"self.{buffs[tower.buff]['buff']} += (self.{buffs[tower.buff]['buff']} / 100) * {buffs[tower.buff]['percent']}")
             elif buffs[tower.buff] in self.buffs:
                 self.buffs.remove(buffs[tower.buff])
+                exec(f"self.{buffs[tower.buff]['buff']} = self.base_{buffs[tower.buff]['buff']}")
 
         # Attacks
         for attack in self.attacks:
