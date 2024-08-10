@@ -46,9 +46,26 @@ class Tower:
             if self.vector.distance_to(tower.vector) <= tower.range:
                 self.buffs.append(buffs[tower.buff])
                 exec(f"self.{buffs[tower.buff]['buff']} += (self.{buffs[tower.buff]['buff']} / 100) * {buffs[tower.buff]['percent']}")
+
             elif buffs[tower.buff] in self.buffs:
                 self.buffs.remove(buffs[tower.buff])
                 exec(f"self.{buffs[tower.buff]['buff']} = self.base_{buffs[tower.buff]['buff']}")
+
+        stats_names = {"range": "base_range", "dmg": "base_dmg", "fire_rate": "base_fire_rate"}
+        stats = {"range": self.range, "base_range": self.base_range, "dmg": self.dmg, "base_dmg": self.base_dmg, "fire_rate": self.fire_rate, "base_fire_rate": self.base_fire_rate}
+
+        for stat_name, base_stat_name in stats_names.items():
+            stat = stats[stat_name]
+            base_stat = stats[base_stat_name]
+            has_stat_buff = False
+            if stat != base_stat:
+                for buff in self.buffs:
+                    if buff['buff'] == stat_name:
+                        has_stat_buff = True
+                        break
+
+            if not has_stat_buff:
+                exec(f"self.{stat_name} = self.{base_stat_name}")
 
         # Attacks
         for attack in self.attacks:
