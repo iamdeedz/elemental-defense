@@ -6,7 +6,7 @@ pygame_init()
 font = Font(None, 30)
 
 
-def draw_text(screen, enemies, balance, wave, lives, range):
+def draw_text(screen, enemies, balance, wave, lives):
     for i, enemy in enumerate(enemies):
         type_text = font.render(f"Enemy {i+1} Type: {enemy.name}", True, Color("black"))
         hp_text = font.render(f"Enemy {i+1} HP: {enemy.hp}", True, Color("black"))
@@ -16,9 +16,8 @@ def draw_text(screen, enemies, balance, wave, lives, range):
     balance_text = font.render(f"Balance: {balance}", True, Color("black"))
     wave_text = font.render(f"Wave: {wave}", True, Color("black"))
     lives_text = font.render(f"Lives: {lives}", True, Color("black"))
-    range_text = font.render(f"Range: {range}", True, Color("black"))
 
-    texts = [balance_text, wave_text, lives_text, range_text]
+    texts = [balance_text, wave_text, lives_text]
     prev_texts = []
 
     for text in texts:

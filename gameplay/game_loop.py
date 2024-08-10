@@ -94,7 +94,7 @@ def game_loop(screen, clock, level_id):
             if tower.name == "Inferno Beam":
                 range = tower.range
 
-        draw_text(screen, wave.alive_enemies, balance, wave.number, lives, range)
+        draw_text(screen, wave.alive_enemies, balance, wave.number, lives)
 
         p.display.update()
         clock.tick(fps)
