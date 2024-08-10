@@ -29,28 +29,43 @@ button = Button((margin[0] * 2, upgrade_rect.height // 3 + (len(upgrades) * 100)
 button.on_click = lambda tower, balance, towers: sell_tower(tower, balance, towers)
 buttons.append(button)
 
+# Costs
+dmg_cost = 65
+range_cost = 50
+fire_rate_cost = 80
+
 
 def upgrade_dmg(tower, balance):
-    cost = 15 * tower.dmg
-    if balance >= cost:
-        tower.dmg += 1
-        return balance - cost
+    global dmg_cost
+    if balance >= dmg_cost:
+        tower.base_dmg += 1
+        return_value = balance - dmg_cost
+        dmg_cost += 15
+        return return_value
+
     return balance
 
 
 def upgrade_range(tower, balance):
-    cost = (tower.range / 100) * 15
-    if balance >= cost:
-        tower.range += 20
-        return balance - cost
+    global range_cost
+    if balance >= range_cost:
+        tower.base_range += 20
+        return_value = balance - range_cost
+        range_cost += 15
+        return return_value
+
     return balance
 
 
 def upgrade_fire_rate(tower, balance):
-    cost = round(20 / tower.fire_rate)
-    if balance >= cost:
-        tower.fire_rate -= 0.025
-        return balance - cost
+    global fire_rate_cost
+    if balance >= fire_rate_cost:
+        tower.base_fire_rate -= 0.025
+        return_value = balance - fire_rate_cost
+        fire_rate_cost += 15
+
+        return return_value
+
     return balance
 
 
@@ -68,8 +83,9 @@ def draw_upgrades(tower, screen):
     # Buffs
     buff_font = Font(None, 30)
     for buff_index, buff in enumerate(tower.buffs):
-        buff_text = buff_font.render(f"{buff}", True, Color("black"))
+        buff_text = buff_font.render(f"{buff['name']}", True, Color("black"))
         screen.blit(buff_text, (margin[0] * 4, margin[1] * 1.5 + (buff_index * 100)))
+
     for button in buttons:
         button.draw(screen)
 

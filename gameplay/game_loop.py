@@ -89,6 +89,11 @@ def game_loop(screen, clock, level_id):
             draw_upgrades(tower_being_upgraded, screen)
 
         # Text
+        range = None
+        for tower in towers:
+            if tower.name == "Inferno Beam":
+                range = tower.range
+
         draw_text(screen, wave.alive_enemies, balance, wave.number, lives)
 
         p.display.update()

@@ -13,6 +13,7 @@ class Ice(Tower):
     def __init__(self, pos):
         super().__init__(imgs["ice"], 2, 300, 0.5, pos, (0, 0), "light blue")
         self.name = "Ice"
+        self.buff = "ice"
 
 
 class Inferno(Tower):

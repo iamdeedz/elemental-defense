@@ -92,7 +92,8 @@ towers_by_element = {
     "Testing": ["Dart", "Ice"]
 }
 
-buffs = {"test": "Test Buff", "ice": "Ice Buff"}
+buffs = {"test": {"name": "Test Buff", "buff": "range", "percent": 25},
+         "ice": {"name": "Ice Buff", "buff": "dmg", "percent": 25}}
 
 
 def update_towers():
