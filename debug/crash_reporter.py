@@ -7,9 +7,8 @@ def crash(error):
     try:
         crash_display()
 
-    # TODO: Write to the log saying that crash display has crashed.
     except Exception as e:
-        pass
+        write_to_log("Error", f"Crash Display Failed: {e}")
 
 
 def report_crash(error):
