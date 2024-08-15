@@ -4,6 +4,9 @@ from .page import Page # NOQA
 
 
 def main_menu(screen, clock):
+    testing = [0, 1]
+    print(testing[2])
+    
     current_page = "start"
     pages = [Page("main"), Page("play", parent="main")]
     page_keys = {page.name: i for i, page in enumerate(pages)}

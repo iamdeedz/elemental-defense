@@ -1,5 +1,6 @@
 import pygame as p
-from logs import write_to_log
+from constants import screen_width, screen_height
+from .logs import write_to_log # NOQA
 
 
 def crash(error, where):
@@ -19,7 +20,6 @@ def report_crash(error, where):
 def crash_display():
     p.init()
     fps = 30
-    screen_width = screen_height = 500
     screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)
     p.display.set_caption("Elemental Defense")
     clock = p.time.Clock()
@@ -32,8 +32,9 @@ def crash_display():
 
         screen.fill(p.Color("grey 25"))
 
-        font = p.font.Font(None, 100)
-        text = font.render("Sorry. Elemental Defense has crashed. The error has been saved into a log. Press any button to exit.", True, p.Color("white"))
+        font = p.font.Font(None, 45)
+        text = font.render("Sorry. Elemental Defense has crashed. The error has been saved into a log. Press any "
+                           "button to exit.", True, p.Color("white"))
         screen.blit(text, (screen_width // 2 - text.get_width() // 2, screen_height // 2 - text.get_height() // 2))
 
         p.display.update()

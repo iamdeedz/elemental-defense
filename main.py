@@ -19,6 +19,7 @@ def main():
         level_id = main_menu(screen, clock)
     except Exception as e:
         crash(e, "main_menu")
+        return
 
     try:
         game_loop(screen, clock, level_id)
