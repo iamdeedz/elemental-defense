@@ -30,7 +30,7 @@ def crash_display():
             if event.type == p.QUIT or event.type == p.MOUSEBUTTONDOWN or event.type == p.KEYDOWN:
                 running = False
 
-        screen.fill(p.Color("grey 25"))
+        screen.fill(p.Color("black"))
 
         font = p.font.Font(None, 45)
         text = font.render("Sorry. Elemental Defense has crashed. The error has been saved into a log. Press any "
