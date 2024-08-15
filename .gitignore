@@ -2,6 +2,6 @@
 __pycache__/
 dist/
 build/
+elemental-defense-log.txt
 main.spec
 *.exe
-elemental-defense-log.txt
