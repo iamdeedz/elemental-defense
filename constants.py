@@ -7,7 +7,7 @@ from os import makedirs
 from os.path import exists
 import io
 
-version = 0.2
+version = "0.2.1"
 
 screen_width = 720
 screen_height = 405
