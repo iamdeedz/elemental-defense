@@ -1,5 +1,5 @@
 import pygame as p
-from constants import screen_width, screen_height
+from constants import screen_width, screen_height, Pos
 from .logs import write_to_log # NOQA
 
 
