@@ -16,7 +16,6 @@ def report_crash(error, where):
     write_to_log("Error", f"Game Crashed during {where}: {error}")
 
 
-# TODO: Display a window with pygame saying that the game crashed and that the error has been saved in a log file.
 def crash_display():
     p.init()
     fps = 30
