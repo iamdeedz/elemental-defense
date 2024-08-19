@@ -5,6 +5,7 @@ from screeninfo import get_monitors
 from urllib.request import urlopen
 from os import makedirs
 from os.path import exists
+from debug.logs import write_to_log
 import io
 
 version = "0.2.1"
@@ -52,6 +53,8 @@ if not imgs_exist:
 
 if imgs_exist:
     # Images are stored locally
+    write_to_log("Info", "The imgs folder exists.")
+
     for img in imgs_to_load:
         imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (calc_new_pos((75, 75))))
 
@@ -60,6 +63,8 @@ if imgs_exist:
 
 else:
     # Images are not stored locally, get them from GitHub Page
+    write_to_log("Info", "The imgs folder doesn't exist. Getting images from GitHub Pages.")
+
     for img in imgs_to_load:
         imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
         imgStr = urlopen(imgUrl).read()

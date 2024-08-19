@@ -5,6 +5,8 @@ from constants import screen_width, screen_height, update_towers, version
 from debug.logs import write_to_log
 from debug.crash_reporter import crash
 
+write_to_log("Info", f"Starting Elemental Defense v{version}")
+
 
 def main():
     p.init()
@@ -13,7 +15,6 @@ def main():
     clock = p.time.Clock()
     update_towers()
 
-    write_to_log("Info", f"Starting Elemental Defense v{version}")
 
     try:
         level_id = main_menu(screen, clock)
