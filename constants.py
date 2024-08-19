@@ -44,7 +44,7 @@ fps = 60
 
 # Images
 imgs = {}
-imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire"]
+imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire", "pyro"]
 
 imgs_exist = exists("./imgs/")
 if not imgs_exist:
@@ -81,7 +81,7 @@ else:
 
 # Towers
 all_towers = {}
-tower_costs = {"Dart": 100, "Ice": 150, "Inferno Beam": 150, "Hellfire Launcher": 200}
+tower_costs = {"Dart": 100, "Ice": 150, "Inferno Beam": 150, "Hellfire Launcher": 200, "Pyro Nexus": 175}
 
 elements = ["Grass", "Air", "Fire", "Water", "Rock", "Testing"]
 
@@ -90,22 +90,24 @@ towers_by_element = {
     "Air": [],
     "Water": [],
     "Rock": [],
-    "Fire": ["Inferno Beam", "Hellfire Launcher"],
+    "Fire": ["Inferno Beam", "Hellfire Launcher", "Pyro Nexus"],
     "Testing": ["Dart", "Ice"]
 }
 
 buffs = {"test": {"name": "Test Buff", "buff": "range", "percent": 25},
-         "ice": {"name": "Ice Buff", "buff": "dmg", "percent": 25}}
+         "ice": {"name": "Ice Buff", "buff": "dmg", "percent": 25},
+         "pyro": {"name": "Pyro Buff", "buff": "dmg", "percent": 25}}
 
 
 def update_towers():
     global all_towers
     # This is a workaround to avoid circular imports
-    from gameplay.towers.towers import Dart, Ice, Inferno, Hellfire
+    from gameplay.towers.towers import Dart, Ice, Inferno, Hellfire, Pyro
     all_towers["Dart"] = Dart
     all_towers["Ice"] = Ice
     all_towers["Inferno Beam"] = Inferno
     all_towers["Hellfire Launcher"] = Hellfire
+    all_towers["Pyro Nexus"] = Pyro
 
 
 class Pos:
