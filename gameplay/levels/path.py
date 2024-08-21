@@ -1,5 +1,3 @@
-from constants import calc_new_pos
-
 base_waypoints = [(1145, 62),
                   (1136, 77),
                   (1117, 99),
@@ -42,4 +40,4 @@ base_waypoints = [(1145, 62),
                   (377, 994),
                   (331, 1072)]
 
-waypoints = [calc_new_pos(waypoint) for waypoint in base_waypoints]
+waypoints = [waypoint for waypoint in base_waypoints]

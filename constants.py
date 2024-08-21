@@ -1,7 +1,6 @@
 from pygame.transform import scale as img_scale
 from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
-from screeninfo import get_monitors
 from urllib.request import urlopen
 from os import makedirs
 from os.path import exists
@@ -10,34 +9,13 @@ import io
 
 version = "0.2.1"
 
-screen_width = 720
-screen_height = 405
-
-for monitor in get_monitors():
-    if monitor.is_primary:
-        screen_width = monitor.width
-        screen_height = monitor.height
-        break
+screen_width = 1920
+screen_height = 1080
 
 
 def is_clicked(element):
     mouse_pos = get_mouse_pos()
     return element.x <= mouse_pos[0] <= element.x + element.width and element.y <= mouse_pos[1] <= element.y + element.height
-
-
-def calc_new_pos(pos: tuple | list | int | float, direction=""):
-    if type(pos) in (int, float):
-        if direction == "horizontal":
-            return (pos / 1920) * screen_width
-
-        elif direction == "vertical":
-            return (pos / 1080) * screen_height
-
-        else:
-            raise ValueError("Invalid direction")
-
-    else:
-        return (pos[0] / 1920) * screen_width, (pos[1] / 1080) * screen_height
 
 
 fps = 60
@@ -56,7 +34,7 @@ if imgs_exist:
     write_to_log("Info", "The imgs folder exists.")
 
     for img in imgs_to_load:
-        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (calc_new_pos((75, 75))))
+        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (75, 75))
 
     # Background
     bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
@@ -69,7 +47,7 @@ else:
         imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
         imgStr = urlopen(imgUrl).read()
         imgFile = io.BytesIO(imgStr)
-        imgs[img] = img_scale(img_load(imgFile), (calc_new_pos((75, 75))))
+        imgs[img] = img_scale(img_load(imgFile), (75, 75))
 
         with open(f"./imgs/{img}.png", "wb") as localImgFile:
             localImgFile.write(imgStr)
@@ -113,9 +91,3 @@ def update_towers():
     all_towers["Inferno Beam"] = Inferno
     all_towers["Hellfire Launcher"] = Hellfire
     all_towers["Pyro Nexus"] = Pyro
-
-
-class Pos:
-    def __init__(self, x, y):
-        self.x = (x / 1920) * screen_width
-        self.y = (y / 1080) * screen_height

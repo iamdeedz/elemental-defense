@@ -1,4 +1,4 @@
-from constants import calc_new_pos, screen_width, screen_height, is_clicked, tower_costs
+from constants import screen_width, screen_height, is_clicked, tower_costs
 from pygame import Rect, Color
 from pygame.draw import rect as draw_rect
 from pygame.font import Font
@@ -7,7 +7,7 @@ from pgaddons import Button
 
 font = Font(None, 75)
 
-margin = calc_new_pos((50, 50))
+margin = (50, 50)
 upgrade_rect = Rect(margin, (screen_width // 3, screen_height - (margin[1] * 2)))
 
 upgrades = ["dmg", "range", "fire_rate"]
