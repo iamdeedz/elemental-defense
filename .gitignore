@@ -2,6 +2,7 @@
 __pycache__/
 dist/
 build/
+prev-builds/
 elemental-defense-log.txt
 main.spec
 *.exe

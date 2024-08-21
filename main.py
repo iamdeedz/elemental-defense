@@ -1,9 +1,11 @@
-import pygame as p
-from gameplay.game_loop import game_loop
-from ui.main_menu.main import main_menu
-from constants import screen_width, screen_height, update_towers, version
 from debug.logs import write_to_log
-from debug.crash_reporter import crash
+write_to_log("Info", "Program Running")
+
+from gameplay.game_loop import game_loop  # noqa: E402
+from ui.main_menu.main import main_menu  # noqa: E402
+from constants import screen_width, screen_height, update_towers, version  # noqa: E402
+from debug.crash_reporter import crash  # noqa: E402
+import pygame as p  # noqa: E402
 
 
 def main():
@@ -12,7 +14,6 @@ def main():
     p.display.set_caption("Elemental Defense")
     clock = p.time.Clock()
     update_towers()
-
     write_to_log("Info", f"Starting Elemental Defense v{version}")
 
     try:
