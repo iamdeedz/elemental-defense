@@ -20,27 +20,19 @@ def is_clicked(element):
 
 fps = 60
 
+# -------------------------------------- #
 
 # Images
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire", "pyro"]
 
-imgs_exist = exists("./imgs/")
-if not imgs_exist:
+
+img_folder_exists = exists("./imgs/")
+if not img_folder_exists:
+    # Images are not stored locally, get them from GitHub Page
+
     makedirs("./imgs/")
 
-if imgs_exist:
-    # Images are stored locally
-    write_to_log("Info", "The imgs folder exists.")
-
-    for img in imgs_to_load:
-        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (75, 75))
-
-    # Background
-    bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
-
-else:
-    # Images are not stored locally, get them from GitHub Page
     write_to_log("Info", "The imgs folder doesn't exist. Getting images from GitHub Pages.")
 
     for img in imgs_to_load:
@@ -60,6 +52,29 @@ else:
 
     with open("./imgs/test_bg.png", "wb") as localBgFile:
         localBgFile.write(bgStr)
+
+else:
+    # Images are stored locally
+    write_to_log("Info", "The imgs folder exists.")
+
+    for img in imgs_to_load + ["test_bg"]:
+        if not exists(f"./imgs/{img}.png"):
+            imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+            imgStr = urlopen(imgUrl).read()
+            imgFile = io.BytesIO(imgStr)
+            imgs[img] = img_scale(img_load(imgFile), (75, 75))
+
+            with open(f"./imgs/{img}.png", "wb") as localImgFile:
+                localImgFile.write(imgStr)
+
+    for img in imgs_to_load:
+        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (75, 75))
+
+    # Background
+    bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
+
+
+# -------------------------------------- #
 
 
 # Towers
