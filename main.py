@@ -17,18 +17,16 @@ def main():
     update_towers()
     write_to_log("Info", f"Starting Elemental Defense v{version}")
 
-    level_id = main_menu(screen, clock)
-    # try:
-    #   level_id = main_menu(screen, clock)
-    # except Exception as e:
-    #   crash(e, "main_menu")
-    #  return
+    try:
+        level_id = main_menu(screen, clock)
+    except Exception as e:
+        crash(e, "main_menu")
+        return
 
-    game_loop(screen, clock, level_id)
-    # try:
-    #   game_loop(screen, clock, level_id)
-    # except Exception as e:
-    #   crash(e, "game_loop")
+    try:
+        game_loop(screen, clock, level_id)
+    except Exception as e:
+        crash(e, "game_loop")
 
 
 if __name__ == '__main__':
