@@ -11,7 +11,11 @@ buttons_by_page = {
     "play": [
         Button((0, 0), (200, 50), "grey 50", "Back", "white"),
         Button((screen_width // 2, screen_height // 2), (150, 150), "grey 50", "Test Level", "white")
-    ]
+    ],
+
+    "settings": [
+        Button((0, 0), (200, 50), "grey 50", "Back", "white"),
+    ],
 }
 
 for page in buttons_by_page:
