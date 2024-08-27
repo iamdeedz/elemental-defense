@@ -1,9 +1,10 @@
 from pgaddons import Button
-from constants import elements, tower_costs, all_towers, is_clicked
+from constants import elements, tower_costs, all_towers, is_clicked, screen_width, screen_height
 from .shop_window import ShopWindow # NOQA
 from .button_on_clicks import toggle_shop # NOQA
+from pygame import Color, Surface, SRCALPHA
 from pygame.mouse import get_pos as get_mouse_pos
-from pygame import Color
+from pygame.draw import circle
 
 
 class Shop:
@@ -16,9 +17,16 @@ class Shop:
         self.tower_being_placed = None
         self.element_being_placed = None
 
+        self.range_circle = None
+
     def draw(self, screen):
         self.toggle_button.draw(screen)
         self.current_window.draw(screen)
+
+        if self.range_circle:
+            surface = Surface((screen_width, screen_height), SRCALPHA)
+            circle(surface, (0, 0, 0, 50), get_mouse_pos(), self.range_circle)
+            screen.blit(surface, (0, 0))
 
     def update(self, towers, balance):
         should_tower_place = True
@@ -51,10 +59,11 @@ class Shop:
                         should_tower_place = False
                         tower = button.text.split(" (")[0]
                         self.tower_being_placed = tower
+                        self.range_circle = all_towers[self.tower_being_placed]((0, 0)).range
 
         if self.tower_being_placed and should_tower_place:
             balance = self.place_tower(towers, balance, self.tower_being_placed)
-            self.tower_being_placed = None
+            self.tower_being_placed = self.range_circle = None
 
         return balance
 
