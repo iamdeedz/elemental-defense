@@ -1,5 +1,6 @@
 from pygame import Vector2, Color
 from pygame.draw import circle as draw_circle
+from constants import calc_scaled_num
 
 
 class Attack:
@@ -11,7 +12,7 @@ class Attack:
 
     def update(self, balance):
         # Move
-        self.vector.move_towards_ip(self.target.vector, 10)
+        self.vector.move_towards_ip(self.target.vector, calc_scaled_num(10))
 
         # Check if hit
         if self.vector.distance_to(self.target.vector) <= 2:
@@ -21,4 +22,4 @@ class Attack:
         return balance, False
 
     def draw(self, screen):
-        draw_circle(screen, Color(self.colour), (int(self.vector.x), int(self.vector.y)), 5)
+        draw_circle(screen, Color(self.colour), (int(self.vector.x), int(self.vector.y)), calc_scaled_num(5))
