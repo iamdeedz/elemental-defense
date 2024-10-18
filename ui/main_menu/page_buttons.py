@@ -5,13 +5,13 @@ from constants import screen_width, screen_height, calc_scaled_tuple, calc_scale
 
 buttons_by_page = {
     "main": [
-        Button(calc_scaled_tuple((screen_width // 2, screen_height // 2)), calc_scaled_tuple((200, 50)), "grey 50", "Play", "white", font_size=floor(calc_scaled_num(30))),
-        Button(calc_scaled_tuple((screen_width // 2, screen_height // 2 + 200)), calc_scaled_tuple((200, 50)), "grey 50", "Settings", "white", font_size=floor(calc_scaled_num(30)))
+        Button((screen_width // 2, screen_height // 2), calc_scaled_tuple((200, 50)), "grey 50", "Play", "white", font_size=floor(calc_scaled_num(30))),
+        Button((screen_width // 2, screen_height // 2 + calc_scaled_num(200, direction="vertical")), calc_scaled_tuple((200, 50)), "grey 50", "Settings", "white", font_size=floor(calc_scaled_num(30)))
     ],
 
     "play": [
         Button((0, 0), calc_scaled_tuple((200, 50)), "grey 50", "Back", "white", font_size=floor(calc_scaled_num(30))),
-        Button(calc_scaled_tuple((screen_width // 2, screen_height // 2)), calc_scaled_tuple((150, 150)), "grey 50", "Test Level", "white", font_size=floor(calc_scaled_num(30)))
+        Button((screen_width // 2, screen_height // 2), calc_scaled_tuple((150, 150)), "grey 50", "Test Level", "white", font_size=floor(calc_scaled_num(30)))
     ],
 
     "settings": [

@@ -1,6 +1,6 @@
 from math import floor
 import pygame as p
-from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num
+from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
 from .page import Page # NOQA
 
 
@@ -37,12 +37,10 @@ def main_menu(screen, clock):
         if current_page == "start":
             font = p.font.Font(None, floor(calc_scaled_num(100)))
             text = font.render("Elemental Defense", True, p.Color("white"))
-            screen.blit(text, calc_scaled_tuple(
-                (screen_width // 2 - text.get_width() // 2, (screen_height // 2 - text.get_height() // 2) - 125)))
+            screen.blit(text, (screen_width // 2 - calc_scaled_num(text.get_width() // 2), (screen_height // 2 - calc_scaled_num(text.get_height() // 2, direction="vertical") - calc_scaled_num(125, direction="vertical"))))
             font = p.font.Font(None, floor(calc_scaled_num(50)))
             text = font.render("Click anywhere to start", True, p.Color("white"))
-            screen.blit(text, calc_scaled_tuple(
-                (screen_width // 2 - text.get_width() // 2, (screen_height // 2 - text.get_height() // 2) + 75)))
+            screen.blit(text, (screen_width // 2 - calc_scaled_num(text.get_width() // 2), (screen_height // 2 - calc_scaled_num(text.get_height() // 2, direction="vertical") + calc_scaled_num(75, direction="vertical"))))
 
         else:
             pages[pages.index(current_page)].draw(screen)
