@@ -1,3 +1,5 @@
+from constants import calc_scaled_tuple
+
 base_waypoints = [(1145, 62),
                   (1136, 77),
                   (1117, 99),
@@ -40,4 +42,4 @@ base_waypoints = [(1145, 62),
                   (377, 994),
                   (331, 1072)]
 
-waypoints = [waypoint for waypoint in base_waypoints]
+waypoints = [calc_scaled_tuple(waypoint) for waypoint in base_waypoints]
