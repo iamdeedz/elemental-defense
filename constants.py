@@ -1,21 +1,42 @@
 from pygame.transform import scale as img_scale
 from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
+from screeninfo import get_monitors
 from urllib.request import urlopen
 from os import makedirs
 from os.path import exists
 from debug.logs import write_to_log
 import io
 
-version = "0.2.1"
+version = "0.2.1 dev"
 
-screen_width = 1920
-screen_height = 1080
+screen_width = 700
+screen_height = 420
+
+for monitor in get_monitors():
+    if monitor.is_primary:
+        screen_width = monitor.width
+        screen_height = monitor.height
+        break
+
+write_to_log("Info", f"Screen Width: {screen_width}, Screen Height: {screen_height}")
 
 
 def is_clicked(element):
     mouse_pos = get_mouse_pos()
     return element.x <= mouse_pos[0] <= element.x + element.width and element.y <= mouse_pos[1] <= element.y + element.height
+
+
+def calc_scaled_tuple(tuple):
+    return (tuple[0] / 1920) * screen_width, (tuple[1] / 1080) * screen_height
+
+
+def calc_scaled_num(num, direction="horizontal"):
+    match direction:
+        case "horizontal":
+            return num / 1920 * screen_width
+        case "vertical":
+            return num / 1080 * screen_height
 
 
 fps = 60
@@ -39,7 +60,7 @@ if not img_folder_exists:
         imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
         imgStr = urlopen(imgUrl).read()
         imgFile = io.BytesIO(imgStr)
-        imgs[img] = img_scale(img_load(imgFile), (75, 75))
+        imgs[img] = img_scale(img_load(imgFile), calc_scaled_tuple((75, 75)))
 
         with open(f"./imgs/{img}.png", "wb") as localImgFile:
             localImgFile.write(imgStr)
@@ -62,13 +83,13 @@ else:
             imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
             imgStr = urlopen(imgUrl).read()
             imgFile = io.BytesIO(imgStr)
-            imgs[img] = img_scale(img_load(imgFile), (75, 75))
+            imgs[img] = img_scale(img_load(imgFile), calc_scaled_tuple((75, 75)))
 
             with open(f"./imgs/{img}.png", "wb") as localImgFile:
                 localImgFile.write(imgStr)
 
     for img in imgs_to_load:
-        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), (75, 75))
+        imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), calc_scaled_tuple((75, 75)))
 
     # Background
     bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
