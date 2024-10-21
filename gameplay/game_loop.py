@@ -4,6 +4,7 @@ from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
+from ui.transfer.transfer import update_transfer, draw_transfer
 
 
 def game_loop(screen, clock, level_id):
@@ -34,6 +35,7 @@ def game_loop(screen, clock, level_id):
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    # Upgrades + Shop
                     balance, were_upgrades_visible, sold = update_upgrades(tower_being_upgraded, balance, towers)
                     if sold:
                         towers.remove(tower_being_upgraded)
@@ -49,6 +51,9 @@ def game_loop(screen, clock, level_id):
                             break
 
                     balance = shop.update(towers, balance)
+
+                    # Money Transfers
+                    update_transfer()
 
         if paused:
             continue
@@ -87,6 +92,8 @@ def game_loop(screen, clock, level_id):
         shop.draw(screen)
         if tower_being_upgraded:
             draw_upgrades(tower_being_upgraded, screen)
+
+        draw_transfer(screen)
 
         draw_text(screen, wave.alive_enemies, balance, wave.number, lives)
 
