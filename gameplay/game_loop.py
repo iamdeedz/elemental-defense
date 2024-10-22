@@ -1,4 +1,6 @@
 import pygame as p
+from pygame.display import update
+
 from constants import fps, bg
 from gameplay.levels.waves import waves
 from ui.text import draw_text
@@ -30,6 +32,9 @@ def game_loop(screen, clock, level_id):
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 running = False
 
+            if event.type == p.MOUSEBUTTONDOWN or p.KEYDOWN:
+                update_transfer(event)
+
             if event.type == p.KEYDOWN and event.key == p.K_SPACE:
                 paused = not paused
 
@@ -51,9 +56,6 @@ def game_loop(screen, clock, level_id):
                             break
 
                     balance = shop.update(towers, balance)
-
-                    # Money Transfers
-                    update_transfer()
 
         if paused:
             continue
