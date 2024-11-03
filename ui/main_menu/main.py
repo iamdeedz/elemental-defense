@@ -5,8 +5,10 @@ from .page import Page # NOQA
 
 
 def main_menu(screen, clock):
-    current_page = "start"
-    pages = [Page("main"), Page("play", parent="main"), Page("settings", parent="main")]
+    current_page = "title"
+    pages = [Page("home"),
+             Page("play", parent="home"), Page("settings", parent="home"),
+             Page("singleplayer", parent="play"), Page("multiplayer", parent="play")]
     page_keys = {page.name: i for i, page in enumerate(pages)}
 
     while True:
@@ -15,8 +17,8 @@ def main_menu(screen, clock):
                 quit()
 
             if event.type == p.MOUSEBUTTONDOWN or event.type == p.KEYDOWN:
-                if current_page == "start":
-                    current_page = pages[page_keys["main"]]
+                if current_page == "title":
+                    current_page = pages[page_keys["home"]]
 
                 elif event.button == 1:
                     for button in current_page.buttons:
@@ -34,7 +36,7 @@ def main_menu(screen, clock):
 
         screen.fill(p.Color("grey 25"))
 
-        if current_page == "start":
+        if current_page == "title":
             font = p.font.Font(None, floor(calc_scaled_num(100)))
             text = font.render("Elemental Defense", True, p.Color("white"))
             screen.blit(text, (screen_width // 2 - calc_scaled_num(text.get_width() // 2), (screen_height // 2 - calc_scaled_num(text.get_height() // 2, direction="vertical") - calc_scaled_num(125, direction="vertical"))))
@@ -44,6 +46,8 @@ def main_menu(screen, clock):
 
         else:
             pages[pages.index(current_page)].draw(screen)
+            if current_page == "play":
+                p.draw.line(screen, "grey 50", (screen_width//2, 0), (screen_width//2, screen_height), 5)
 
         p.display.update()
         clock.tick(fps)

@@ -3,7 +3,7 @@ from .button_on_clicks import button_on_clicks # NOQA
 
 
 class Page:
-    def __init__(self, name, parent="start"):
+    def __init__(self, name, parent="title"):
         self.name = name
         self.parent = parent
         self.buttons = buttons_by_page[name]

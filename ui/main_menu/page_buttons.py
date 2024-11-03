@@ -4,17 +4,28 @@ from .button_on_clicks import button_on_clicks # NOQA
 from constants import screen_width, screen_height, calc_scaled_tuple, calc_scaled_num
 
 buttons_by_page = {
-    "main": [
+    "home": [
         Button((screen_width // 2, screen_height // 2), calc_scaled_tuple((200, 50)), "grey 50", "Play", "white", font_size=floor(calc_scaled_num(30))),
         Button((screen_width // 2, screen_height // 2 + calc_scaled_num(200, direction="vertical")), calc_scaled_tuple((200, 50)), "grey 50", "Settings", "white", font_size=floor(calc_scaled_num(30)))
     ],
 
     "play": [
+        Button((0, 0), (screen_width//2, screen_height), "grey 25", "Single Player", "white", font_size=floor(calc_scaled_num(60))),
+        Button((screen_width//2, 0), (screen_width//2, screen_height), "grey 25", "Multi Player", "white", font_size=floor(calc_scaled_num(60))),
+        Button((0, 0), calc_scaled_tuple((200, 50)), "grey 50", "Back", "white", font_size=floor(calc_scaled_num(30)))
+    ],
+
+    "settings": [
+        Button((0, 0), calc_scaled_tuple((200, 50)), "grey 50", "Back", "white", font_size=floor(calc_scaled_num(30))),
+    ],
+
+    "singleplayer": [
         Button((0, 0), calc_scaled_tuple((200, 50)), "grey 50", "Back", "white", font_size=floor(calc_scaled_num(30))),
         Button((screen_width // 2, screen_height // 2), calc_scaled_tuple((150, 150)), "grey 50", "Test Level", "white", font_size=floor(calc_scaled_num(30)))
     ],
 
-    "settings": [
+
+    "multiplayer": [
         Button((0, 0), calc_scaled_tuple((200, 50)), "grey 50", "Back", "white", font_size=floor(calc_scaled_num(30))),
     ],
 }
