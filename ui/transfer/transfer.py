@@ -1,15 +1,16 @@
 from math import floor
 from pgaddons import Button, InputField
-from constants import calc_scaled_tuple, screen_width, screen_height, calc_scaled_num, is_clicked
-from .button_on_clicks import toggle_transfer # NOQA
+from constants import calc_scaled_tuple, screen_width, screen_height, calc_scaled_num, is_clicked, elements
+from .button_on_clicks import toggle_transfer, send # NOQA
 import pygame as p
 
 is_open = False
 
-toggle_button_size = calc_scaled_tuple((200, 50))
+element_size = calc_scaled_tuple((200, 50))
+
 toggle_button = Button(
-    (screen_width-toggle_button_size[0], screen_height-toggle_button_size[1]),
-    toggle_button_size,
+    (screen_width-element_size[0], screen_height-element_size[1]),
+    element_size,
     p.Color("grey 30"),
     "Transfer Money",
     p.Color("white"),
@@ -17,16 +18,26 @@ toggle_button = Button(
 )
 toggle_button.on_click = toggle_transfer
 
-money_input_size = calc_scaled_tuple((200, 50))
 money_input = InputField(
-    (screen_width-money_input_size[0], screen_height-money_input_size[1]-toggle_button_size[1]-calc_scaled_num(5, "vertical")),
-    money_input_size,
+    (screen_width-element_size[0], screen_height-(element_size[1]*2)-calc_scaled_num(25, "vertical")),
+    element_size,
     p.Color("grey 50"),
     p.Color("grey 70"),
     "Type Here",
     font_size=floor(calc_scaled_num(30)),
     max_length=6
 )
+
+
+send_button = Button(
+    (screen_width-element_size[0], screen_height-(element_size[1]*3)-calc_scaled_num(30, "vertical")),
+    element_size,
+    p.Color("grey 50"),
+    "Send",
+    p.Color("white"),
+    font_size=floor(calc_scaled_num(30))
+)
+send_button.on_click = send
 
 
 def draw_transfer(screen):
@@ -36,6 +47,7 @@ def draw_transfer(screen):
         return
 
     money_input.draw(screen)
+    send_button.draw(screen)
 
 
 def update_transfer(event):
@@ -47,6 +59,9 @@ def update_transfer(event):
             global is_open
             if is_clicked(toggle_button):
                 is_open = toggle_button.on_click(is_open)
+
+            if is_clicked(send_button):
+                send_button.on_click(money_input.text)
 
             if not is_open:
                 return
