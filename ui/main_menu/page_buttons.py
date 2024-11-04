@@ -34,5 +34,3 @@ for page in buttons_by_page:
     for button in buttons_by_page[page]:
         if button.text in button_on_clicks:
             button.on_click = button_on_clicks[button.text]
-        elif button.text == "Back":
-            pass

@@ -1,5 +1,7 @@
 from math import floor
 import pygame as p
+from debugpy.common.timestamp import current
+
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
 from .page import Page # NOQA
 
@@ -10,6 +12,7 @@ def main_menu(screen, clock):
              Page("play", parent="home"), Page("settings", parent="home"),
              Page("singleplayer", parent="play"), Page("multiplayer", parent="play")]
     page_keys = {page.name: i for i, page in enumerate(pages)}
+    print(page_keys)
 
     while True:
         for event in p.event.get():
@@ -23,6 +26,15 @@ def main_menu(screen, clock):
                 elif event.button == 1:
                     for button in current_page.buttons:
                         if is_clicked(button):
+
+                            # On the play page, the singleplayer and back buttons overlap and this needs special logic
+                            if current_page.name != "play":
+                                pass
+
+                            # current_page.buttons[-1] is the back button
+                            elif button.text == "Single Player" and is_clicked(current_page.buttons[-1]):
+                                continue
+
                             if button.on_click:
                                 return_value = button.on_click()
                                 if return_value[0] == "level":
