@@ -1,7 +1,7 @@
 from math import floor
 from constants import screen_width, screen_height, is_clicked, tower_costs, calc_scaled_tuple, calc_scaled_num
-from pygame import Rect, Color
-from pygame.draw import rect as draw_rect
+from pygame import Rect, Color, Surface, SRCALPHA
+from pygame.draw import rect as draw_rect, circle as draw_circle
 from pygame.font import Font
 from pygame.transform import scale as img_scale
 from pgaddons import Button
@@ -76,6 +76,11 @@ def sell_tower(tower, balance, towers):
 
 
 def draw_upgrades(tower, screen):
+    # Draw Tower Range
+    surface = Surface((screen_width, screen_height), SRCALPHA)
+    draw_circle(surface, (0, 0, 0, 50), tower.vector.xy, tower.range)
+    screen.blit(surface, (0, 0))
+
     draw_rect(screen, Color("grey 50"), upgrade_rect, border_radius=round(upgrade_rect.width / calc_scaled_num(25.6)))
     screen.blit(img_scale(tower.img, calc_scaled_tuple((100, 100))), calc_scaled_tuple((margin[0] * 2, margin[1] * 2)))
     text = font.render(tower.name, True, Color("black"))
