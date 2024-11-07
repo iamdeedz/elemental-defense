@@ -8,7 +8,7 @@ from os.path import exists
 from debug.logs import write_to_log
 import io
 
-version = "0.3"
+version = "0.3 dev"
 
 screen_width = 700
 screen_height = 420
