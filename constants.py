@@ -8,8 +8,8 @@ from os.path import exists
 from debug.logs import write_to_log
 import io
 
-version = "0.3 dev"
-crash_reporter_active = False
+version = "0.3.1"
+crash_reporter_active = True
 
 screen_width = 700
 screen_height = 420
