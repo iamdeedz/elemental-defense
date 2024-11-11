@@ -8,7 +8,7 @@ from os.path import exists
 from debug.logs import write_to_log
 import io
 
-version = "0.3.1"
+version = "0.3.1 dev"
 crash_reporter_active = True
 
 screen_width = 700
