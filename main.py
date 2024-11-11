@@ -23,6 +23,7 @@ def main():
         except Exception as e:
             crash(e, "main_menu")
             return
+
         try:
             game_loop(screen, clock, level_id)
         except Exception as e:

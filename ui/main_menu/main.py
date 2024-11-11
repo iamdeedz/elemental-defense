@@ -1,13 +1,18 @@
 from math import floor
 import pygame as p
+from debugpy.common.timestamp import current
+
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
 from .page import Page # NOQA
 
 
 def main_menu(screen, clock):
-    current_page = "start"
-    pages = [Page("main"), Page("play", parent="main"), Page("settings", parent="main")]
+    current_page = "title"
+    pages = [Page("home"),
+             Page("play", parent="home"), Page("settings", parent="home"),
+             Page("singleplayer", parent="play"), Page("multiplayer", parent="play")]
     page_keys = {page.name: i for i, page in enumerate(pages)}
+    print(page_keys)
 
     while True:
         for event in p.event.get():
@@ -22,6 +27,15 @@ def main_menu(screen, clock):
                 if event.button == 1:
                     for button in current_page.buttons:
                         if is_clicked(button):
+
+                            # On the play page, the singleplayer and back buttons overlap and this needs special logic
+                            if current_page.name != "play":
+                                pass
+
+                            # current_page.buttons[-1] is the back button
+                            elif button.text == "Single Player" and is_clicked(current_page.buttons[-1]):
+                                continue
+
                             if button.on_click:
                                 return_value = button.on_click()
                                 if return_value[0] == "level":
@@ -35,7 +49,7 @@ def main_menu(screen, clock):
 
         screen.fill(p.Color("grey 25"))
 
-        if current_page == "start":
+        if current_page == "title":
             font = p.font.Font(None, floor(calc_scaled_num(100)))
             text = font.render("Elemental Defense", True, p.Color("white"))
             screen.blit(text, (screen_width // 2 - calc_scaled_num(text.get_width() // 2), (screen_height // 2 - calc_scaled_num(text.get_height() // 2, direction="vertical") - calc_scaled_num(125, direction="vertical"))))
@@ -45,6 +59,8 @@ def main_menu(screen, clock):
 
         else:
             pages[pages.index(current_page)].draw(screen)
+            if current_page == "play":
+                p.draw.line(screen, "grey 50", (screen_width//2, 0), (screen_width//2, screen_height), 5)
 
         p.display.update()
         clock.tick(fps)
