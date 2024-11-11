@@ -19,11 +19,12 @@ def main_menu(screen, clock):
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 quit()
 
-            if event.type == p.MOUSEBUTTONDOWN or event.type == p.KEYDOWN:
-                if current_page == "title":
-                    current_page = pages[page_keys["home"]]
+            # If on title page and any button is pressed, go to main menu
+            if current_page == "start" and (event.type == p.MOUSEBUTTONDOWN or event.type == p.KEYDOWN):
+                current_page = pages[page_keys["main"]]
 
-                elif event.button == 1:
+            if event.type == p.MOUSEBUTTONDOWN:
+                if event.button == 1:
                     for button in current_page.buttons:
                         if is_clicked(button):
 

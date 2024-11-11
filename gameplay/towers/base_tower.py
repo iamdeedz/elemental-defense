@@ -69,14 +69,20 @@ class Tower:
 
         # Attacks
         for attack in self.attacks:
+            balance, hit = attack.update(balance)
+            if hit:
+                self.attacks.remove(attack)
+                continue
+
+            attack_changed_target = False
             if attack.target.hp <= 0:
                 for enemy in enemies:
                     if self.vector.distance_to(enemy.vector) <= self.range:
                         attack.target = enemy
+                        attack_changed_target = True
 
-            balance, hit = attack.update(balance)
-            if hit:
-                self.attacks.remove(attack)
+                if not attack_changed_target:
+                    self.attacks.remove(attack)
 
         # Attack enemies
         for enemy in enemies:
