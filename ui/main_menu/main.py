@@ -10,7 +10,6 @@ def main_menu(screen, clock):
              Page("play", parent="home"), Page("settings", parent="home"),
              Page("singleplayer", parent="play"), Page("multiplayer", parent="play")]
     page_keys = {page.name: i for i, page in enumerate(pages)}
-    print(page_keys)
 
     while True:
         for event in p.event.get():
