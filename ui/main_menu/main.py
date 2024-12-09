@@ -1,7 +1,5 @@
 from math import floor
 import pygame as p
-from debugpy.common.timestamp import current
-
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
 from .page import Page # NOQA
 
@@ -20,8 +18,8 @@ def main_menu(screen, clock):
                 quit()
 
             # If on title page and any button is pressed, go to main menu
-            if current_page == "start" and (event.type == p.MOUSEBUTTONDOWN or event.type == p.KEYDOWN):
-                current_page = pages[page_keys["main"]]
+            if current_page == "title" and (event.type == p.MOUSEBUTTONDOWN or event.type == p.KEYDOWN):
+                current_page = pages[page_keys["home"]]
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
