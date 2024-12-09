@@ -1,5 +1,5 @@
-from math import floor
 import pygame as p
+from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
 from .page import Page # NOQA
 
