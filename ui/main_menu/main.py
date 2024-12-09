@@ -1,11 +1,17 @@
 import pygame as p
 from math import floor
-from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
+from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num
 from .page import Page # NOQA
+from .page_buttons import buttons_by_page # NOQA
 
 
 def draw_multiplayer(screen):
-    p.draw.rect()
+    [button.draw(screen) for button in buttons_by_page["multiplayer"]]
+
+    # Rect
+    margin = calc_scaled_tuple((100, 100))
+    servers_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
+    p.draw.rect(screen, p.Color("grey 50"), servers_rect, border_radius=round(servers_rect.width / calc_scaled_num(25.6)))
 
 
 multiplayer_page = Page("multiplayer", parent="play")
