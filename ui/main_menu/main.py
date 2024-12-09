@@ -2,14 +2,21 @@ import pygame as p
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_num
 from .page import Page # NOQA
-# from .multiplayer.multiplayer import  # NOQA
+
+
+def draw_multiplayer(screen):
+    p.draw.rect()
+
+
+multiplayer_page = Page("multiplayer", parent="play")
+multiplayer_page.draw = draw_multiplayer
 
 
 def main_menu(screen, clock):
     current_page = "title"
     pages = [Page("home"),
              Page("play", parent="home"), Page("settings", parent="home"),
-             Page("singleplayer", parent="play"), Page("multiplayer", parent="play")]
+             Page("singleplayer", parent="play"), multiplayer_page]
     page_keys = {page.name: i for i, page in enumerate(pages)}
 
     while True:

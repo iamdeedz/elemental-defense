@@ -81,6 +81,7 @@ def draw_upgrades(tower, screen):
     draw_circle(surface, (0, 0, 0, 50), tower.vector.xy, tower.range)
     screen.blit(surface, (0, 0))
 
+    # Rect
     draw_rect(screen, Color("grey 50"), upgrade_rect, border_radius=round(upgrade_rect.width / calc_scaled_num(25.6)))
     screen.blit(img_scale(tower.img, calc_scaled_tuple((100, 100))), calc_scaled_tuple((margin[0] * 2, margin[1] * 2)))
     text = font.render(tower.name, True, Color("black"))
