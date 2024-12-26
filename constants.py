@@ -51,6 +51,11 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire", "pyro"]
 
+backgrounds = {}
+small_backgrounds = {}
+background_name_to_id = {"test_bg": -999}
+backgrounds_to_load = ["test_bg"]
+
 
 img_folder_exists = exists("./imgs/")
 if not img_folder_exists:
@@ -70,14 +75,15 @@ if not img_folder_exists:
             local_img_file.write(img_str)
 
     # Background
-    bg_url = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
-    bg_str = urlopen(bg_url).read()
-    bg_file = io.BytesIO(bg_str)
-    bg = img_scale(img_load(bg_file), (screen_width, screen_height))
-    small_bg = img_scale(img_load(bg_file), calc_scaled_tuple((75, 75)))
+    for bg in backgrounds_to_load:
+        bg_url = f"https://iamdeedz.github.io/elemental-defense/imgs/{bg}.png"
+        bg_str = urlopen(bg_url).read()
+        bg_file = io.BytesIO(bg_str)
+        backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), (screen_width, screen_height))
+        small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((75, 75)))
 
-    with open("./imgs/test_bg.png", "wb") as local_bg_file:
-        local_bg_file.write(bg_str)
+        with open("./imgs/test_bg.png", "wb") as local_bg_file:
+            local_bg_file.write(bg_str)
 
 else:
     # Images are stored locally
@@ -97,8 +103,9 @@ else:
         imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), calc_scaled_tuple((75, 75)))
 
     # Background
-    bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
-    small_bg = img_scale(img_load("./imgs/test_bg.png"), calc_scaled_tuple((75, 75)))
+    for bg in backgrounds_to_load:
+        backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), (screen_width, screen_height))
+        small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((75, 75)))
 
 
 # -------------------------------------- #
