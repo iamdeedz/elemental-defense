@@ -1,5 +1,5 @@
 from math import floor
-from pgaddons import Button, InputField
+from pgaddons import Button, InputField, NUMERALS
 from constants import calc_scaled_tuple, screen_width, screen_height, calc_scaled_num, is_clicked, elements
 from .button_on_clicks import toggle_transfer, send # NOQA
 import pygame as p
@@ -25,7 +25,8 @@ money_input = InputField(
     p.Color("grey 70"),
     "Type Here",
     font_size=floor(calc_scaled_num(30)),
-    max_length=6
+    max_length=6,
+    char_set=NUMERALS
 )
 
 
