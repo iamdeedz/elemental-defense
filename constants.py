@@ -11,9 +11,11 @@ import io
 version = "0.3.1 dev"
 crash_reporter_active = False
 
-
 screen_width = 700
 screen_height = 420
+
+server_manager_ip = "127.0.0.1"
+server_manager_port = 1300
 
 for monitor in get_monitors():
     if monitor.is_primary:
@@ -59,22 +61,23 @@ if not img_folder_exists:
     write_to_log("Info", "The imgs folder doesn't exist. Getting images from GitHub Pages.")
 
     for img in imgs_to_load:
-        imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
-        imgStr = urlopen(imgUrl).read()
-        imgFile = io.BytesIO(imgStr)
-        imgs[img] = img_scale(img_load(imgFile), calc_scaled_tuple((75, 75)))
+        img_url = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+        img_str = urlopen(img_url).read()
+        img_file = io.BytesIO(img_str)
+        imgs[img] = img_scale(img_load(img_file), calc_scaled_tuple((75, 75)))
 
-        with open(f"./imgs/{img}.png", "wb") as localImgFile:
-            localImgFile.write(imgStr)
+        with open(f"./imgs/{img}.png", "wb") as local_img_file:
+            local_img_file.write(img_str)
 
     # Background
-    bgUrl = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
-    bgStr = urlopen(bgUrl).read()
-    bgFile = io.BytesIO(bgStr)
-    bg = img_scale(img_load(bgFile), (screen_width, screen_height))
+    bg_url = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
+    bg_str = urlopen(bg_url).read()
+    bg_file = io.BytesIO(bg_str)
+    bg = img_scale(img_load(bg_file), (screen_width, screen_height))
+    small_bg = img_scale(img_load(bg_file), calc_scaled_tuple((75, 75)))
 
-    with open("./imgs/test_bg.png", "wb") as localBgFile:
-        localBgFile.write(bgStr)
+    with open("./imgs/test_bg.png", "wb") as local_bg_file:
+        local_bg_file.write(bg_str)
 
 else:
     # Images are stored locally
@@ -82,19 +85,20 @@ else:
 
     for img in imgs_to_load + ["test_bg"]:
         if not exists(f"./imgs/{img}.png"):
-            imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
-            imgStr = urlopen(imgUrl).read()
-            imgFile = io.BytesIO(imgStr)
-            imgs[img] = img_scale(img_load(imgFile), calc_scaled_tuple((75, 75)))
+            img_url = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+            img_str = urlopen(img_url).read()
+            img_file = io.BytesIO(img_str)
+            imgs[img] = img_scale(img_load(img_file), calc_scaled_tuple((75, 75)))
 
-            with open(f"./imgs/{img}.png", "wb") as localImgFile:
-                localImgFile.write(imgStr)
+            with open(f"./imgs/{img}.png", "wb") as local_img_file:
+                local_img_file.write(img_str)
 
     for img in imgs_to_load:
         imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), calc_scaled_tuple((75, 75)))
 
     # Background
     bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
+    small_bg = img_scale(img_load("./imgs/test_bg.png"), calc_scaled_tuple((75, 75)))
 
 
 # -------------------------------------- #
