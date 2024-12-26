@@ -1,8 +1,13 @@
 import pygame as p
 from math import floor
-from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num
+from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
+from pymultiplayer import get_servers
+from asyncio import run as async_run
+from random import shuffle
+
+# -------------------------------------- #
 
 multiplayer_page_joining = True
 
@@ -12,14 +17,30 @@ def draw_multiplayer(screen):
     servers_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
     p.draw.rect(screen, p.Color("grey 50"), servers_rect, border_radius=round(servers_rect.width / calc_scaled_num(25.6)))
 
+    if multiplayer_page_joining:
+        # List all servers:
+        #all_servers = async_run(get_servers(server_manager_ip, server_manager_port))
+        all_servers = [
+            {"port": 1301, "parameters": {"level": -999}},
+            {"port": 1303, "parameters": {"level": -999}},
+            {"port": 1305, "parameters": {"level": -999}}
+        ]
+        shuffle(all_servers)
+        for i, server in enumerate(all_servers):
+            rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * i))),
+                          (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
+            screen.blit()
+            p.draw.rect(screen, p.Color("grey 25"), rect, border_radius=round(calc_scaled_num(17.5)))
+
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
 
-
+# {"port", "parameters"}
 
 multiplayer_page = Page("multiplayer", parent="play")
 multiplayer_page.draw = draw_multiplayer
 
+# -------------------------------------- #
 
 def main_menu(screen, clock):
     current_page = "title"
