@@ -1,6 +1,6 @@
 import pygame as p
 from math import floor
-from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port
+from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
 from pymultiplayer import get_servers
@@ -19,18 +19,30 @@ def draw_multiplayer(screen):
 
     if multiplayer_page_joining:
         # List all servers:
+
         #all_servers = async_run(get_servers(server_manager_ip, server_manager_port))
         all_servers = [
-            {"port": 1301, "parameters": {"level": -999}},
-            {"port": 1303, "parameters": {"level": -999}},
-            {"port": 1305, "parameters": {"level": -999}}
+            {"port": 1301, "parameters": {"level_id": -999}},
+            {"port": 1303, "parameters": {"level_id": -999}},
+            {"port": 1305, "parameters": {"level_id": -999}},
+            {"port": 1307, "parameters": {"level_id": -999}},
+            {"port": 1309, "parameters": {"level_id": -999}},
         ]
+
+        # Shuffle servers so that same servers aren't displayed every time
         shuffle(all_servers)
+
         for i, server in enumerate(all_servers):
+            level_id = server["parameters"]["level_id"]
+
             rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * i))),
                           (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
-            screen.blit()
             p.draw.rect(screen, p.Color("grey 25"), rect, border_radius=round(calc_scaled_num(17.5)))
+            screen.blit(small_backgrounds[level_id], (rect.left+calc_scaled_num(30), rect.top+calc_scaled_num(16.875, "vertical")))
+
+            font = p.font.Font(None, floor(calc_scaled_num(40)))
+            level_name = font.render(background_id_to_name[level_id], True, "white")
+            screen.blit(level_name, (rect.left+calc_scaled_num(30)+calc_scaled_num(100)+calc_scaled_num(20), rect.top+calc_scaled_num(16.875, "vertical")))
 
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
