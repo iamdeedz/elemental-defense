@@ -54,7 +54,7 @@ imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno"
 backgrounds = {}
 small_backgrounds = {}
 background_name_to_id = {"test_bg": -999}
-background_id_to_name = {v: k for k, v in background_name_to_id.items()}
+background_id_to_name = {-999: "Test Level"}
 backgrounds_to_load = ["test_bg"]
 
 
