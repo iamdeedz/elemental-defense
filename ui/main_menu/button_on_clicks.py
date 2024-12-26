@@ -21,6 +21,9 @@ def multi_player():
 def test_level():
     return "level", -999
 
+def create_server_menu():
+    return "create server menu"
+
 
 button_on_clicks = {
     "Back": back,
@@ -28,5 +31,6 @@ button_on_clicks = {
     "Settings": settings,
     "Test Level": test_level,
     "Single Player": single_player,
-    "Multi Player": multi_player
+    "Multi Player": multi_player,
+    "Create Server": create_server_menu
 }

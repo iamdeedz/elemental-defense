@@ -4,14 +4,17 @@ from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
 
+multiplayer_page_joining = True
 
 def draw_multiplayer(screen):
-    [button.draw(screen) for button in buttons_by_page["multiplayer"]]
-
     # Rect
     margin = calc_scaled_tuple((100, 100))
     servers_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
     p.draw.rect(screen, p.Color("grey 50"), servers_rect, border_radius=round(servers_rect.width / calc_scaled_num(25.6)))
+
+    # Draw Buttons
+    [button.draw(screen) for button in buttons_by_page["multiplayer"]]
+
 
 
 multiplayer_page = Page("multiplayer", parent="play")
@@ -49,14 +52,21 @@ def main_menu(screen, clock):
 
                             if button.on_click:
                                 return_value = button.on_click()
+
+                                # When a level button is clicked it returns two variables and so this has to be handled separate to the rest of the buttons
                                 if return_value[0] == "level":
                                     return return_value[1]
 
-                                elif return_value == "back":
-                                    current_page = pages[page_keys[current_page.parent]]
+                                match return_value:
+                                    case "back":
+                                        current_page = pages[page_keys[current_page.parent]]
 
-                                else:
-                                    current_page = pages[page_keys[return_value]]
+                                    case "create server menu":
+                                        global multiplayer_page_joining
+                                        multiplayer_page_joining = not multiplayer_page_joining
+
+                                    case _:
+                                        current_page = pages[page_keys[return_value]]
 
         screen.fill(p.Color("grey 25"))
 
