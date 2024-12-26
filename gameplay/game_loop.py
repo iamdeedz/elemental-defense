@@ -1,5 +1,5 @@
 import pygame as p
-from constants import fps, bg
+from constants import fps, backgrounds
 from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
@@ -83,7 +83,7 @@ def game_loop(screen, clock, level_id):
 
         # Draw
         screen.fill(p.Color("black"))
-        screen.blit(bg, (0, 0))
+        screen.blit(backgrounds[level_id], (0, 0))
 
         for tower in towers:
             tower.draw(screen)
