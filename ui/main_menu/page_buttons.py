@@ -28,6 +28,7 @@ buttons_by_page = {
     "multiplayer": [
         Button((0, 0), calc_scaled_tuple((200, 50)), "grey 50", "Back", "white", font_size=floor(calc_scaled_num(30))),
         Button(calc_scaled_tuple((150, 125)), calc_scaled_tuple((275, 50)), "grey 25", "Create Server", "white", font_size=floor(calc_scaled_num(30)), border_radius=round(300 / calc_scaled_num(25.6))),
+        Button((screen_width-calc_scaled_num(425), calc_scaled_num(125, "vertical")), calc_scaled_tuple((275, 50)), "grey 25", "Refresh Servers", "white", font_size=floor(calc_scaled_num(30)), border_radius=round(300 / calc_scaled_num(25.6)))
     ],
 }
 

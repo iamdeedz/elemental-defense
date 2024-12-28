@@ -58,7 +58,7 @@ def update_servers():
     # ]
 
     all_servers = all_servers_response["content"]
-    print(all_servers)
+
     shuffle(all_servers)
 
     for i, server in enumerate(all_servers):
@@ -132,6 +132,9 @@ def main_menu(screen, clock):
 
                             if button.on_click:
                                 return_value = button.on_click()
+
+                                if not return_value:
+                                    continue
 
                                 # When a level button is clicked it returns two variables and so this has to be handled separate to the rest of the buttons
                                 if return_value[0] == "level":

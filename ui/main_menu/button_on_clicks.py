@@ -28,6 +28,12 @@ def create_server_menu():
 
 def join_server():
     print("joining")
+    return "abc"
+
+
+def refresh_servers():
+    from .main import update_servers # NOQA
+    update_servers()
 
 
 button_on_clicks = {
@@ -38,5 +44,6 @@ button_on_clicks = {
     "Single Player": single_player,
     "Multi Player": multi_player,
     "Create Server": create_server_menu,
-    "Join": join_server
+    "Join": join_server,
+    "Refresh Servers": refresh_servers
 }
