@@ -1,4 +1,5 @@
 import pygame as p
+from pgaddons import Button
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name
 from .page import Page # NOQA
@@ -9,7 +10,52 @@ from random import shuffle
 
 # -------------------------------------- #
 
+class ServerDisplay:
+    def __init__(self, index, level_id):
+        self.rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * index))),
+                          (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
+
+        self.image = small_backgrounds[level_id]
+
+        self.font = p.font.Font(None, floor(calc_scaled_num(40)))
+        self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
+
+        self.join_button = Button((self.rect.right - calc_scaled_num(30), self.rect.top + calc_scaled_num(16.875, "vertical")),
+                             (calc_scaled_num(100), self.rect.height - (calc_scaled_num(16.875, "vertical")*2)),
+                                  "grey 50", "Join", "white", font=self.font, border_radius=round(calc_scaled_num(17.5)))
+
+    def draw(self, screen):
+        # Rect
+        p.draw.rect(screen, p.Color("grey 25"), self.rect, border_radius=round(calc_scaled_num(17.5)))
+
+        # Level Preview
+        screen.blit(self.image,
+                    (self.rect.left + calc_scaled_num(30), self.rect.top + calc_scaled_num(16.875, "vertical")))
+
+        # Level Name
+        screen.blit(self.level_name, (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
+                                 self.rect.top + calc_scaled_num(16.875, "vertical")))
+
+
 multiplayer_page_joining = True
+server_displays = []
+
+def update_servers():
+    # all_servers = async_run(get_servers(server_manager_ip, server_manager_port))
+    all_servers = [
+        {"port": 1301, "parameters": {"level_id": -999}},
+        {"port": 1303, "parameters": {"level_id": -999}},
+        {"port": 1305, "parameters": {"level_id": -999}},
+        {"port": 1307, "parameters": {"level_id": -999}},
+        {"port": 1309, "parameters": {"level_id": -999}},
+    ]
+
+    shuffle(all_servers)
+
+    for i, server in enumerate(all_servers):
+        level_id = server["parameters"]["level_id"]
+        server_displays.append(ServerDisplay(i, level_id))
+
 
 def draw_multiplayer(screen):
     # Rect
@@ -19,30 +65,8 @@ def draw_multiplayer(screen):
 
     if multiplayer_page_joining:
         # List all servers:
-
-        #all_servers = async_run(get_servers(server_manager_ip, server_manager_port))
-        all_servers = [
-            {"port": 1301, "parameters": {"level_id": -999}},
-            {"port": 1303, "parameters": {"level_id": -999}},
-            {"port": 1305, "parameters": {"level_id": -999}},
-            {"port": 1307, "parameters": {"level_id": -999}},
-            {"port": 1309, "parameters": {"level_id": -999}},
-        ]
-
-        # Shuffle servers so that same servers aren't displayed every time
-        shuffle(all_servers)
-
-        for i, server in enumerate(all_servers):
-            level_id = server["parameters"]["level_id"]
-
-            rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * i))),
-                          (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
-            p.draw.rect(screen, p.Color("grey 25"), rect, border_radius=round(calc_scaled_num(17.5)))
-            screen.blit(small_backgrounds[level_id], (rect.left+calc_scaled_num(30), rect.top+calc_scaled_num(16.875, "vertical")))
-
-            font = p.font.Font(None, floor(calc_scaled_num(40)))
-            level_name = font.render(background_id_to_name[level_id], True, "white")
-            screen.blit(level_name, (rect.left+calc_scaled_num(30)+calc_scaled_num(100)+calc_scaled_num(20), rect.top+calc_scaled_num(16.875, "vertical")))
+        for server_display in server_displays:
+            server_display.draw()
 
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
