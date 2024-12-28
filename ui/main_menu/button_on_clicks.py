@@ -21,8 +21,13 @@ def multi_player():
 def test_level():
     return "level", -999
 
+
 def create_server_menu():
     return "create server menu"
+
+
+def join_server():
+    print("joining")
 
 
 button_on_clicks = {
@@ -32,5 +37,6 @@ button_on_clicks = {
     "Test Level": test_level,
     "Single Player": single_player,
     "Multi Player": multi_player,
-    "Create Server": create_server_menu
+    "Create Server": create_server_menu,
+    "Join": join_server
 }

@@ -4,6 +4,7 @@ from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
+from .button_on_clicks import button_on_clicks # NOQA
 from pymultiplayer import get_servers
 from asyncio import run as async_run
 from random import shuffle
@@ -20,9 +21,10 @@ class ServerDisplay:
         self.font = p.font.Font(None, floor(calc_scaled_num(40)))
         self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
 
-        self.join_button = Button((self.rect.right - calc_scaled_num(30), self.rect.top + calc_scaled_num(16.875, "vertical")),
+        self.join_button = Button((self.rect.right - calc_scaled_num(30) - calc_scaled_num(100), self.rect.top + calc_scaled_num(16.875, "vertical")),
                              (calc_scaled_num(100), self.rect.height - (calc_scaled_num(16.875, "vertical")*2)),
                                   "grey 50", "Join", "white", font=self.font, border_radius=round(calc_scaled_num(17.5)))
+        self.join_button.on_click = button_on_clicks["Join"]
 
     def draw(self, screen):
         # Rect
@@ -35,6 +37,9 @@ class ServerDisplay:
         # Level Name
         screen.blit(self.level_name, (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
                                  self.rect.top + calc_scaled_num(16.875, "vertical")))
+
+        # Join Button
+        self.join_button.draw(screen)
 
 
 multiplayer_page_joining = True
@@ -66,7 +71,7 @@ def draw_multiplayer(screen):
     if multiplayer_page_joining:
         # List all servers:
         for server_display in server_displays:
-            server_display.draw()
+            server_display.draw(screen)
 
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
@@ -79,6 +84,8 @@ multiplayer_page.draw = draw_multiplayer
 # -------------------------------------- #
 
 def main_menu(screen, clock):
+    global multiplayer_page_joining
+
     current_page = "title"
     pages = [Page("home"),
              Page("play", parent="home"), Page("settings", parent="home"),
@@ -96,7 +103,19 @@ def main_menu(screen, clock):
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    for button in current_page.buttons:
+
+                    # Multiplayer page has buttons that are not included in its page buttons so we must add those to the list
+                    if current_page.name == "multiplayer":
+                        page_buttons = current_page.buttons.copy()
+                        for server_display in server_displays:
+                            page_buttons.append(server_display.join_button)
+
+                    # Otherwise just use the page's buttons as normal
+                    else:
+                        page_buttons = current_page.buttons
+
+
+                    for button in page_buttons:
                         if is_clicked(button):
 
                             # On the play page, the singleplayer and back buttons overlap and this needs special logic
@@ -119,8 +138,11 @@ def main_menu(screen, clock):
                                         current_page = pages[page_keys[current_page.parent]]
 
                                     case "create server menu":
-                                        global multiplayer_page_joining
                                         multiplayer_page_joining = not multiplayer_page_joining
+
+                                    case "multiplayer":
+                                        update_servers()
+                                        current_page = pages[page_keys["multiplayer"]]
 
                                     case _:
                                         current_page = pages[page_keys[return_value]]
