@@ -31,15 +31,20 @@ def main():
             except Exception as e:
                 crash(e, "game_loop")
 
-        else:
+        elif return_value[0] == "join":
             try:
                 start_multiplayer(return_value[1], screen, clock)
             except Exception as e:
                 crash(e, "multiplayer_client")
 
     else:
-        level_id = main_menu(screen, clock)
-        game_loop(screen, clock, level_id)
+        return_value = main_menu(screen, clock)
+
+        if return_value[0] == "level":
+            game_loop(screen, clock, return_value[1])
+
+        elif return_value[0] == "join":
+            start_multiplayer(return_value[1], screen, clock)
 
 
 if __name__ == '__main__':
