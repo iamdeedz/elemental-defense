@@ -6,8 +6,6 @@ from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 from ui.transfer.transfer import update_transfer, draw_transfer
 
-from pymultiplayer import MultiplayerClient
-
 
 def game_loop(screen, clock, level_id):
     # Game objects
