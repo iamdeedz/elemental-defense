@@ -3,6 +3,7 @@ from debug.logs import write_to_log
 write_to_log("Info", "Program Running")
 
 from gameplay.game_loop import game_loop  # noqa: E402
+from gameplay.multiplayer.game_client import start_multiplayer # noqa: E402
 from ui.main_menu.main import main_menu  # noqa: E402
 from constants import screen_width, screen_height, update_towers, version, crash_reporter_active  # noqa: E402
 from debug.crash_reporter import crash  # noqa: E402
@@ -19,15 +20,22 @@ def main():
 
     if crash_reporter_active:
         try:
-            level_id = main_menu(screen, clock)
+            return_value = main_menu(screen, clock)
         except Exception as e:
             crash(e, "main_menu")
             return
 
-        try:
-            game_loop(screen, clock, level_id)
-        except Exception as e:
-            crash(e, "game_loop")
+        if return_value[0] == "level":
+            try:
+                game_loop(screen, clock, return_value[1])
+            except Exception as e:
+                crash(e, "game_loop")
+
+        else:
+            try:
+                start_multiplayer(return_value[1], screen, clock)
+            except Exception as e:
+                crash(e, "multiplayer_client")
 
     else:
         level_id = main_menu(screen, clock)
