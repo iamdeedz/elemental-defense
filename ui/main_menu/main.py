@@ -47,18 +47,18 @@ multiplayer_page_joining = True
 server_displays = []
 
 def update_servers():
-    #all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
 
     # Hardcoded Test Response
-    all_servers = [
-        {"port": 1301, "parameters": {"level_id": -999}},
-        {"port": 1303, "parameters": {"level_id": -999}},
-        {"port": 1305, "parameters": {"level_id": -999}},
-        {"port": 1307, "parameters": {"level_id": -999}},
-        {"port": 1309, "parameters": {"level_id": -999}},
-    ]
+    # all_servers = [
+    #     {"port": 1301, "parameters": {"level_id": -999}},
+    #     {"port": 1303, "parameters": {"level_id": -999}},
+    #     {"port": 1305, "parameters": {"level_id": -999}},
+    #     {"port": 1307, "parameters": {"level_id": -999}},
+    #     {"port": 1309, "parameters": {"level_id": -999}},
+    # ]
 
-    #all_servers = all_servers_response["content"]
+    all_servers = all_servers_response["content"]
 
     shuffle(all_servers)
 
