@@ -2,6 +2,7 @@ import pygame as p
 from pgaddons import Button
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name
+from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
 from .button_on_clicks import button_on_clicks # NOQA
@@ -47,6 +48,7 @@ multiplayer_page_joining = True
 server_displays = []
 
 def update_servers():
+    write_to_log("Info", "Updating server list")
     all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
 
     # Hardcoded Test Response
@@ -54,7 +56,7 @@ def update_servers():
     #     {"port": 1301, "parameters": {"level_id": -999}},
     #     {"port": 1303, "parameters": {"level_id": -999}},
     #     {"port": 1305, "parameters": {"level_id": -999}},
-    #     {"port": 1307, "parameters": {"level_id": -999}},
+    #     {"port": 1307, "parameters": {"level_id": -999}}, 
     #     {"port": 1309, "parameters": {"level_id": -999}},
     # ]
 
