@@ -12,7 +12,7 @@ from random import shuffle
 # -------------------------------------- #
 
 class ServerDisplay:
-    def __init__(self, index, level_id):
+    def __init__(self, index, level_id, port):
         self.rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * index))),
                           (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
 
@@ -25,6 +25,7 @@ class ServerDisplay:
                              (calc_scaled_num(100), self.rect.height - (calc_scaled_num(16.875, "vertical")*2)),
                                   "grey 50", "Join", "white", font=self.font, border_radius=round(calc_scaled_num(17.5)))
         self.join_button.on_click = button_on_clicks["Join"]
+        self.join_button.port = port
 
     def draw(self, screen):
         # Rect
@@ -46,24 +47,25 @@ multiplayer_page_joining = True
 server_displays = []
 
 def update_servers():
-    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    #all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
 
     # Hardcoded Test Response
-    # all_servers = [
-    #     {"port": 1301, "parameters": {"level_id": -999}},
-    #     {"port": 1303, "parameters": {"level_id": -999}},
-    #     {"port": 1305, "parameters": {"level_id": -999}},
-    #     {"port": 1307, "parameters": {"level_id": -999}},
-    #     {"port": 1309, "parameters": {"level_id": -999}},
-    # ]
+    all_servers = [
+        {"port": 1301, "parameters": {"level_id": -999}},
+        {"port": 1303, "parameters": {"level_id": -999}},
+        {"port": 1305, "parameters": {"level_id": -999}},
+        {"port": 1307, "parameters": {"level_id": -999}},
+        {"port": 1309, "parameters": {"level_id": -999}},
+    ]
 
-    all_servers = all_servers_response["content"]
+    #all_servers = all_servers_response["content"]
 
     shuffle(all_servers)
 
     for i, server in enumerate(all_servers):
         level_id = server["parameters"]["level_id"]
-        server_displays.append(ServerDisplay(i, level_id))
+        port = server["port"]
+        server_displays.append(ServerDisplay(i, level_id, port))
 
 
 def draw_multiplayer(screen):
@@ -131,14 +133,18 @@ def main_menu(screen, clock):
                                 continue
 
                             if button.on_click:
-                                return_value = button.on_click()
+                                if button.text == "Join":
+                                    return_value = button.on_click(button)
+
+                                else:
+                                    return_value = button.on_click()
 
                                 if not return_value:
                                     continue
 
-                                # When a level button is clicked it returns two variables and so this has to be handled separate to the rest of the buttons
-                                if return_value[0] == "level":
-                                    return return_value[1]
+                                # When a level or join button is clicked it returns two variables and so this has to be handled separate to the rest of the buttons
+                                if return_value[0] == "level" or return_value[0] == "join":
+                                    return return_value
 
                                 match return_value:
                                     case "back":
