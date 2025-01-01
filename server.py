@@ -56,7 +56,7 @@ async def msg_handler(msg, client):
 #
 #
 #
-#
+
 
 async def client_joined(client):
     print(f"Client {client.id} joined.")
