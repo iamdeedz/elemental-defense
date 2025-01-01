@@ -3,13 +3,11 @@ from gameplay.levels.waves import waves
 from json import dumps, loads
 
 server = None
+clients = set()
+id_to_name = {}
 
-# Game objects
 level_id = None
-
-lives = 3
-towers = []
-wave = None
+in_game = False
 
 async def msg_handler(msg, client):
     print(f"Client {client.id} sent: {msg}")
@@ -26,20 +24,33 @@ async def msg_handler(msg, client):
             }}
             await server.send_to_all_except(client, dumps(outgoing_msg))
 
-        case "sold_tower":
+        case "tower_sold":
             # Tell all other clients that a tower was sold.
             # Give them the id
-            pass
+            outgoing_msg = {"type": "tower_sold", "content": {"tower_id": msg["content"]["tower_id"]}}
+            await server.send_to_all_except(client, dumps(outgoing_msg))
 
         case "name":
             # In the id to name dictionary, set the client's id to the name given
             # Tell all other clients the name
-            pass
+            id_to_name[client.id] = msg["content"]
+            outgoing_msg = {"type": "name", "content": {"id": client.id, "name": msg["content"]}}
+            await server.send_to_all_except(client, dumps(outgoing_msg))
 
-# new tower
-# sold tower
-# new client's name
-#
+        case "game start":
+            # Tell all clients to go game
+            outgoing_msg = {"type": "game_start", "content": level_id}
+            await server.broadcast(dumps(outgoing_msg))
+
+            # Update in_game variable
+            global in_game
+            in_game = True
+
+
+# new tower \/
+# sold tower \/
+# new client's name \/
+# start game \/
 #
 #
 #
@@ -49,16 +60,28 @@ async def msg_handler(msg, client):
 
 async def client_joined(client):
     print(f"Client {client.id} joined.")
+    if in_game:
+        outgoing_msg = {"type": "error", "content": "game_in_progress"}
+        await server.send(client, dumps(outgoing_msg))
+        return
+
     # Sync the new client so that they are up to date
+    outgoing_msg = {"type": "sync", "content": {
+        "id_to_name": id_to_name
+    }}
+    await server.send(client, dumps(outgoing_msg))
 
     # Tell the other clients the new client's id
-    # Add the new client to a list of all clients
+    outgoing_msg = {"type": "client_joined", "content": client.id}
+    await server.send_to_all_except(client, dumps(outgoing_msg))
 
 
 async def client_left(client):
     print(f"Client {client.id} left.")
+
     # Tell the other clients the id of the client that left
-    # Remove that client from the list of all clients
+    outgoing_msg = {"type": "client_left", "content": client.id}
+    await server.send_to_all_except(client, dumps(outgoing_msg))
 
 
 def init_func(ip, port, parameters):
