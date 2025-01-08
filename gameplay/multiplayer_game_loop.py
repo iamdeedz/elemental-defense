@@ -11,8 +11,12 @@ from pymultiplayer import MultiplayerClient
 from json import loads, dumps
 
 
+client = None
+
+
 async def msg_handler(msg):
     msg = loads(msg)
+    print(msg)
 
     match msg["type"]:
         case "client_joined":
@@ -32,14 +36,24 @@ async def gamestate_manager(screen, clock):
         await multiplayer_game_loop(screen, clock)
 
 async def lobby(screen, clock):
-    pass
+    while True:
+        for event in p.event.get():
+            if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
+                await client.disconnect()
+                quit()
+
+        screen.fill(p.Color("grey 25"))
+
+        p.display.update()
+        clock.tick(fps)
 
 async def multiplayer_game_loop(screen, clock):
     pass
 
 
 def start_multiplayer(port, screen, clock):
+    global client
     client = MultiplayerClient(msg_handler, ip=server_manager_ip, port=port)
     client.start()
 
-    asyncio.run(multiplayer_game_loop(screen, clock))
+    asyncio.run(gamestate_manager(screen, clock))

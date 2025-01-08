@@ -71,17 +71,9 @@ async def client_joined(client):
     }}
     await server.send(client, dumps(outgoing_msg))
 
-    # Tell the other clients the new client's id
-    outgoing_msg = {"type": "client_joined", "content": client.id}
-    await server.send_to_all_except(client, dumps(outgoing_msg))
-
 
 async def client_left(client):
     print(f"Client {client.id} left.")
-
-    # Tell the other clients the id of the client that left
-    outgoing_msg = {"type": "client_left", "content": client.id}
-    await server.send_to_all_except(client, dumps(outgoing_msg))
 
 
 def init_func(ip, port, parameters):
