@@ -53,6 +53,7 @@ imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno"
 
 backgrounds = {}
 small_backgrounds = {}
+medium_backgrounds = {}
 background_name_to_id = {"test_bg": -999}
 background_id_to_name = {-999: "Test Level"}
 backgrounds_to_load = ["test_bg"]
@@ -82,6 +83,7 @@ if not img_folder_exists:
         bg_file = io.BytesIO(bg_str)
         backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), (screen_width, screen_height))
         small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((100, 56.25)))
+        medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((250, 140.625)))
 
         with open("./imgs/test_bg.png", "wb") as local_bg_file:
             local_bg_file.write(bg_str)
@@ -107,6 +109,7 @@ else:
     for bg in backgrounds_to_load:
         backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), (screen_width, screen_height))
         small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((100, 56.25)))
+        medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./ imgs/{bg}.png"), calc_scaled_tuple((250, 140.625)))
 
 
 # -------------------------------------- #
