@@ -1,5 +1,4 @@
 from pymultiplayer import TCPMultiplayerServer, ServerManager
-from gameplay.levels.waves import waves
 from json import dumps, loads
 
 server = None

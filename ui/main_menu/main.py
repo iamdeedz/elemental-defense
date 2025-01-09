@@ -27,6 +27,7 @@ class ServerDisplay:
                                   "grey 50", "Join", "white", font=self.font, border_radius=round(calc_scaled_num(17.5)))
         self.join_button.on_click = button_on_clicks["Join"]
         self.join_button.port = port
+        self.join_button.level_id = level_id
 
     def draw(self, screen):
         # Rect

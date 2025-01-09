@@ -33,7 +33,8 @@ def main():
 
         elif return_value[0] == "join":
             try:
-                start_multiplayer(return_value[1], screen, clock)
+                # return_value[1] is the level id and return_value[2] is the server port
+                start_multiplayer(screen, clock, return_value[1], return_value[2])
             except Exception as e:
                 crash(e, "multiplayer_client")
 
@@ -44,7 +45,7 @@ def main():
             game_loop(screen, clock, return_value[1])
 
         elif return_value[0] == "join":
-            start_multiplayer(return_value[1], screen, clock)
+            start_multiplayer(screen, clock, return_value[1], return_value[2])
 
 
 if __name__ == '__main__':

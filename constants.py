@@ -109,7 +109,7 @@ else:
     for bg in backgrounds_to_load:
         backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), (screen_width, screen_height))
         small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((100, 56.25)))
-        medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./ imgs/{bg}.png"), calc_scaled_tuple((250, 140.625)))
+        medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((250, 140.625)))
 
 
 # -------------------------------------- #

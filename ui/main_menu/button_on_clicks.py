@@ -27,7 +27,7 @@ def create_server_menu():
 
 
 def join_server(self):
-    return "join", int(self.port)
+    return "join", int(self.level_id), int(self.port)
 
 
 def refresh_servers():
