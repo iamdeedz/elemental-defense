@@ -32,8 +32,8 @@ async def msg_handler(msg, client):
 
         case "name":
             # In the id to name dictionary, set the client's id to the name given
-            # Tell all other clients the name
             id_to_name[client.id] = msg["content"]
+            # Tell all other clients the name
             outgoing_msg = {"type": "name", "content": {"id": client.id, "name": msg["content"]}}
             await server.send_to_all_except(client, dumps(outgoing_msg))
 
