@@ -1,10 +1,11 @@
 import pygame as p
-from constants import fps, backgrounds, medium_backgrounds, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height
+from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height
 from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 from ui.transfer.transfer import update_transfer, draw_transfer
+from math import floor
 
 import asyncio
 from pymultiplayer import MultiplayerClient
@@ -40,6 +41,7 @@ async def gamestate_manager(screen, clock, level_id):
         await multiplayer_game_loop(screen, clock, level_id)
 
 async def lobby(screen, clock, level_id):
+
     while True:
         for event in p.event.get():
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
@@ -64,6 +66,11 @@ async def lobby(screen, clock, level_id):
 
         screen.blit(level_preview,
                     (clients_rect.left + calc_scaled_num(50), clients_rect.top + calc_scaled_num(50, "vertical")))
+
+        # Level Name
+        font = p.font.Font(None, floor(calc_scaled_num(112.5)))
+        level_name = font.render(background_id_to_name[level_id], True, p.Color("grey 10"))
+        screen.blit(level_name, (clients_rect.left + (calc_scaled_num(50)*2) + level_preview_size[0], clients_rect.top + calc_scaled_num(75, "vertical")))
 
         p.display.update()
         clock.tick(fps)
