@@ -53,7 +53,16 @@ async def lobby(screen, clock, level_id):
         clients_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
         p.draw.rect(screen, p.Color("grey 50"), clients_rect, border_radius=round(clients_rect.width / calc_scaled_num(25.6)))
 
-        screen.blit(medium_backgrounds[level_id],
+        # Level Preview
+        level_preview_size = medium_backgrounds[level_id].get_size()
+        level_preview_rect = p.Surface(level_preview_size, p.SRCALPHA)
+
+        p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size), border_radius=round(clients_rect.width / calc_scaled_num(35)))
+
+        level_preview = medium_backgrounds[level_id].copy().convert_alpha()
+        level_preview.blit(level_preview_rect, (0, 0), None, p.BLEND_RGBA_MIN)
+
+        screen.blit(level_preview,
                     (clients_rect.left + calc_scaled_num(50), clients_rect.top + calc_scaled_num(50, "vertical")))
 
         p.display.update()
