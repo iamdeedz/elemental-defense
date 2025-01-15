@@ -72,6 +72,15 @@ async def lobby(screen, clock, level_id):
         level_name = font.render(background_id_to_name[level_id], True, p.Color("grey 10"))
         screen.blit(level_name, (clients_rect.left + (calc_scaled_num(50)*2) + level_preview_size[0], clients_rect.top + calc_scaled_num(75, "vertical")))
 
+        # Players
+        font = p.font.Font(None, floor(calc_scaled_num(30)))
+        all_players = other_client_ids.copy()
+        all_players.add(client.id)
+        for i, player in enumerate(all_players):
+            player_name = font.render("", True, p.Color("grey 10"))
+            screen.blit(player_name, (clients_rect.left + calc_scaled_num(75),
+                                      clients_rect.top + (calc_scaled_num(50, "vertical")*2) + level_preview_size[1] + ((i+1)*(player_name.get_height()+calc_scaled_num(10, "vertical")))))
+
         p.display.update()
         clock.tick(fps)
 
@@ -79,7 +88,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
     pass
 
 
-def start_multiplayer(screen, clock, level_id, port):
+def start_multiplayer(screen, clock, level_id, port, name=None):
     global client
     client = MultiplayerClient(msg_handler, ip=server_manager_ip, port=port)
     client.start()
