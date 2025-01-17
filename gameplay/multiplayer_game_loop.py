@@ -91,15 +91,15 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
 
 def get_name(screen, clock):
-    element_size = calc_scaled_tuple((400, 100))
+    element_size = calc_scaled_tuple((300, 300/4))
 
     name_input = InputField(
         ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)-(element_size[1] / 2)),
-        element_size, "grey 50", "grey 75", "Enter your name...", max_length=12)
+        element_size, "grey 30", "grey 40", "Enter your name...", font_colour="grey 80", max_length=12, font_size=floor(calc_scaled_num(35)))
 
-    submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit")
+    submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit", text_colour="grey 80", font_size=floor(calc_scaled_num(35)))
 
-    font = p.font.Font(None, floor(calc_scaled_num(75)))
+    font = p.font.Font(None, floor(calc_scaled_num(50)))
     text = None
 
     while True:
@@ -108,12 +108,12 @@ def get_name(screen, clock):
                 quit()
 
             if event.type == p.MOUSEBUTTONDOWN and event.button == 1:
-                name_input = True if is_clicked(name_input) else False
+                name_input.active = True if is_clicked(name_input) else False
                 if is_clicked(submit_button):
                     if len(name_input.text) > 3:
                         return name_input.text
                     else:
-                        text = font.render("Name must be longer than 3 charcters", True, "grey 10")
+                        text = font.render("Name must be longer than 3 characters", True, "white")
 
             if event.type == p.KEYDOWN:
                 name_input.on_key_press(event.key)
@@ -123,7 +123,7 @@ def get_name(screen, clock):
         name_input.draw(screen)
         submit_button.draw(screen)
         if text:
-            screen.blit(text, ((screen_width/2)-(text.get_width()/2), submit_button.y+element_size[1]))
+            screen.blit(text, ((screen_width/2)-(text.get_width()/2), submit_button.y+element_size[1]+calc_scaled_num(50, direction="vertical")))
 
         p.display.flip()
         clock.tick(fps)
