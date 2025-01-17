@@ -125,6 +125,7 @@ def get_name(screen, clock):
         if text:
             screen.blit(text, ((screen_width/2)-(text.get_width()/2), submit_button.y+element_size[1]))
 
+        p.display.flip()
         clock.tick(fps)
 
 
