@@ -12,24 +12,27 @@ import asyncio
 from pymultiplayer import MultiplayerClient
 from json import loads, dumps
 
-other_client_ids = set()
+all_ids = set()
 id_to_name = {}
 client = None
+name = None
 
 
 async def msg_handler(msg):
+    global id_to_name
     msg = loads(msg)
     print(msg)
 
     match msg["type"]:
         case "client_joined":
-            other_client_ids.add(msg["content"])
+            all_ids.add(msg["content"])
 
         case "client_left":
-            other_client_ids.remove(msg["content"])
+            all_ids.remove(msg["content"])
 
         case "sync":
-            pass
+            id_to_name = msg["content"]["id_to_name"]
+            id_to_name[client.id] = name
 
         case "name":
             id_to_name[msg["content"]["id"]] = msg["content"]["name"]
@@ -42,6 +45,24 @@ async def gamestate_manager(screen, clock, level_id):
         await multiplayer_game_loop(screen, clock, level_id)
 
 async def lobby(screen, clock, level_id):
+    while True:
+        # Connecting
+        if client.id:
+            break
+
+        font = p.font.Font(None, floor(calc_scaled_num(75)))
+        text = font.render("Connecting...", True, "grey 80")
+
+        screen.fill("grey 25")
+
+        screen.blit(text, ((screen_width/2)-(text.get_width()/2), (screen_height/2)-(text.get_height()/2)))
+
+        p.display.update()
+        clock.tick(fps)
+
+    all_ids.add(client.id)
+    msg = {"type": "name", "content": name}
+    await client.send(dumps(msg))
 
     while True:
         for event in p.event.get():
@@ -74,11 +95,14 @@ async def lobby(screen, clock, level_id):
         screen.blit(level_name, (clients_rect.left + (calc_scaled_num(50)*2) + level_preview_size[0], clients_rect.top + calc_scaled_num(75, "vertical")))
 
         # Players
-        font = p.font.Font(None, floor(calc_scaled_num(30)))
-        all_players = other_client_ids.copy()
-        all_players.add(client.id)
-        for i, player in enumerate(all_players):
-            player_name = font.render("", True, p.Color("grey 10"))
+        font = p.font.Font(None, floor(calc_scaled_num(50)))
+        for i, player in enumerate(all_ids):
+            try:
+                player_name_str = id_to_name[player]
+            except KeyError:
+                player_name_str = f"Player {player}"
+
+            player_name = font.render(player_name_str, True, p.Color("grey 10"))
             screen.blit(player_name, (clients_rect.left + calc_scaled_num(75),
                                       clients_rect.top + (calc_scaled_num(50, "vertical")*2) + level_preview_size[1] + ((i+1)*(player_name.get_height()+calc_scaled_num(10, "vertical")))))
 
@@ -131,12 +155,14 @@ def get_name(screen, clock):
         if text:
             screen.blit(text, ((screen_width/2)-(text.get_width()/2), submit_button.y+element_size[1]+calc_scaled_num(50, direction="vertical")))
 
-        p.display.flip()
+        p.display.update()
         clock.tick(fps)
 
 
 def start_multiplayer(screen, clock, level_id, port):
-    name = get_name(screen, clock)
+    input_name = get_name(screen, clock)
+    global name
+    name = input_name
 
     global client
     client = MultiplayerClient(msg_handler, ip=server_manager_ip, port=port)
