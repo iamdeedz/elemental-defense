@@ -107,6 +107,12 @@ def get_name(screen, clock):
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 quit()
 
+            if event.type == p.KEYDOWN and event.key == p.K_RETURN:
+                if len(name_input.text) > 3:
+                    return name_input.text
+                else:
+                    text = font.render("Name must be longer than 3 characters", True, "white")
+
             if event.type == p.MOUSEBUTTONDOWN and event.button == 1:
                 name_input.active = True if is_clicked(name_input) else False
                 if is_clicked(submit_button):
