@@ -94,12 +94,12 @@ def get_name(screen, clock):
     element_size = calc_scaled_tuple((400, 100))
 
     name_input = InputField(
-        ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)),
+        ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)-(element_size[1] / 2)),
         element_size, "grey 50", "grey 75", "Enter your name...", max_length=12)
 
     submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit")
 
-    font = p.font.Font(None, floor(calc_scaled_num(50)))
+    font = p.font.Font(None, floor(calc_scaled_num(75)))
     text = None
 
     while True:
@@ -107,7 +107,7 @@ def get_name(screen, clock):
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 quit()
 
-            if event.type == p.MOUSEBUTTONDOWN and event.button == 0:
+            if event.type == p.MOUSEBUTTONDOWN and event.button == 1:
                 name_input = True if is_clicked(name_input) else False
                 if is_clicked(submit_button):
                     if len(name_input.text) > 3:
