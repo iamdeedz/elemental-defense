@@ -137,7 +137,6 @@ def get_name(screen, clock):
 
 def start_multiplayer(screen, clock, level_id, port):
     name = get_name(screen, clock)
-    print(name)
 
     global client
     client = MultiplayerClient(msg_handler, ip=server_manager_ip, port=port)
