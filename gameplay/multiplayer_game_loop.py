@@ -6,6 +6,7 @@ from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 from ui.transfer.transfer import update_transfer, draw_transfer
 from math import floor
+from pgaddons import InputField, Button, is_clicked
 
 import asyncio
 from pymultiplayer import MultiplayerClient
@@ -84,11 +85,50 @@ async def lobby(screen, clock, level_id):
         p.display.update()
         clock.tick(fps)
 
+
 async def multiplayer_game_loop(screen, clock, level_id):
     pass
 
 
-def start_multiplayer(screen, clock, level_id, port, name=None):
+def get_name(screen, clock):
+    element_size = calc_scaled_tuple((400, 100))
+
+    name_input = InputField(
+        ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)),
+        element_size, "grey 50", "grey 75", "Enter your name...", max_length=12)
+
+    submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit")
+
+    font = p.font.Font(None, floor(calc_scaled_num(50)))
+    text = None
+
+    while True:
+        for event in p.event.get():
+            if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
+                quit()
+
+            if event.type == p.MOUSEBUTTONDOWN and event.button == 0:
+                name_input = True if is_clicked(name_input) else False
+                if is_clicked(submit_button):
+                    if len(name_input.text) > 3:
+                        return name_input.text
+                    else:
+                        text = font.render("Name must be longer than 3 charcters", True, "grey 10")
+
+            if event.type == p.KEYDOWN:
+                name_input.on_key_press(event.key)
+
+        screen.fill("grey 25")
+        
+        name_input.draw(screen)
+        submit_button.draw(screen)
+        if text:
+            screen.blit(text, ((screen_width/2)-(text.get_width()/2), submit_button.y+element_size[1]))
+
+        clock.tick(fps)
+
+
+def start_multiplayer(screen, clock, level_id, port):
     global client
     client = MultiplayerClient(msg_handler, ip=server_manager_ip, port=port)
     client.start()
