@@ -119,7 +119,7 @@ def get_name(screen, clock):
                 name_input.on_key_press(event.key)
 
         screen.fill("grey 25")
-        
+
         name_input.draw(screen)
         submit_button.draw(screen)
         if text:
@@ -129,6 +129,9 @@ def get_name(screen, clock):
 
 
 def start_multiplayer(screen, clock, level_id, port):
+    name = get_name(screen, clock)
+    print(name)
+
     global client
     client = MultiplayerClient(msg_handler, ip=server_manager_ip, port=port)
     client.start()
