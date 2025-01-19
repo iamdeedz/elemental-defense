@@ -32,7 +32,7 @@ async def msg_handler(msg):
             all_ids.remove(msg["content"])
 
         case "sync":
-            all_ids = msg["content"]["all_ids"] 
+            all_ids = msg["content"]["all_ids"]
             id_to_name = msg["content"]["id_to_name"]
             id_to_name[client.id] = name
 
@@ -97,6 +97,12 @@ async def lobby(screen, clock, level_id):
 
         # Players
         font = p.font.Font(None, floor(calc_scaled_num(50)))
+
+        # Ensure all keys are integers, not strings
+        global id_to_name
+        for key, value in id_to_name.copy().items():
+            id_to_name[int(key)] = value
+
         for i, player in enumerate(all_ids):
             try:
                 player_name_str = id_to_name[player]
