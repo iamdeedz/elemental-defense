@@ -2,7 +2,6 @@ from pymultiplayer import TCPMultiplayerServer, ServerManager
 from json import dumps, loads
 
 server = None
-clients = set()
 id_to_name = {}
 
 level_id = None
@@ -57,18 +56,19 @@ async def msg_handler(msg, client):
 #
 
 
-async def client_joined(client):
-    print(f"Client {client.id} joined.")
+async def client_joined(new_client):
+    print(f"Client {new_client.id} joined.")
     if in_game:
         outgoing_msg = {"type": "error", "content": "game_in_progress"}
-        await server.send(client, dumps(outgoing_msg))
+        await server.send(new_client, dumps(outgoing_msg))
         return
 
     # Sync the new client so that they are up to date
     outgoing_msg = {"type": "sync", "content": {
+        "all_ids": [client.id for client in server.clients],
         "id_to_name": id_to_name
     }}
-    await server.send(client, dumps(outgoing_msg))
+    await server.send(new_client, dumps(outgoing_msg))
 
 
 async def client_left(client):

@@ -12,7 +12,7 @@ import asyncio
 from pymultiplayer import MultiplayerClient
 from json import loads, dumps
 
-all_ids = set()
+all_ids = []
 id_to_name = {}
 client = None
 name = None
@@ -20,17 +20,19 @@ name = None
 
 async def msg_handler(msg):
     global id_to_name
+    global all_ids
     msg = loads(msg)
     print(msg)
 
     match msg["type"]:
         case "client_joined":
-            all_ids.add(msg["content"])
+            all_ids.append(msg["content"])
 
         case "client_left":
             all_ids.remove(msg["content"])
 
         case "sync":
+            all_ids = msg["content"]["all_ids"] 
             id_to_name = msg["content"]["id_to_name"]
             id_to_name[client.id] = name
 
@@ -60,7 +62,6 @@ async def lobby(screen, clock, level_id):
         p.display.update()
         clock.tick(fps)
 
-    all_ids.add(client.id)
     msg = {"type": "name", "content": name}
     await client.send(dumps(msg))
 
