@@ -82,9 +82,9 @@ async def lobby(screen, clock, level_id):
     clients_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
 
     start_button = Button((screen_width - calc_scaled_num(450), screen_height - calc_scaled_num(150, "vertical") - calc_scaled_num(300/4, "vertical")),
-                          calc_scaled_tuple((300, 300/4)), "grey 60", "Start", "grey 10",
-                          font_size=floor(calc_scaled_num(30)),
-                          border_radius=round(clients_rect.width / calc_scaled_num(35)))
+                          calc_scaled_tuple((275, 275/4)), "grey 25", "Start", "grey 90",
+                          font_size=floor(calc_scaled_num(37.5)),
+                          border_radius=round(17.5))
 
     while True:
         for event in p.event.get():
@@ -151,7 +151,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
 
 def get_name(screen, clock):
-    element_size = calc_scaled_tuple((300, 300/4))
+    element_size = calc_scaled_tuple((300, 75))
 
     name_input = InputField(
         ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)-(element_size[1] / 2)),
