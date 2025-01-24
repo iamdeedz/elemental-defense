@@ -1,5 +1,5 @@
 from pymultiplayer import TCPMultiplayerServer, ServerManager
-from json import dumps, loads
+from json import dumps
 
 server = None
 id_to_name = {}
