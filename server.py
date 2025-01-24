@@ -37,7 +37,7 @@ async def msg_handler(msg, client):
 
         case "start":
             # Tell all clients to go game
-            outgoing_msg = {"type": "start", "content": level_id}
+            outgoing_msg = {"type": "start"}
             await server.broadcast(dumps(outgoing_msg))
 
             # Update in_game variable

@@ -21,7 +21,7 @@ go_to_game = False
 
 
 async def msg_handler(msg):
-    global id_to_name, all_ids, is_owner
+    global id_to_name, all_ids, is_owner, go_to_game
     msg = loads(msg)
     print(msg)
 
