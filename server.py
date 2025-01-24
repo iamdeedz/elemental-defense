@@ -70,6 +70,11 @@ async def client_joined(new_client):
     }}
     await server.send(new_client, dumps(outgoing_msg))
 
+    # Tell the client they are owner if they are
+    if new_client.id == 1:
+        outgoing_msg = {"type": "owner"}
+        await server.send(new_client, dumps(outgoing_msg))
+
 
 async def client_left(client):
     print(f"Client {client.id} left.")

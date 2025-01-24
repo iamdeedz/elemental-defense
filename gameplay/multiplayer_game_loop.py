@@ -16,11 +16,11 @@ all_ids = []
 id_to_name = {}
 client = None
 name = None
+is_owner = False
 
 
 async def msg_handler(msg):
-    global id_to_name
-    global all_ids
+    global id_to_name, all_ids, is_owner
     msg = loads(msg)
     print(msg)
 
@@ -38,6 +38,9 @@ async def msg_handler(msg):
 
         case "name":
             id_to_name[msg["content"]["id"]] = msg["content"]["name"]
+
+        case "owner":
+            is_owner = True
 
 
 async def gamestate_manager(screen, clock, level_id):
@@ -65,17 +68,28 @@ async def lobby(screen, clock, level_id):
     msg = {"type": "name", "content": name}
     await client.send(dumps(msg))
 
+    margin = calc_scaled_tuple((100, 100))
+    clients_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
+    start_button = Button((screen_width - calc_scaled_num(300), screen_height - calc_scaled_num(150, "vertical")),
+                          calc_scaled_tuple((200, 50)), "grey 25", "Start", "grey 10",
+                          font_size=floor(calc_scaled_num(30)),
+                          border_radius=round(clients_rect.width / calc_scaled_num(35)))
+
     while True:
         for event in p.event.get():
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 await client.disconnect()
                 quit()
 
+            if event.type == p.MOUSEBUTTONDOWN and event.button == 1:
+                if is_owner:
+                    if is_clicked(start_button):
+                        outgoing_msg = {"type": "start"}
+                        await client.send(dumps(outgoing_msg))
+
         screen.fill(p.Color("grey 25"))
 
         # Draw
-        margin = calc_scaled_tuple((100, 100))
-        clients_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
         p.draw.rect(screen, p.Color("grey 50"), clients_rect, border_radius=round(clients_rect.width / calc_scaled_num(25.6)))
 
         # Level Preview
@@ -112,6 +126,10 @@ async def lobby(screen, clock, level_id):
             player_name = font.render(player_name_str, True, p.Color("grey 10"))
             screen.blit(player_name, (clients_rect.left + calc_scaled_num(75),
                                       clients_rect.top + (calc_scaled_num(50, "vertical")*2) + level_preview_size[1] + ((i+1)*(player_name.get_height()+calc_scaled_num(10, "vertical")))))
+
+        # Start Button
+        if is_owner:
+            start_button.draw(screen)
 
         p.display.update()
         clock.tick(fps)
