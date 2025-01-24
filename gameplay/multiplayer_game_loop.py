@@ -42,6 +42,9 @@ async def msg_handler(msg):
         case "owner":
             is_owner = True
 
+        case "start":
+            print("game start received")
+
 
 async def gamestate_manager(screen, clock, level_id):
     go_to_game = await lobby(screen, clock, level_id)

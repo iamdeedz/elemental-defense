@@ -35,9 +35,9 @@ async def msg_handler(msg, client):
             outgoing_msg = {"type": "name", "content": {"id": client.id, "name": msg["content"]}}
             await server.send_to_all_except(client, dumps(outgoing_msg))
 
-        case "game start":
+        case "start":
             # Tell all clients to go game
-            outgoing_msg = {"type": "game_start", "content": level_id}
+            outgoing_msg = {"type": "start", "content": level_id}
             await server.broadcast(dumps(outgoing_msg))
 
             # Update in_game variable
