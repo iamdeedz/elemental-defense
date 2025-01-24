@@ -17,6 +17,7 @@ id_to_name = {}
 client = None
 name = None
 is_owner = False
+go_to_game = False
 
 
 async def msg_handler(msg):
@@ -53,10 +54,10 @@ async def msg_handler(msg):
 
 
 async def gamestate_manager(screen, clock, level_id):
-    go_to_game = await lobby(screen, clock, level_id)
+    await lobby(screen, clock, level_id)
 
-    if go_to_game:
-        await multiplayer_game_loop(screen, clock, level_id)
+    await multiplayer_game_loop(screen, clock, level_id)
+
 
 async def lobby(screen, clock, level_id):
     while True:
@@ -87,6 +88,9 @@ async def lobby(screen, clock, level_id):
                           border_radius=round(17.5))
 
     while True:
+        if go_to_game:
+            return
+
         for event in p.event.get():
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
                 await client.disconnect()
@@ -147,7 +151,17 @@ async def lobby(screen, clock, level_id):
 
 
 async def multiplayer_game_loop(screen, clock, level_id):
-    pass
+    while True:
+        for event in p.event.get():
+            if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
+                await client.disconnect()
+                quit()
+
+        screen.fill(p.Color("black"))
+        screen.blit(backgrounds[level_id], (0, 0))
+
+        p.display.update()
+        clock.tick(fps)
 
 
 def get_name(screen, clock):
