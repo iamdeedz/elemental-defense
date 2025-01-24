@@ -45,6 +45,12 @@ async def msg_handler(msg):
         case "start":
             print("game start received")
 
+        case "error":
+            match msg["content"]:
+                case "game_in_progress":
+                    await client.disconnect()
+                    quit()
+
 
 async def gamestate_manager(screen, clock, level_id):
     go_to_game = await lobby(screen, clock, level_id)
@@ -72,9 +78,11 @@ async def lobby(screen, clock, level_id):
     await client.send(dumps(msg))
 
     margin = calc_scaled_tuple((100, 100))
+
     clients_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
-    start_button = Button((screen_width - calc_scaled_num(300), screen_height - calc_scaled_num(150, "vertical")),
-                          calc_scaled_tuple((200, 50)), "grey 25", "Start", "grey 10",
+
+    start_button = Button((screen_width - calc_scaled_num(450), screen_height - calc_scaled_num(150, "vertical") - calc_scaled_num(300/4, "vertical")),
+                          calc_scaled_tuple((300, 300/4)), "grey 60", "Start", "grey 10",
                           font_size=floor(calc_scaled_num(30)),
                           border_radius=round(clients_rect.width / calc_scaled_num(35)))
 
