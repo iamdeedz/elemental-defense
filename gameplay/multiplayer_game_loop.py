@@ -44,7 +44,7 @@ async def msg_handler(msg):
             is_owner = True
 
         case "start":
-            print("game start received")
+            go_to_game = True
 
         case "error":
             match msg["content"]:
