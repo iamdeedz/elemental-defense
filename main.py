@@ -1,5 +1,6 @@
-from debug.logs import write_to_log
+from debug.logs import write_to_log, check_log_length
 
+check_log_length()
 write_to_log("Info", "Program Running")
 
 from gameplay.game_loop import game_loop  # noqa: E402
