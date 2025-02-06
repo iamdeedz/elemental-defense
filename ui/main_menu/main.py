@@ -219,7 +219,7 @@ def main_menu(screen, clock):
 
                                         case "left":
                                             multiplayer_selected_level_id = level_ids[index_of_level_id-1]
-                                        
+
                                     break
 
                                 match return_value:

@@ -51,13 +51,13 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire", "pyro"]
 
-level_ids = [0, -999]
+level_ids = [-999]
 backgrounds = {}
 small_backgrounds = {}
 medium_backgrounds = {}
-background_name_to_id = {"red_ball": 0, "test_bg": -999}
-background_id_to_name = {0: "Red Ball", -999: "Test Level"}
-backgrounds_to_load = ["test_bg", "red_ball"]
+background_name_to_id = {"test_bg": -999}
+background_id_to_name = {-999: "Test Level"}
+backgrounds_to_load = ["test_bg"]
 
 
 img_folder_exists = exists("./imgs/")
