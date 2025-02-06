@@ -91,8 +91,8 @@ p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
 level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
 
 # Level Name
-font = p.font.Font(None, round(calc_scaled_num(75)))
-level_name = font.render(background_id_to_name[multiplayer_selected_level_id], True, "grey 10")
+multiplayer_creation_font = p.font.Font(None, round(calc_scaled_num(75)))
+level_name = multiplayer_creation_font.render(background_id_to_name[multiplayer_selected_level_id], True, "grey 10")
 level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50),
                   level_preview_pos[1] + calc_scaled_num(15, "vertical"))
 
@@ -106,6 +106,8 @@ right_selector_button = Button((left_selector_button.x + left_selector_button.wi
                        level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
                       button_size, "grey 25", ">>>", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
 
+left_selector_button.on_click = button_on_clicks[left_selector_button.text]
+right_selector_button.on_click = button_on_clicks[right_selector_button.text]
 
 multiplayer_server_creation_buttons = [left_selector_button, right_selector_button]
 
@@ -130,6 +132,7 @@ def draw_multiplayer(screen):
         screen.blit(level_preview, level_preview_pos)
 
                 # Level Name
+        level_name = multiplayer_creation_font.render(background_id_to_name[multiplayer_selected_level_id], True, "grey 10")
         screen.blit(level_name, level_name_pos)
 
                 # Buttons
@@ -209,10 +212,15 @@ def main_menu(screen, clock):
                                     index_of_level_id = level_ids.index(multiplayer_selected_level_id)
                                     match return_value[1]:
                                         case "right":
-                                            multiplayer_selected_level_id = level_ids[index_of_level_id+1]
+                                            if index_of_level_id == len(level_ids)-1:
+                                                multiplayer_selected_level_id = level_ids[0]
+                                            else:
+                                                multiplayer_selected_level_id = level_ids[index_of_level_id+1]
 
                                         case "left":
                                             multiplayer_selected_level_id = level_ids[index_of_level_id-1]
+                                        
+                                    break
 
                                 match return_value:
                                     case "back":
