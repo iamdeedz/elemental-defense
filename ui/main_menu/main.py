@@ -108,7 +108,7 @@ def draw_multiplayer(screen):
         # Level Name
         font = p.font.Font(None, round(calc_scaled_num(75)))
         level_name = font.render(background_id_to_name[selected_level_id], True, "grey 10")
-        level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50), level_preview_pos[1]+calc_scaled_num(20, "vertical"))
+        level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50), level_preview_pos[1]+calc_scaled_num(15, "vertical"))
         screen.blit(level_name, level_name_pos)
 
     # Draw Buttons
