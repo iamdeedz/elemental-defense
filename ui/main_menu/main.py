@@ -72,6 +72,9 @@ def update_servers():
         server_displays.append(ServerDisplay(i, level_id, port))
 
 
+multiplayer_server_creation_buttons = []
+
+
 def draw_multiplayer(screen):
     # Rect
     margin = calc_scaled_tuple((100, 100))
@@ -111,6 +114,19 @@ def draw_multiplayer(screen):
         level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50), level_preview_pos[1]+calc_scaled_num(15, "vertical"))
         screen.blit(level_name, level_name_pos)
 
+        # Buttons
+        button_size = ((level_name.get_width()/2)-calc_scaled_num(10), (level_preview_size[1]/2)-calc_scaled_num(30, "vertical"))
+        left_button = Button((level_name_pos[0]+calc_scaled_num(5),
+                             level_preview_pos[1]+(level_preview_size[1]/2)+calc_scaled_num(15, "vertical")),
+                             button_size, "grey 25", "<<<", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
+
+        right_button = Button((left_button.x+left_button.width+calc_scaled_num(10),
+                              level_preview_pos[1]+(level_preview_size[1]/2)+calc_scaled_num(15, "vertical")),
+                              button_size, "grey 25", ">>>", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
+
+        left_button.draw(screen)
+        right_button.draw(screen)
+
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
 
@@ -145,8 +161,8 @@ def main_menu(screen, clock):
                     # Multiplayer page has buttons that are not included in its page buttons so we must add those to the list
                     if current_page.name == "multiplayer":
                         page_buttons = current_page.buttons.copy()
-                        for server_display in server_displays:
-                            page_buttons.append(server_display.join_button)
+                        [page_buttons.append(server_display.join_button) for server_display in server_displays]
+                        [page_buttons.appned(button) for button in multiplayer_server_creation_buttons]
 
                     # Otherwise just use the page's buttons as normal
                     else:
