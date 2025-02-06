@@ -72,14 +72,50 @@ def update_servers():
         server_displays.append(ServerDisplay(i, level_id, port))
 
 
-multiplayer_server_creation_buttons = []
+# Multiplayer Page Objects
+multiplayer_margin = calc_scaled_tuple((100, 100))
+multiplayer_servers_rect = p.Rect(multiplayer_margin, (screen_width - (multiplayer_margin[0] * 2), screen_height - (multiplayer_margin[1] * 2)))
+
+multiplayer_selected_level_id = level_ids[0]
+
+# Get create server button to use as an anchor for positioning
+create_server_button = buttons_by_page["multiplayer"][1]
+
+# Level Preview
+level_preview_size = medium_backgrounds[multiplayer_selected_level_id].get_size()
+level_preview_rect = p.Surface(level_preview_size, p.SRCALPHA)
+
+p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
+                    border_radius=round(multiplayer_servers_rect.width / calc_scaled_num(35)))
+
+level_preview = medium_backgrounds[multiplayer_selected_level_id].copy().convert_alpha()
+level_preview.blit(level_preview_rect, (0, 0), None, p.BLEND_RGBA_MIN)
+
+level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
+
+# Level Name
+font = p.font.Font(None, round(calc_scaled_num(75)))
+level_name = font.render(background_id_to_name[multiplayer_selected_level_id], True, "grey 10")
+level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50),
+                  level_preview_pos[1] + calc_scaled_num(15, "vertical"))
+
+# Buttons
+button_size = ((level_name.get_width()/2)-calc_scaled_num(10), (level_preview_size[1]/2)-calc_scaled_num(30, "vertical"))
+left_selector_button = Button((level_name_pos[0] + calc_scaled_num(5),
+                               level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
+                              button_size, "grey 25", "<<<", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
+
+right_selector_button = Button((left_selector_button.x + left_selector_button.width + calc_scaled_num(10),
+                       level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
+                      button_size, "grey 25", ">>>", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
+
+
+multiplayer_server_creation_buttons = [left_selector_button, right_selector_button]
 
 
 def draw_multiplayer(screen):
     # Rect
-    margin = calc_scaled_tuple((100, 100))
-    servers_rect = p.Rect(margin, (screen_width-(margin[0]*2), screen_height-(margin[1]*2)))
-    p.draw.rect(screen, p.Color("grey 50"), servers_rect, border_radius=round(servers_rect.width / calc_scaled_num(25.6)))
+    p.draw.rect(screen, p.Color("grey 50"), multiplayer_servers_rect, border_radius=round(multiplayer_servers_rect.width / calc_scaled_num(25.6)))
 
     if multiplayer_page_joining:
         # List all servers:
@@ -89,43 +125,17 @@ def draw_multiplayer(screen):
     else:
         # Creating Server
 
-        # Level Selector
-        selected_level_id = level_ids[0]
+            # Level Selector
 
-        # Get create server button to use as an anchor for positioning
-        create_server_button = buttons_by_page["multiplayer"][1]
-
-        # Level Preview
-        level_preview_size = medium_backgrounds[selected_level_id].get_size()
-        level_preview_rect = p.Surface(level_preview_size, p.SRCALPHA)
-
-        p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
-                    border_radius=round(servers_rect.width / calc_scaled_num(35)))
-
-        level_preview = medium_backgrounds[selected_level_id].copy().convert_alpha()
-        level_preview.blit(level_preview_rect, (0, 0), None, p.BLEND_RGBA_MIN)
-
-        level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
+                # Level Preview
         screen.blit(level_preview, level_preview_pos)
 
-        # Level Name
-        font = p.font.Font(None, round(calc_scaled_num(75)))
-        level_name = font.render(background_id_to_name[selected_level_id], True, "grey 10")
-        level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50), level_preview_pos[1]+calc_scaled_num(15, "vertical"))
+                # Level Name
         screen.blit(level_name, level_name_pos)
 
-        # Buttons
-        button_size = ((level_name.get_width()/2)-calc_scaled_num(10), (level_preview_size[1]/2)-calc_scaled_num(30, "vertical"))
-        left_button = Button((level_name_pos[0]+calc_scaled_num(5),
-                             level_preview_pos[1]+(level_preview_size[1]/2)+calc_scaled_num(15, "vertical")),
-                             button_size, "grey 25", "<<<", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
-
-        right_button = Button((left_button.x+left_button.width+calc_scaled_num(10),
-                              level_preview_pos[1]+(level_preview_size[1]/2)+calc_scaled_num(15, "vertical")),
-                              button_size, "grey 25", ">>>", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)))
-
-        left_button.draw(screen)
-        right_button.draw(screen)
+                # Buttons
+        left_selector_button.draw(screen)
+        right_selector_button.draw(screen)
 
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
@@ -193,6 +203,17 @@ def main_menu(screen, clock):
                                 # When a level or join button is clicked it returns two variables and so this has to be handled separate to the rest of the buttons
                                 if return_value[0] == "level" or return_value[0] == "join":
                                     return return_value
+
+                                # These buttons are weird because they are nearly identical so have two variables but don't even return anything
+                                if return_value[0] == "create server select":
+                                    global multiplayer_selected_level_id
+                                    index_of_level_id = level_ids.index(multiplayer_selected_level_id)
+                                    match return_value[1]:
+                                        case "right":
+                                            multiplayer_selected_level_id = level_ids[index_of_level_id+1]
+
+                                        case "left":
+                                            multiplayer_selected_level_id = level_ids[index_of_level_id-1]
 
                                 match return_value:
                                     case "back":

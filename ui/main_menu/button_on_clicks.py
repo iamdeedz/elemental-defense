@@ -35,6 +35,14 @@ def refresh_servers():
     update_servers()
 
 
+def create_server_level_select_left():
+    return "create server select", "left"
+
+
+def create_server_level_select_right():
+    return "create server select", "right"
+
+
 button_on_clicks = {
     "Back": back,
     "Play": play,
@@ -44,5 +52,7 @@ button_on_clicks = {
     "Multi Player": multi_player,
     "Create Server": create_server_menu,
     "Join": join_server,
-    "Refresh Servers": refresh_servers
+    "Refresh Servers": refresh_servers,
+    "<<<": create_server_level_select_left,
+    ">>>": create_server_level_select_right
 }
