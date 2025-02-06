@@ -88,9 +88,6 @@ level_preview_rect = p.Surface(level_preview_size, p.SRCALPHA)
 p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
                     border_radius=round(multiplayer_servers_rect.width / calc_scaled_num(35)))
 
-level_preview = medium_backgrounds[multiplayer_selected_level_id].copy().convert_alpha()
-level_preview.blit(level_preview_rect, (0, 0), None, p.BLEND_RGBA_MIN)
-
 level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
 
 # Level Name
@@ -128,6 +125,8 @@ def draw_multiplayer(screen):
             # Level Selector
 
                 # Level Preview
+        level_preview = medium_backgrounds[multiplayer_selected_level_id].copy().convert_alpha()
+        level_preview.blit(level_preview_rect, (0, 0), None, p.BLEND_RGBA_MIN)
         screen.blit(level_preview, level_preview_pos)
 
                 # Level Name
@@ -172,7 +171,7 @@ def main_menu(screen, clock):
                     if current_page.name == "multiplayer":
                         page_buttons = current_page.buttons.copy()
                         [page_buttons.append(server_display.join_button) for server_display in server_displays]
-                        [page_buttons.appned(button) for button in multiplayer_server_creation_buttons]
+                        [page_buttons.append(button) for button in multiplayer_server_creation_buttons]
 
                     # Otherwise just use the page's buttons as normal
                     else:
