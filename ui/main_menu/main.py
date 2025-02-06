@@ -1,7 +1,8 @@
 import pygame as p
 from pgaddons import Button
 from math import floor
-from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name
+from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, \
+    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds
 from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
@@ -84,7 +85,31 @@ def draw_multiplayer(screen):
 
     else:
         # Creating Server
-        pass
+
+        # Level Selector
+        selected_level_id = level_ids[0]
+
+        # Get create server button to use as an anchor for positioning
+        create_server_button = buttons_by_page["multiplayer"][1]
+
+        # Level Preview
+        level_preview_size = medium_backgrounds[selected_level_id].get_size()
+        level_preview_rect = p.Surface(level_preview_size, p.SRCALPHA)
+
+        p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
+                    border_radius=round(servers_rect.width / calc_scaled_num(35)))
+
+        level_preview = medium_backgrounds[selected_level_id].copy().convert_alpha()
+        level_preview.blit(level_preview_rect, (0, 0), None, p.BLEND_RGBA_MIN)
+
+        level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
+        screen.blit(level_preview, level_preview_pos)
+
+        # Level Name
+        font = p.font.Font(None, round(calc_scaled_num(75)))
+        level_name = font.render(background_id_to_name[selected_level_id], True, "grey 10")
+        level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50), level_preview_pos[1]+calc_scaled_num(20, "vertical"))
+        screen.blit(level_name, level_name_pos)
 
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]

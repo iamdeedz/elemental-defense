@@ -51,6 +51,7 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire", "pyro"]
 
+level_ids = [-999]
 backgrounds = {}
 small_backgrounds = {}
 medium_backgrounds = {}
