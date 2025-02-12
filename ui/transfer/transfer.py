@@ -1,6 +1,6 @@
 from math import floor
 from pgaddons import Button, InputField, NUMERALS
-from constants import calc_scaled_tuple, screen_width, screen_height, calc_scaled_num, is_clicked, nunito_path
+from constants import calc_scaled_tuple, screen_width, screen_height, calc_scaled_num, is_clicked, font_path
 from .button_on_clicks import toggle_transfer, send # NOQA
 import pygame as p
 
@@ -14,8 +14,7 @@ toggle_button = Button(
     p.Color("grey 30"),
     "Transfer Money",
     p.Color("white"),
-    font_size=floor(calc_scaled_num(30)),
-    font=nunito_path
+    font=p.font.Font(font_path, floor(calc_scaled_num(30)))
 )
 toggle_button.on_click = toggle_transfer
 
@@ -25,8 +24,7 @@ money_input = InputField(
     p.Color("grey 50"),
     p.Color("grey 70"),
     "Type Here",
-    font_size=floor(calc_scaled_num(30)),
-    font=nunito_path,
+    font=p.font.Font(font_path, floor(calc_scaled_num(30))),
     max_length=6,
     char_set=NUMERALS
 )
@@ -38,8 +36,7 @@ send_button = Button(
     p.Color("grey 50"),
     "Send",
     p.Color("white"),
-    font_size=floor(calc_scaled_num(30)),
-    font=nunito_path
+    font=p.font.Font(font_path, floor(calc_scaled_num(30)))
 )
 send_button.on_click = send
 

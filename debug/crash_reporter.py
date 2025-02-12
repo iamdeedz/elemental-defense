@@ -1,5 +1,5 @@
 import pygame as p
-from constants import screen_width, screen_height, nunito_path
+from constants import screen_width, screen_height, font_path
 from .logs import write_to_log # NOQA
 
 
@@ -31,7 +31,7 @@ def crash_display():
 
         screen.fill(p.Color("black"))
 
-        font = p.font.Font(nunito_path, 45)
+        font = p.font.Font(font_path, 45)
         text = font.render("Sorry. Elemental Defense has crashed. The error has been saved into a log. Press any "
                            "button to exit.", True, p.Color("white"))
         screen.blit(text, (screen_width // 2 - text.get_width() // 2, screen_height // 2 - text.get_height() // 2))

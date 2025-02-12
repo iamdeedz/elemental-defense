@@ -1,7 +1,8 @@
 from math import floor
 from pgaddons import Button
 from pygame import Color
-from constants import elements, tower_costs, towers_by_element, calc_scaled_tuple, calc_scaled_num, nunito_path
+from pygame.font import Font
+from constants import elements, tower_costs, towers_by_element, calc_scaled_tuple, calc_scaled_num, font_path
 from .button_on_clicks import tower_button_on_click, back_button_on_click # NOQA
 
 
@@ -12,18 +13,18 @@ class ShopWindow:
         # Add buttons based on which window it is
         if self.name == "selection":
             self.buttons = [
-                Button(calc_scaled_tuple((0, 75 * (i + 1))), calc_scaled_tuple((150, 50)), Color("grey 50"), f"{element.capitalize()}", Color("white"), font_size=floor(calc_scaled_num(30)), font=nunito_path)
+                Button(calc_scaled_tuple((0, 75 * (i + 1))), calc_scaled_tuple((150, 50)), Color("grey 50"), f"{element.capitalize()}", Color("white"), font=Font(font_path, floor(calc_scaled_num(30))))
                 for i, element in enumerate(elements)]
 
         elif self.name != "closed":
-            self.buttons = [Button(calc_scaled_tuple((0, 75 * (i + 1))), calc_scaled_tuple((250, 50)), Color("grey 50"), f"{tower} ({tower_costs[tower]})", Color("white"), font_size=floor(calc_scaled_num(30)), font=nunito_path)
+            self.buttons = [Button(calc_scaled_tuple((0, 75 * (i + 1))), calc_scaled_tuple((250, 50)), Color("grey 50"), f"{tower} ({tower_costs[tower]})", Color("white"), font=Font(font_path, floor(calc_scaled_num(30))))
                             for i, tower in enumerate(towers_by_element[self.name])]
 
             for button in self.buttons:
                 button.on_click = tower_button_on_click
 
             # Add back button
-            self.buttons.append(Button(calc_scaled_tuple((0, 75 * (len(self.buttons) + 1))), calc_scaled_tuple((250, 50)), Color("grey 50"), "Back", Color("white"), font_size=floor(calc_scaled_num(30)), font=nunito_path))
+            self.buttons.append(Button(calc_scaled_tuple((0, 75 * (len(self.buttons) + 1))), calc_scaled_tuple((250, 50)), Color("grey 50"), "Back", Color("white"), font=Font(font_path, floor(calc_scaled_num(30)))))
             self.buttons[-1].on_click = back_button_on_click
 
     def draw(self, screen):

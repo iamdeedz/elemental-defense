@@ -2,7 +2,7 @@ import pygame as p
 from pgaddons import Button
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, \
-    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, nunito_path
+    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path
 from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
@@ -20,7 +20,7 @@ class ServerDisplay:
 
         self.image = small_backgrounds[level_id]
 
-        self.font = p.font.Font(nunito_path, floor(calc_scaled_num(40)))
+        self.font = p.font.Font(font_path, floor(calc_scaled_num(40)))
         self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
 
         self.join_button = Button((self.rect.right - calc_scaled_num(30) - calc_scaled_num(100), self.rect.top + calc_scaled_num(16.875, "vertical")),
@@ -91,7 +91,7 @@ p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
 level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
 
 # Level Name
-multiplayer_creation_font = p.font.Font(nunito_path, round(calc_scaled_num(75)))
+multiplayer_creation_font = p.font.Font(font_path, round(calc_scaled_num(75)))
 level_name = multiplayer_creation_font.render(background_id_to_name[multiplayer_selected_level_id], True, "grey 10")
 level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50),
                   level_preview_pos[1] + calc_scaled_num(15, "vertical"))
@@ -100,11 +100,11 @@ level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num
 button_size = ((level_name.get_width()/2)-calc_scaled_num(10), (level_preview_size[1]/2)-calc_scaled_num(30, "vertical"))
 left_selector_button = Button((level_name_pos[0] + calc_scaled_num(5),
                                level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
-                              button_size, "grey 25", "<<<", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)), font=nunito_path)
+                              button_size, "grey 25", "<<<", "white", font=p.font.Font(font_path, floor(calc_scaled_num(35))), border_radius=round(calc_scaled_num(10)))
 
 right_selector_button = Button((left_selector_button.x + left_selector_button.width + calc_scaled_num(10),
                        level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
-                      button_size, "grey 25", ">>>", "white", font_size=floor(calc_scaled_num(35)), border_radius=round(calc_scaled_num(10)), font=nunito_path)
+                               button_size, "grey 25", ">>>", "white", font=p.font.Font(font_path, floor(calc_scaled_num(35))), border_radius=round(calc_scaled_num(10)))
 
 left_selector_button.on_click = button_on_clicks[left_selector_button.text]
 right_selector_button.on_click = button_on_clicks[right_selector_button.text]
@@ -113,7 +113,7 @@ confirm_create_button_size = calc_scaled_tuple((300, 75))
 confirm_create_button = Button((multiplayer_servers_rect.left+calc_scaled_num(75),
                                 multiplayer_servers_rect.bottom-calc_scaled_num(37.5, "vertical")-confirm_create_button_size[1]),
                                confirm_create_button_size, "grey 25", "Create", "white",
-                               font_size=floor(calc_scaled_num(50)), border_radius=round(calc_scaled_num(30)), font=nunito_path)
+                               font=p.font.Font(font_path, floor(calc_scaled_num(50))), border_radius=round(calc_scaled_num(30)))
 
 multiplayer_server_creation_buttons = [left_selector_button, right_selector_button, confirm_create_button]
 
@@ -244,10 +244,10 @@ def main_menu(screen, clock):
         screen.fill(p.Color("grey 25"))
 
         if current_page == "title":
-            font = p.font.Font(nunito_path, floor(calc_scaled_num(100)))
+            font = p.font.Font(font_path, floor(calc_scaled_num(100)))
             text = font.render("Elemental Defense", True, p.Color("white"))
             screen.blit(text, (screen_width // 2 - calc_scaled_num(text.get_width() // 2), (screen_height // 2 - calc_scaled_num(text.get_height() // 2, direction="vertical") - calc_scaled_num(125, direction="vertical"))))
-            font = p.font.Font(nunito_path, floor(calc_scaled_num(50)))
+            font = p.font.Font(font_path, floor(calc_scaled_num(50)))
             text = font.render("Click anywhere to start", True, p.Color("white"))
             screen.blit(text, (screen_width // 2 - calc_scaled_num(text.get_width() // 2), (screen_height // 2 - calc_scaled_num(text.get_height() // 2, direction="vertical") + calc_scaled_num(75, direction="vertical"))))
 
