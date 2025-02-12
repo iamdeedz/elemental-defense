@@ -3,13 +3,16 @@ from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
 from screeninfo import get_monitors
 from urllib.request import urlopen
-from os import makedirs
+from os import makedirs, getcwd
 from os.path import exists
 from debug.logs import write_to_log
 import io
 
 version = "0.3.1 dev"
 crash_reporter_active = False
+
+game_base_directory = getcwd()
+nunito_path = game_base_directory + "/fonts/Nunito-Light.ttf"
 
 screen_width = 700
 screen_height = 420

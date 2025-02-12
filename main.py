@@ -1,3 +1,6 @@
+from pygame import init as pygame_init
+pygame_init()
+
 from debug.logs import write_to_log, check_log_length
 
 check_log_length()
@@ -12,7 +15,6 @@ import pygame as p  # noqa: E402
 
 
 def main():
-    p.init()
     screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)
     p.display.set_caption("Elemental Defense")
     clock = p.time.Clock()

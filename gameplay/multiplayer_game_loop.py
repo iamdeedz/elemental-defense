@@ -1,5 +1,5 @@
 import pygame as p
-from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height
+from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height, nunito_path
 from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
@@ -65,7 +65,7 @@ async def lobby(screen, clock, level_id):
         if client.id:
             break
 
-        font = p.font.Font(None, floor(calc_scaled_num(75)))
+        font = p.font.Font(nunito_path, floor(calc_scaled_num(75)))
         text = font.render("Connecting...", True, "grey 80")
 
         screen.fill("grey 25")
@@ -85,7 +85,8 @@ async def lobby(screen, clock, level_id):
     start_button = Button((screen_width - calc_scaled_num(450), screen_height - calc_scaled_num(150, "vertical") - calc_scaled_num(300/4, "vertical")),
                           calc_scaled_tuple((275, 275/4)), "grey 25", "Start", "grey 90",
                           font_size=floor(calc_scaled_num(37.5)),
-                          border_radius=round(17.5))
+                          border_radius=round(17.5),
+                          font=nunito_path)
 
     while True:
         if go_to_game:
@@ -120,12 +121,12 @@ async def lobby(screen, clock, level_id):
                     (clients_rect.left + calc_scaled_num(50), clients_rect.top + calc_scaled_num(50, "vertical")))
 
         # Level Name
-        font = p.font.Font(None, floor(calc_scaled_num(112.5)))
+        font = p.font.Font(nunito_path, floor(calc_scaled_num(112.5)))
         level_name = font.render(background_id_to_name[level_id], True, p.Color("grey 10"))
         screen.blit(level_name, (clients_rect.left + (calc_scaled_num(50)*2) + level_preview_size[0], clients_rect.top + calc_scaled_num(75, "vertical")))
 
         # Players
-        font = p.font.Font(None, floor(calc_scaled_num(50)))
+        font = p.font.Font(nunito_path, floor(calc_scaled_num(50)))
 
         # Ensure all keys are integers, not strings
         global id_to_name
@@ -169,11 +170,11 @@ def get_name(screen, clock):
 
     name_input = InputField(
         ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)-(element_size[1] / 2)),
-        element_size, "grey 30", "grey 40", "Enter your name...", font_colour="grey 80", max_length=12, font_size=floor(calc_scaled_num(35)))
+        element_size, "grey 30", "grey 40", "Enter your name...", font_colour="grey 80", max_length=12, font_size=floor(calc_scaled_num(35)), font=nunito_path)
 
-    submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit", text_colour="grey 80", font_size=floor(calc_scaled_num(35)))
+    submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit", text_colour="grey 80", font_size=floor(calc_scaled_num(35)), font=nunito_path)
 
-    font = p.font.Font(None, floor(calc_scaled_num(50)))
+    font = p.font.Font(nunito_path, floor(calc_scaled_num(50)))
     text = None
 
     while True:
