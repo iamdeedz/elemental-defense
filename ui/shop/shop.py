@@ -8,6 +8,7 @@ from .button_on_clicks import toggle_shop # NOQA
 from pygame import Color, Surface, SRCALPHA
 from pygame.mouse import get_pos as get_mouse_pos
 from pygame.draw import circle
+from pygame.font import Font
 
 
 class Shop:

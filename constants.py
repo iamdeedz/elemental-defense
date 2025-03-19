@@ -12,7 +12,7 @@ version = "0.3.1 dev"
 crash_reporter_active = False
 
 game_base_directory = getcwd()
-font_path = None # None means the pygame default font
+font_path = "fonts/nunito-Light.ttf" # None means the pygame default font
 
 screen_width = 700
 screen_height = 420
