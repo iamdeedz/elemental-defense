@@ -51,18 +51,18 @@ server_displays = []
 
 def update_servers():
     write_to_log("Info", "Updating server list")
-    #all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
 
     # Hardcoded Test Response
-    all_servers = [
-        {"port": 1301, "parameters": {"level_id": -999}},
-        {"port": 1303, "parameters": {"level_id": -999}},
-        {"port": 1305, "parameters": {"level_id": -999}},
-        {"port": 1307, "parameters": {"level_id": -999}},
-        {"port": 1309, "parameters": {"level_id": -999}},
-    ]
+    #all_servers = [
+    #    {"port": 1301, "parameters": {"level_id": -999}},
+    #    {"port": 1303, "parameters": {"level_id": -999}},
+    #    {"port": 1305, "parameters": {"level_id": -999}},
+    #    {"port": 1307, "parameters": {"level_id": -999}},
+    #    {"port": 1309, "parameters": {"level_id": -999}},
+    #]
 
-    #all_servers = all_servers_response["content"]
+    all_servers = all_servers_response["content"]
 
     shuffle(all_servers)
 
@@ -114,9 +114,10 @@ confirm_create_button = Button((multiplayer_servers_rect.left+calc_scaled_num(75
                                 multiplayer_servers_rect.bottom-calc_scaled_num(37.5, "vertical")-confirm_create_button_size[1]),
                                confirm_create_button_size, "grey 25", "Create", "white",
                                font=p.font.Font(font_path, floor(calc_scaled_num(50))), border_radius=round(calc_scaled_num(30)))
+confirm_create_button.on_click = button_on_clicks[confirm_create_button.text]
 
+multiplayer_server_creation_parameters = {"level_id": -999}
 multiplayer_server_creation_buttons = [left_selector_button, right_selector_button, confirm_create_button]
-
 
 def draw_multiplayer(screen):
     # Rect
@@ -128,6 +129,8 @@ def draw_multiplayer(screen):
             server_display.draw(screen)
 
     else:
+        confirm_create_button.parameters = multiplayer_server_creation_parameters.copy()
+
         # Creating Server
 
             # Level Selector
@@ -201,6 +204,9 @@ def main_menu(screen, clock):
                                 if button.text == "Join":
                                     return_value = button.on_click(button)
 
+                                elif button.text == "Create":
+                                    return_value = button.on_click(button.parameters)
+
                                 else:
                                     return_value = button.on_click()
 
@@ -224,6 +230,8 @@ def main_menu(screen, clock):
 
                                         case "left":
                                             multiplayer_selected_level_id = level_ids[index_of_level_id-1]
+
+                                    multiplayer_server_creation_parameters["level_id"] = multiplayer_selected_level_id
 
                                     break
 
