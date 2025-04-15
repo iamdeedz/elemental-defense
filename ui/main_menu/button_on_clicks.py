@@ -43,6 +43,21 @@ def create_server_level_select_right():
     return "create server select", "right"
 
 
+# This has a different naming scheme because it would clash with the pymultiplayer function otherwise
+def create_server_button(parameters):
+    from pymultiplayer import create_server
+    from constants import server_manager_ip, server_manager_port
+    from asyncio import run
+    run(create_server(server_manager_ip, server_manager_port, parameters))
+
+    # Update the servers
+    from .main import update_servers # NOQA
+    update_servers()
+
+    # Return this so that after creating a server, the creation menu closes, indicating success
+    return "create server menu"
+
+
 button_on_clicks = {
     "Back": back,
     "Play": play,
@@ -54,5 +69,6 @@ button_on_clicks = {
     "Join": join_server,
     "Refresh Servers": refresh_servers,
     "<<<": create_server_level_select_left,
-    ">>>": create_server_level_select_right
+    ">>>": create_server_level_select_right,
+    "Create": create_server_button
 }

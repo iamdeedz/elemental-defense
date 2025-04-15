@@ -169,7 +169,7 @@ def get_name(screen, clock):
 
     name_input = InputField(
         ((screen_width / 2) - (element_size[0] / 2), (screen_height / 2) - (element_size[1] / 2)-(element_size[1] / 2)),
-        element_size, "grey 30", "grey 40", "Enter your name...", font_colour="grey 80", max_length=12, font_size=floor(calc_scaled_num(35)), font=font_path)
+        element_size, "grey 30", "grey 40", "Enter your name...", font_colour="grey 80", max_length=12, font=p.font.Font(font_path, floor(calc_scaled_num(35))))
 
     submit_button = Button((name_input.x, name_input.y+element_size[1]), element_size, "grey 50", "Submit", text_colour="grey 80", font=p.font.Font(font_path, floor(calc_scaled_num(35))))
 
