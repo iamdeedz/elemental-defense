@@ -51,18 +51,18 @@ server_displays = []
 
 def update_servers():
     write_to_log("Info", "Updating server list")
-    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    #all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
 
     # Hardcoded Test Response
-    #all_servers = [
-    #    {"port": 1301, "parameters": {"level_id": -999}},
-    #    {"port": 1303, "parameters": {"level_id": -999}},
-    #    {"port": 1305, "parameters": {"level_id": -999}},
-    #    {"port": 1307, "parameters": {"level_id": -999}},
-    #    {"port": 1309, "parameters": {"level_id": -999}},
-    #]
+    all_servers = [
+        {"port": 1301, "parameters": {"level_id": -999}},
+        {"port": 1303, "parameters": {"level_id": -999}},
+        {"port": 1305, "parameters": {"level_id": -999}},
+        {"port": 1307, "parameters": {"level_id": -999}},
+        {"port": 1309, "parameters": {"level_id": -999}},
+    ]
 
-    all_servers = all_servers_response["content"]
+    #all_servers = all_servers_response["content"]
 
     shuffle(all_servers)
 
@@ -78,10 +78,10 @@ multiplayer_servers_rect = p.Rect(multiplayer_margin, (screen_width - (multiplay
 
 multiplayer_selected_level_id = level_ids[0]
 
-# Get create server button to use as an anchor for positioning
+    # Get create server button to use as an anchor for positioning
 create_server_button = buttons_by_page["multiplayer"][1]
 
-# Level Preview
+    # Level Preview
 level_preview_size = medium_backgrounds[multiplayer_selected_level_id].get_size()
 level_preview_rect = p.Surface(level_preview_size, p.SRCALPHA)
 
@@ -90,13 +90,13 @@ p.draw.rect(level_preview_rect, (255, 255, 255), (0, 0, *level_preview_size),
 
 level_preview_pos = (create_server_button.x, create_server_button.y + create_server_button.height + calc_scaled_num(25, "vertical"))
 
-# Level Name
+    # Level Name
 multiplayer_creation_font = p.font.Font(font_path, round(calc_scaled_num(75)))
 level_name = multiplayer_creation_font.render(background_id_to_name[multiplayer_selected_level_id], True, "grey 10")
 level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50),
                   level_preview_pos[1] + calc_scaled_num(15, "vertical"))
 
-# Buttons
+    # Buttons
 button_size = ((level_name.get_width()/2)-calc_scaled_num(10), (level_preview_size[1]/2)-calc_scaled_num(30, "vertical"))
 left_selector_button = Button((level_name_pos[0] + calc_scaled_num(5),
                                level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
@@ -116,8 +116,9 @@ confirm_create_button = Button((multiplayer_servers_rect.left+calc_scaled_num(75
                                font=p.font.Font(font_path, floor(calc_scaled_num(50))), border_radius=round(calc_scaled_num(30)))
 confirm_create_button.on_click = button_on_clicks[confirm_create_button.text]
 
-multiplayer_server_creation_parameters = {"level_id": -999}
 multiplayer_server_creation_buttons = [left_selector_button, right_selector_button, confirm_create_button]
+
+multiplayer_server_creation_parameters = {"level_id": -999}
 
 def draw_multiplayer(screen):
     # Rect
