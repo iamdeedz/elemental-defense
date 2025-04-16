@@ -1,5 +1,5 @@
 import pygame as p
-from pgaddons import Button
+from pgaddons import Button, Slider
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, \
     server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path
@@ -96,19 +96,27 @@ level_name = multiplayer_creation_font.render(background_id_to_name[multiplayer_
 level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num(50),
                   level_preview_pos[1] + calc_scaled_num(15, "vertical"))
 
+    # No. of Players Slider
+player_select_slider_pos = (level_preview_pos[0], level_preview_pos[1] + level_preview_size[1] + calc_scaled_num(25, "vertical"))
+player_select_slider = Slider(player_select_slider_pos, calc_scaled_tuple((300, 75)), p.Color("grey 4   0"), p.Color("grey 25"),
+                              2, 4, 2, background_text="No. Of Players", font=p.font.Font(font_path, floor(calc_scaled_num(30))))
+
     # Buttons
-button_size = ((level_name.get_width()/2)-calc_scaled_num(10), (level_preview_size[1]/2)-calc_scaled_num(30, "vertical"))
+
+        # Level Select Buttons
+selector_button_size = ((level_name.get_width() / 2) - calc_scaled_num(10), (level_preview_size[1] / 2) - calc_scaled_num(30, "vertical"))
 left_selector_button = Button((level_name_pos[0] + calc_scaled_num(5),
                                level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
-                              button_size, "grey 25", "<<<", "white", font=p.font.Font(font_path, floor(calc_scaled_num(35))), border_radius=round(calc_scaled_num(10)))
+                              selector_button_size, "grey 25", "<<<", "white", font=p.font.Font(font_path, floor(calc_scaled_num(35))), border_radius=round(calc_scaled_num(10)))
 
 right_selector_button = Button((left_selector_button.x + left_selector_button.width + calc_scaled_num(10),
                        level_preview_pos[1] + (level_preview_size[1]/2) + calc_scaled_num(15, "vertical")),
-                               button_size, "grey 25", ">>>", "white", font=p.font.Font(font_path, floor(calc_scaled_num(35))), border_radius=round(calc_scaled_num(10)))
+                               selector_button_size, "grey 25", ">>>", "white", font=p.font.Font(font_path, floor(calc_scaled_num(35))), border_radius=round(calc_scaled_num(10)))
 
 left_selector_button.on_click = button_on_clicks[left_selector_button.text]
 right_selector_button.on_click = button_on_clicks[right_selector_button.text]
 
+        # Confirm Creation Button
 confirm_create_button_size = calc_scaled_tuple((300, 75))
 confirm_create_button = Button((multiplayer_servers_rect.left+calc_scaled_num(75),
                                 multiplayer_servers_rect.bottom-calc_scaled_num(37.5, "vertical")-confirm_create_button_size[1]),
@@ -148,6 +156,9 @@ def draw_multiplayer(screen):
                 # Buttons
         [button.draw(screen) for button in multiplayer_server_creation_buttons]
 
+            # No. of Players Slider
+        player_select_slider.draw(screen)
+
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
 
@@ -178,6 +189,7 @@ def main_menu(screen, clock):
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    player_select_slider.handle_mousedown(p.mouse.get_pos())
 
                     # Multiplayer page has buttons that are not included in its page buttons so we must add those to the list
                     if current_page.name == "multiplayer":
@@ -249,6 +261,13 @@ def main_menu(screen, clock):
 
                                     case _:
                                         current_page = pages[page_keys[return_value]]
+
+            elif event.type == p.MOUSEBUTTONUP:
+                player_select_slider.is_being_dragged = False
+                multiplayer_server_creation_parameters["amount_of_players"] = player_select_slider.value
+
+            elif event.type == p.MOUSEMOTION:
+                player_select_slider.handle_mousemotion(p.mouse.get_pos())
 
         screen.fill(p.Color("grey 25"))
 

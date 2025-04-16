@@ -83,8 +83,9 @@ async def client_left(client):
 def init_func(ip, port, parameters):
     global server, level_id
     level_id = parameters["level_id"]
+    amount_of_players = parameters["amount_of_players"]
 
-    server = TCPMultiplayerServer(msg_handler, ip, port, max_clients=4)
+    server = TCPMultiplayerServer(msg_handler, ip, port, max_clients=amount_of_players)
     server.set_client_joined_func(client_joined)
     server.set_client_left_func(client_left)
     server.run()
