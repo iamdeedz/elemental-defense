@@ -90,7 +90,7 @@ if not img_folder_exists:
         small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((100, 56.25)))
         medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((250, 140.625)))
 
-        with open("./imgs/test_bg.png", "wb") as local_bg_file:
+        with open(f"./imgs/{bg}.png", "wb") as local_bg_file:
             local_bg_file.write(bg_str)
 
 else:
