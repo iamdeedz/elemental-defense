@@ -14,7 +14,7 @@ from random import shuffle
 # -------------------------------------- #
 
 class ServerDisplay:
-    def __init__(self, index, level_id, port):
+    def __init__(self, index, level_id, port, max_players):
         self.rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * index))),
                           (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
 
@@ -22,6 +22,7 @@ class ServerDisplay:
 
         self.font = p.font.Font(font_path, floor(calc_scaled_num(40)))
         self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
+        self.max_players = self.font.render(f"Max Players: {max_players}", True, "white")
 
         self.join_button = Button((self.rect.right - calc_scaled_num(30) - calc_scaled_num(100), self.rect.top + calc_scaled_num(16.875, "vertical")),
                              (calc_scaled_num(100), self.rect.height - (calc_scaled_num(16.875, "vertical")*2)),
@@ -42,6 +43,9 @@ class ServerDisplay:
         screen.blit(self.level_name, (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
                                  self.rect.top + calc_scaled_num(16.875, "vertical")))
 
+        # Max Players
+        screen.blit(self.max_players, (self.join_button.x - calc_scaled_num(50) - self.max_players.get_width(), self.rect.top + ((self.rect.height-self.max_players.get_height())/2)))
+
         # Join Button
         self.join_button.draw(screen)
 
@@ -51,25 +55,26 @@ server_displays = []
 
 def update_servers():
     write_to_log("Info", "Updating server list")
-    #all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
 
     # Hardcoded Test Response
-    all_servers = [
-        {"port": 1301, "parameters": {"level_id": -999}},
-        {"port": 1303, "parameters": {"level_id": -999}},
-        {"port": 1305, "parameters": {"level_id": -999}},
-        {"port": 1307, "parameters": {"level_id": -999}},
-        {"port": 1309, "parameters": {"level_id": -999}},
-    ]
+    #all_servers = [
+    #    {"port": 1301, "parameters": {"level_id": -999}},
+    #    {"port": 1303, "parameters": {"level_id": -999}},
+    #    {"port": 1305, "parameters": {"level_id": -999}},
+    #    {"port": 1307, "parameters": {"level_id": -999}},
+    #    {"port": 1309, "parameters": {"level_id": -999}},
+    #]
 
-    #all_servers = all_servers_response["content"]
+    all_servers = all_servers_response["content"]
 
     shuffle(all_servers)
 
     for i, server in enumerate(all_servers):
         level_id = server["parameters"]["level_id"]
+        max_players = server["parameters"]["max_players"]
         port = server["port"]
-        server_displays.append(ServerDisplay(i, level_id, port))
+        server_displays.append(ServerDisplay(i, level_id, port, max_players))
 
 
 # Multiplayer Page Objects
@@ -99,7 +104,7 @@ level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num
     # No. of Players Slider
 player_select_slider_pos = (level_preview_pos[0], level_preview_pos[1] + level_preview_size[1] + calc_scaled_num(25, "vertical"))
 player_select_slider = Slider(player_select_slider_pos, calc_scaled_tuple((300, 75)), p.Color("grey 4   0"), p.Color("grey 25"),
-                              2, 4, 2, background_text="No. Of Players", font=p.font.Font(font_path, floor(calc_scaled_num(30))))
+                              2, 4, 2, background_text="Max Players", font=p.font.Font(font_path, floor(calc_scaled_num(30))))
 
     # Buttons
 
@@ -126,7 +131,7 @@ confirm_create_button.on_click = button_on_clicks[confirm_create_button.text]
 
 multiplayer_server_creation_buttons = [left_selector_button, right_selector_button, confirm_create_button]
 
-multiplayer_server_creation_parameters = {"level_id": -999}
+multiplayer_server_creation_parameters = {"level_id": -999, "max_players": 2}
 
 def draw_multiplayer(screen):
     # Rect
@@ -264,7 +269,7 @@ def main_menu(screen, clock):
 
             elif event.type == p.MOUSEBUTTONUP:
                 player_select_slider.is_being_dragged = False
-                multiplayer_server_creation_parameters["amount_of_players"] = player_select_slider.value
+                multiplayer_server_creation_parameters["max_players"] = player_select_slider.value
 
             elif event.type == p.MOUSEMOTION:
                 player_select_slider.handle_mousemotion(p.mouse.get_pos())
