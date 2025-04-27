@@ -138,9 +138,21 @@ def draw_multiplayer(screen):
     p.draw.rect(screen, p.Color("grey 50"), multiplayer_servers_rect, border_radius=round(multiplayer_servers_rect.width / calc_scaled_num(25.6)))
 
     if multiplayer_page_joining:
-        # List all servers:
-        for server_display in server_displays:
-            server_display.draw(screen)
+        if server_displays:
+            # List all servers:
+            for server_display in server_displays:
+                server_display.draw(screen)
+
+        else:
+            # No available servers so tell that to the user
+            font = p.font.Font(font_path, floor(calc_scaled_num(100)))
+            text = font.render("No Available Servers!", True, "grey 10")
+            # Get position for text (the centre of the rect)
+            text_pos = (
+                (multiplayer_servers_rect.x + (multiplayer_servers_rect.width / 2) - (text.get_width() / 2)),
+                (multiplayer_servers_rect.y + (multiplayer_servers_rect.height / 2) - (text.get_height() / 2))
+            )
+            screen.blit(text, text_pos)
 
     else:
         confirm_create_button.parameters = multiplayer_server_creation_parameters.copy()
