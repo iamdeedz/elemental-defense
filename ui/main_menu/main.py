@@ -103,7 +103,7 @@ level_name_pos = (level_preview_pos[0] + level_preview_size[0] + calc_scaled_num
 
     # No. of Players Slider
 player_select_slider_pos = (level_preview_pos[0], level_preview_pos[1] + level_preview_size[1] + calc_scaled_num(25, "vertical"))
-player_select_slider = Slider(player_select_slider_pos, calc_scaled_tuple((300, 75)), p.Color("grey 4   0"), p.Color("grey 25"),
+player_select_slider = Slider(player_select_slider_pos, calc_scaled_tuple((300, 75)), p.Color("grey 40"), p.Color("grey 25"),
                               2, 4, 2, background_text="Max Players", font=p.font.Font(font_path, floor(calc_scaled_num(30))))
 
     # Buttons
