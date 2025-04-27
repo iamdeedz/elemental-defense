@@ -7,14 +7,14 @@ from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
 from .button_on_clicks import button_on_clicks # NOQA
-from pymultiplayer import get_servers
+from pymultiplayer import get_servers, get_player_count_of_server
 from asyncio import run as async_run
 from random import shuffle
 
 # -------------------------------------- #
 
 class ServerDisplay:
-    def __init__(self, index, level_id, port, max_players):
+    def __init__(self, index, level_id, port, max_players, player_count):
         self.rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * index))),
                           (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
 
@@ -22,7 +22,12 @@ class ServerDisplay:
 
         self.font = p.font.Font(font_path, floor(calc_scaled_num(40)))
         self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
-        self.max_players = self.font.render(f"Max Players: {max_players}", True, "white")
+
+        self.port = port
+
+        self.max_players = max_players
+        self.player_count = player_count
+        self.player_count_text = self.font.render(f"Players: {player_count}/{max_players}", True, "white")
 
         self.join_button = Button((self.rect.right - calc_scaled_num(30) - calc_scaled_num(100), self.rect.top + calc_scaled_num(16.875, "vertical")),
                              (calc_scaled_num(100), self.rect.height - (calc_scaled_num(16.875, "vertical")*2)),
@@ -43,8 +48,8 @@ class ServerDisplay:
         screen.blit(self.level_name, (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
                                  self.rect.top + calc_scaled_num(16.875, "vertical")))
 
-        # Max Players
-        screen.blit(self.max_players, (self.join_button.x - calc_scaled_num(50) - self.max_players.get_width(), self.rect.top + ((self.rect.height-self.max_players.get_height())/2)))
+        # Player Count
+        screen.blit(self.player_count_text, (self.join_button.x - calc_scaled_num(50) - self.player_count_text.get_width(), self.rect.top + ((self.rect.height-self.player_count_text.get_height())/2)))
 
         # Join Button
         self.join_button.draw(screen)
@@ -74,7 +79,10 @@ def update_servers():
         level_id = server["parameters"]["level_id"]
         max_players = server["parameters"]["max_players"]
         port = server["port"]
-        server_displays.append(ServerDisplay(i, level_id, port, max_players))
+        player_count_response = async_run(get_player_count_of_server(server_manager_ip, port))
+        player_count = player_count_response["content"]
+        #player_count = 0
+        server_displays.append(ServerDisplay(i, level_id, port, max_players, player_count))
 
 
 # Multiplayer Page Objects
