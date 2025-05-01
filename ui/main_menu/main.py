@@ -79,6 +79,7 @@ def update_servers():
         level_id = server["parameters"]["level_id"]
         max_players = server["parameters"]["max_players"]
         port = server["port"]
+
         player_count_response = async_run(get_player_count_of_server(server_manager_ip, port))
         player_count = player_count_response["content"]
         #player_count = 0

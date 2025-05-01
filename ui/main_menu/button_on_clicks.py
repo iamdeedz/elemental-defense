@@ -48,14 +48,14 @@ def create_server_button(parameters):
     from pymultiplayer import create_server
     from constants import server_manager_ip, server_manager_port
     from asyncio import run
-    run(create_server(server_manager_ip, server_manager_port, parameters))
+    port = run(create_server(server_manager_ip, server_manager_port, parameters))["port"]
 
     # Update the servers
     from .main import update_servers # NOQA
     update_servers()
 
-    # Return this so that after creating a server, the creation menu closes, indicating success
-    return "create server menu"
+    # Return this so that after creating a server, you join that server (it's the same as the join button logic (join_server function))
+    return "join", int(parameters["level_id"]), int(port)
 
 
 button_on_clicks = {
