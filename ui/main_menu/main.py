@@ -2,7 +2,7 @@ import pygame as p
 from pgaddons import Button, Slider
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, \
-    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path
+    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path, ws_or_wss
 from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
@@ -20,10 +20,11 @@ class ServerDisplay:
 
         self.image = small_backgrounds[level_id]
 
-        self.font = p.font.Font(font_path, floor(calc_scaled_num(40)))
+        self.font = p.font.Font(font_path, floor(calc_scaled_num(35)))
         self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
 
         self.port = port
+        self.port_text = self.font.render(f"Port: {self.port}", True, "white")
 
         self.max_players = max_players
         self.player_count = player_count
@@ -45,8 +46,12 @@ class ServerDisplay:
                     (self.rect.left + calc_scaled_num(30), self.rect.top + calc_scaled_num(16.875, "vertical")))
 
         # Level Name
-        screen.blit(self.level_name, (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
-                                 self.rect.top + calc_scaled_num(16.875, "vertical")))
+        level_name_pos = (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
+                                 self.rect.top + calc_scaled_num(16.875, "vertical"))
+        screen.blit(self.level_name, level_name_pos)
+
+        # Port
+        screen.blit(self.port_text, (level_name_pos[0], self.rect.bottom-self.port_text.get_height()-calc_scaled_num(16.875, "vertical")))
 
         # Player Count
         screen.blit(self.player_count_text, (self.join_button.x - calc_scaled_num(50) - self.player_count_text.get_width(), self.rect.top + ((self.rect.height-self.player_count_text.get_height())/2)))
@@ -60,7 +65,7 @@ server_displays = []
 
 def update_servers():
     write_to_log("Info", "Updating server list")
-    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port, ws_or_wss=ws_or_wss))
 
     # Hardcoded Test Response
     #all_servers = [
@@ -80,7 +85,7 @@ def update_servers():
         max_players = server["parameters"]["max_players"]
         port = server["port"]
 
-        player_count_response = async_run(get_player_count_of_server(server_manager_ip, port))
+        player_count_response = async_run(get_player_count_of_server(server_manager_ip, port, ws_or_wss=ws_or_wss))
         player_count = player_count_response["content"]
         #player_count = 0
         server_displays.append(ServerDisplay(i, level_id, port, max_players, player_count))
