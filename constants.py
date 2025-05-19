@@ -22,6 +22,8 @@ screen_height = 420
 server_manager_ip = "127.0.0.1"
 server_manager_port = 1300
 
+ws_or_wss = "ws"
+
 for monitor in get_monitors():
     if monitor.is_primary:
         screen_width = monitor.width

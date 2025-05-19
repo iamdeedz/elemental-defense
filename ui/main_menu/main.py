@@ -2,7 +2,7 @@ import pygame as p
 from pgaddons import Button, Slider
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, \
-    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path
+    server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path, ws_or_wss
 from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
@@ -60,7 +60,7 @@ server_displays = []
 
 def update_servers():
     write_to_log("Info", "Updating server list")
-    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port))
+    all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port, ws_or_wss=ws_or_wss))
 
     # Hardcoded Test Response
     #all_servers = [
@@ -80,7 +80,7 @@ def update_servers():
         max_players = server["parameters"]["max_players"]
         port = server["port"]
 
-        player_count_response = async_run(get_player_count_of_server(server_manager_ip, port))
+        player_count_response = async_run(get_player_count_of_server(server_manager_ip, port, ws_or_wss=ws_or_wss))
         player_count = player_count_response["content"]
         #player_count = 0
         server_displays.append(ServerDisplay(i, level_id, port, max_players, player_count))

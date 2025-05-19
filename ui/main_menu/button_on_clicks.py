@@ -46,9 +46,9 @@ def create_server_level_select_right():
 # This has a different naming scheme because it would clash with the pymultiplayer function otherwise
 def create_server_button(parameters):
     from pymultiplayer import create_server
-    from constants import server_manager_ip, server_manager_port
+    from constants import server_manager_ip, server_manager_port, ws_or_wss
     from asyncio import run
-    port = run(create_server(server_manager_ip, server_manager_port, parameters))["port"]
+    port = run(create_server(server_manager_ip, server_manager_port, parameters, ws_or_wss=ws_or_wss))["port"]
 
     # Update the servers
     from .main import update_servers # NOQA
