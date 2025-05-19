@@ -20,10 +20,11 @@ class ServerDisplay:
 
         self.image = small_backgrounds[level_id]
 
-        self.font = p.font.Font(font_path, floor(calc_scaled_num(40)))
+        self.font = p.font.Font(font_path, floor(calc_scaled_num(35)))
         self.level_name = self.font.render(background_id_to_name[level_id], True, "white")
 
         self.port = port
+        self.port_text = self.font.render(f"Port: {self.port}", True, "white")
 
         self.max_players = max_players
         self.player_count = player_count
@@ -45,8 +46,12 @@ class ServerDisplay:
                     (self.rect.left + calc_scaled_num(30), self.rect.top + calc_scaled_num(16.875, "vertical")))
 
         # Level Name
-        screen.blit(self.level_name, (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
-                                 self.rect.top + calc_scaled_num(16.875, "vertical")))
+        level_name_pos = (self.rect.left + calc_scaled_num(30) + calc_scaled_num(100) + calc_scaled_num(20),
+                                 self.rect.top + calc_scaled_num(16.875, "vertical"))
+        screen.blit(self.level_name, level_name_pos)
+
+        # Port
+        screen.blit(self.port_text, (level_name_pos[0], self.rect.bottom-self.port_text.get_height()-calc_scaled_num(16.875, "vertical")))
 
         # Player Count
         screen.blit(self.player_count_text, (self.join_button.x - calc_scaled_num(50) - self.player_count_text.get_width(), self.rect.top + ((self.rect.height-self.player_count_text.get_height())/2)))
