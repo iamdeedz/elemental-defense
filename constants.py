@@ -18,7 +18,8 @@ font_path = None # None means the pygame default font
 screen_width = 700
 screen_height = 420
 
-server_manager_ip = "troubled-aurilia-iamdeedz-ac27f006.koyeb.app"
+#server_manager_ip = "troubled-aurilia-iamdeedz-ac27f006.koyeb.app"
+server_manager_ip = "127.0.0.1"
 server_manager_port = 1300
 
 for monitor in get_monitors():
