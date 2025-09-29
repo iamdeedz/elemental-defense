@@ -12,7 +12,8 @@ margin = (50, 50)
 upgrade_rect = Rect(calc_scaled_tuple(margin), (screen_width // 3, screen_height - calc_scaled_num(margin[1] * 2)))
 
 upgrades = ["dmg", "range", "fire_rate"]
-upgrades_long = {"dmg": "Damage", "range": "Range", "fire_rate": "Fire Rate"}
+upgrades_s_to_l = {"dmg": "Damage", "range": "Range", "fire_rate": "Fire Rate"}
+upgrades_l_to_s = {"Damage": "dmg", "Range": "range", "Fire Rate": "fire_rate"}
 costs = {"dmg": 65, "range": 50, "fire_rate": 80}
 
 are_upgrades_visible = False
@@ -21,7 +22,7 @@ are_upgrades_visible = False
 buttons = []
 for i, upgrade in enumerate(upgrades):
     button = Button((calc_scaled_num(margin[0] * 2), upgrade_rect.height // 3 + calc_scaled_num(i * 100, direction="vertical")), (upgrade_rect.width - calc_scaled_num((margin[0] * 4)), calc_scaled_num(75, direction="vertical")),
-                    Color("grey 75"), [f"Upgrade {upgrades_long[upgrade]} ({costs[upgrade]})"], Color("grey 25"), font=Font(font_path, floor(calc_scaled_num(30))))
+                    Color("grey 75"), [f"Upgrade {upgrades_s_to_l[upgrade]} ({costs[upgrade]})"], Color("grey 25"), font=Font(font_path, floor(calc_scaled_num(30))))
     exec(f"button.on_click = lambda tower, balance: upgrade_{upgrade}(tower, balance)")
     buttons.append(button)
 
@@ -32,12 +33,21 @@ button.on_click = lambda tower, balance, towers: sell_tower(tower, balance, towe
 buttons.append(button)
 
 
+def upgrade_button_texts():
+    for button in buttons:
+        if button.text == "Sell":
+            continue
+
+        prev_button_text = button.text.copy()
+        button.text = prev_button_text.split("(") + f"({costs[upgrades_l_to_s[prev_button_text.split(' ')[1]]]}"
+
 
 def upgrade_dmg(tower, balance):
     if balance >= costs["dmg"]:
         tower.base_dmg += 1
         return_value = balance - costs["dmg"]
         costs["dmg"] += 15
+        upgrade_button_texts()
         return return_value
 
     return balance
@@ -48,6 +58,7 @@ def upgrade_range(tower, balance):
         tower.base_range += 20
         return_value = balance - costs["range"]
         costs["range"] += 15
+        upgrade_button_texts()
         return return_value
 
     return balance
@@ -58,7 +69,7 @@ def upgrade_fire_rate(tower, balance):
         tower.base_fire_rate -= 0.025
         return_value = balance - costs["fire_rate"]
         costs["fire_rate"] += 15
-
+        upgrade_button_texts()
         return return_value
 
     return balance
