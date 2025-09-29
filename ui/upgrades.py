@@ -38,8 +38,7 @@ def upgrade_button_texts():
         if button.text == ["Sell"]:
             continue
 
-        prev_button_text = button.text.copy()
-        button.text = prev_button_text[0].split("(")[0] + f"({costs[upgrades_l_to_s[prev_button_text[0].split(' ')[1]]]})"
+        button.text = [button.text[0].split("(")[0] + f"({costs[upgrades_l_to_s[button.text[0].split(' ')[1]]]})"]
 
 
 def upgrade_dmg(tower, balance):
