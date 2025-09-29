@@ -22,4 +22,4 @@ class Attack:
         return balance, False
 
     def draw(self, screen):
-        draw_circle(screen, Color(self.colour), (int(self.vector.x), int(self.vector.y)), calc_scaled_num(5))
+        draw_circle(screen, Color(self.colour), (int(self.vector.x), int(self.vector.y)), calc_scaled_num(4))
