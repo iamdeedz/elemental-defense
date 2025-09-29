@@ -13,6 +13,7 @@ upgrade_rect = Rect(calc_scaled_tuple(margin), (screen_width // 3, screen_height
 
 upgrades = ["dmg", "range", "fire_rate"]
 upgrades_long = {"dmg": "Damage", "range": "Range", "fire_rate": "Fire Rate"}
+costs = {"dmg": 65, "range": 50, "fire_rate": 80}
 
 are_upgrades_visible = False
 
@@ -20,7 +21,7 @@ are_upgrades_visible = False
 buttons = []
 for i, upgrade in enumerate(upgrades):
     button = Button((calc_scaled_num(margin[0] * 2), upgrade_rect.height // 3 + calc_scaled_num(i * 100, direction="vertical")), (upgrade_rect.width - calc_scaled_num((margin[0] * 4)), calc_scaled_num(75, direction="vertical")),
-                    Color("grey 75"), [f"Upgrade {upgrades_long[upgrade]}"], Color("grey 25"), font=Font(font_path, floor(calc_scaled_num(30))))
+                    Color("grey 75"), [f"Upgrade {upgrades_long[upgrade]} ({costs[upgrade]})"], Color("grey 25"), font=Font(font_path, floor(calc_scaled_num(30))))
     exec(f"button.on_click = lambda tower, balance: upgrade_{upgrade}(tower, balance)")
     buttons.append(button)
 
@@ -30,40 +31,33 @@ button = Button((calc_scaled_num(margin[0] * 2), upgrade_rect.height // 3 + calc
 button.on_click = lambda tower, balance, towers: sell_tower(tower, balance, towers)
 buttons.append(button)
 
-# Costs
-dmg_cost = 65
-range_cost = 50
-fire_rate_cost = 80
 
 
 def upgrade_dmg(tower, balance):
-    global dmg_cost
-    if balance >= dmg_cost:
+    if balance >= costs["dmg"]:
         tower.base_dmg += 1
-        return_value = balance - dmg_cost
-        dmg_cost += 15
+        return_value = balance - costs["dmg"]
+        costs["dmg"] += 15
         return return_value
 
     return balance
 
 
 def upgrade_range(tower, balance):
-    global range_cost
-    if balance >= range_cost:
+    if balance >= costs["range"]:
         tower.base_range += 20
-        return_value = balance - range_cost
-        range_cost += 15
+        return_value = balance - costs["range"]
+        costs["range"] += 15
         return return_value
 
     return balance
 
 
 def upgrade_fire_rate(tower, balance):
-    global fire_rate_cost
-    if balance >= fire_rate_cost:
+    if balance >= costs["fire_rate"]:
         tower.base_fire_rate -= 0.025
-        return_value = balance - fire_rate_cost
-        fire_rate_cost += 15
+        return_value = balance - costs["fire_rate"]
+        costs["fire_rate"] += 15
 
         return return_value
 
