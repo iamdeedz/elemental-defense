@@ -1,10 +1,10 @@
 from math import floor
 from pygame import Color, init as pygame_init
 from pygame.font import Font
-from constants import screen_width, screen_height, calc_scaled_num, calc_scaled_tuple
+from constants import screen_width, screen_height, calc_scaled_num, calc_scaled_tuple, font_path
 
 pygame_init()
-font = Font(None, floor(calc_scaled_num(30)))
+font = Font(font_path, floor(calc_scaled_num(30)))
 
 
 def draw_text(screen, enemies, balance, wave, lives):
