@@ -35,11 +35,11 @@ buttons.append(button)
 
 def upgrade_button_texts():
     for button in buttons:
-        if button.text == "Sell":
+        if button.text == ["Sell"]:
             continue
 
         prev_button_text = button.text.copy()
-        button.text = prev_button_text[0].split("(")[1] + f"({costs[upgrades_l_to_s[prev_button_text[0].split(' ')[1]]]}"
+        button.text = prev_button_text[0].split("(")[0] + f"({costs[upgrades_l_to_s[prev_button_text[0].split(' ')[1]]]})"
 
 
 def upgrade_dmg(tower, balance):
