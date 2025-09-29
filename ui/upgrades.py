@@ -13,7 +13,7 @@ upgrade_rect = Rect(calc_scaled_tuple(margin), (screen_width // 3, screen_height
 
 upgrades = ["dmg", "range", "fire_rate"]
 upgrades_s_to_l = {"dmg": "Damage", "range": "Range", "fire_rate": "Fire Rate"}
-upgrades_l_to_s = {"Damage": "dmg", "Range": "range", "Fire Rate": "fire_rate"}
+upgrades_l_to_s = {"Damage": "dmg", "Range": "range", "Fire": "fire_rate"} # Note the fire rate key is "Fire" because it's easiest for the one and only use of this dict
 costs = {"dmg": 65, "range": 50, "fire_rate": 80}
 
 are_upgrades_visible = False
