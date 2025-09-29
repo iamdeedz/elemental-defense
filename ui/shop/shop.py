@@ -2,12 +2,13 @@ from math import floor
 
 from pgaddons import Button
 from constants import elements, tower_costs, all_towers, is_clicked, screen_width, screen_height, calc_scaled_tuple, \
-    calc_scaled_num
+    calc_scaled_num, font_path
 from .shop_window import ShopWindow # NOQA
 from .button_on_clicks import toggle_shop # NOQA
 from pygame import Color, Surface, SRCALPHA
 from pygame.mouse import get_pos as get_mouse_pos
 from pygame.draw import circle
+from pygame.font import Font
 
 
 class Shop:
@@ -15,7 +16,7 @@ class Shop:
         self.windows = [ShopWindow(name) for name in ["closed", "selection"] + elements]
         self.window_keys = {window.name: i for i, window in enumerate(self.windows)}
         self.current_window = self.windows[0]
-        self.toggle_button = Button((0, 0), calc_scaled_tuple((200, 50)), Color("grey 50"), "Toggle Shop", Color("white"), font_size=floor(calc_scaled_num(30)))
+        self.toggle_button = Button((0, 0), calc_scaled_tuple((200, 50)), Color("grey 50"), "Toggle Shop", Color("white"), font=Font(font_path, floor(calc_scaled_num(30))))
         self.toggle_button.on_click = toggle_shop
         self.tower_being_placed = None
         self.element_being_placed = None

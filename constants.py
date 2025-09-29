@@ -3,7 +3,7 @@ from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
 from screeninfo import get_monitors
 from urllib.request import urlopen
-from os import makedirs
+from os import makedirs, getcwd
 from os.path import exists
 from debug.logs import write_to_log
 import io
@@ -11,9 +11,18 @@ import io
 version = "0.3.1 dev"
 crash_reporter_active = False
 
+game_base_directory = getcwd()
+nunito_path = "fonts/nunito-Light.ttf"
+font_path = None # None means the pygame default font
 
 screen_width = 700
 screen_height = 420
+
+#server_manager_ip = "troubled-aurilia-iamdeedz-ac27f006.koyeb.app"
+server_manager_ip = "127.0.0.1"
+server_manager_port = 1300
+
+ws_or_wss = "ws"
 
 for monitor in get_monitors():
     if monitor.is_primary:
@@ -49,6 +58,14 @@ fps = 60
 imgs = {}
 imgs_to_load = ["red_ball", "blue_ball", "yellow_ball", "dart", "ice", "inferno", "hellfire", "pyro"]
 
+level_ids = [-999]
+backgrounds = {}
+small_backgrounds = {}
+medium_backgrounds = {}
+background_name_to_id = {"test_bg": -999}
+background_id_to_name = {-999: "Test Level"}
+backgrounds_to_load = ["test_bg"]
+
 
 img_folder_exists = exists("./imgs/")
 if not img_folder_exists:
@@ -59,22 +76,25 @@ if not img_folder_exists:
     write_to_log("Info", "The imgs folder doesn't exist. Getting images from GitHub Pages.")
 
     for img in imgs_to_load:
-        imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
-        imgStr = urlopen(imgUrl).read()
-        imgFile = io.BytesIO(imgStr)
-        imgs[img] = img_scale(img_load(imgFile), calc_scaled_tuple((75, 75)))
+        img_url = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+        img_str = urlopen(img_url).read()
+        img_file = io.BytesIO(img_str)
+        imgs[img] = img_scale(img_load(img_file), calc_scaled_tuple((75, 75)))
 
-        with open(f"./imgs/{img}.png", "wb") as localImgFile:
-            localImgFile.write(imgStr)
+        with open(f"./imgs/{img}.png", "wb") as local_img_file:
+            local_img_file.write(img_str)
 
     # Background
-    bgUrl = "https://iamdeedz.github.io/elemental-defense/imgs/test_bg.png"
-    bgStr = urlopen(bgUrl).read()
-    bgFile = io.BytesIO(bgStr)
-    bg = img_scale(img_load(bgFile), (screen_width, screen_height))
+    for bg in backgrounds_to_load:
+        bg_url = f"https://iamdeedz.github.io/elemental-defense/imgs/{bg}.png"
+        bg_str = urlopen(bg_url).read()
+        bg_file = io.BytesIO(bg_str)
+        backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), (screen_width, screen_height))
+        small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((100, 56.25)))
+        medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(bg_file), calc_scaled_tuple((250, 140.625)))
 
-    with open("./imgs/test_bg.png", "wb") as localBgFile:
-        localBgFile.write(bgStr)
+        with open(f"./imgs/{bg}.png", "wb") as local_bg_file:
+            local_bg_file.write(bg_str)
 
 else:
     # Images are stored locally
@@ -82,19 +102,22 @@ else:
 
     for img in imgs_to_load + ["test_bg"]:
         if not exists(f"./imgs/{img}.png"):
-            imgUrl = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
-            imgStr = urlopen(imgUrl).read()
-            imgFile = io.BytesIO(imgStr)
-            imgs[img] = img_scale(img_load(imgFile), calc_scaled_tuple((75, 75)))
+            img_url = f"https://iamdeedz.github.io/elemental-defense/imgs/{img}.png"
+            img_str = urlopen(img_url).read()
+            img_file = io.BytesIO(img_str)
+            imgs[img] = img_scale(img_load(img_file), calc_scaled_tuple((75, 75)))
 
-            with open(f"./imgs/{img}.png", "wb") as localImgFile:
-                localImgFile.write(imgStr)
+            with open(f"./imgs/{img}.png", "wb") as local_img_file:
+                local_img_file.write(img_str)
 
     for img in imgs_to_load:
         imgs[img] = img_scale(img_load(f"./imgs/{img}.png"), calc_scaled_tuple((75, 75)))
 
     # Background
-    bg = img_scale(img_load("./imgs/test_bg.png"), (screen_width, screen_height))
+    for bg in backgrounds_to_load:
+        backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), (screen_width, screen_height))
+        small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((100, 56.25)))
+        medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((250, 140.625)))
 
 
 # -------------------------------------- #
