@@ -47,11 +47,12 @@ def game_loop(screen, clock, level_id):
                     if not were_upgrades_visible:
                         tower_being_upgraded = None
 
-                    for tower in towers:
-                        if tower.is_clicked():
-                            tower_being_upgraded = tower
-                            toggle_upgrades()
-                            break
+                    if not shop.tower_being_placed:
+                        for tower in towers:
+                            if tower.is_clicked():
+                                tower_being_upgraded = tower
+                                toggle_upgrades()
+                                break
 
                     balance = shop.update(towers, balance)
 
