@@ -99,7 +99,8 @@ def game_loop(screen, clock, level_id):
 
         draw_transfer(screen)
 
-        draw_text(screen, wave.alive_enemies, balance, wave.number, lives)
+        cancel = True if shop.tower_being_placed else False
+        draw_text(screen, wave.alive_enemies, balance, wave.number, lives, cancel)
 
         p.display.update()
         clock.tick(fps)
