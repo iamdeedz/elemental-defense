@@ -37,6 +37,9 @@ def game_loop(screen, clock, level_id):
                 paused = not paused
 
             if event.type == p.MOUSEBUTTONDOWN:
+                if shop.tower_being_placed and event.button == 3:
+                    shop.tower_being_placed = shop.range_circle = None
+
                 if event.button == 1:
                     # Upgrades + Shop
                     balance, were_upgrades_visible, sold = update_upgrades(tower_being_upgraded, balance, towers)
