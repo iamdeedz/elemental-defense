@@ -15,7 +15,7 @@ class Attack:
         self.vector.move_towards_ip(self.target.vector, calc_scaled_num(10))
 
         # Check if hit
-        if self.vector.distance_to(self.target.vector) <= 2:
+        if self.vector.distance_to(self.target.vector) <= 2 and self.target.hp > 0:
             self.target.hp -= self.dmg
             return balance + self.dmg, True
 
