@@ -12,10 +12,11 @@ try:
     from ui.main_menu.main import main_menu
     from constants import screen_width, screen_height, update_towers, version, crash_reporter_active
     from debug.crash_reporter import crash
-    
+
 except Exception as e:
     write_error_to_log(e, "main_imports")
-    exit(-1)
+    input("\n!------ READ ME ------!\nSorry, the game has crashed. Terribly.\nIf you are reading this, that means that I messed something up REAL bad. This is worse than a normal crash because the game hasn't even loaded yet so I can't give you a fancy crash screen.\nAnyways, this has been saved into a log. Press enter to close...")
+    exit("\nit won't happen again i swear...")
 
 def main():
     screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)

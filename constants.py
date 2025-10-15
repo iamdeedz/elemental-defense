@@ -156,4 +156,3 @@ def update_towers():
     all_towers["Pyro Nexus"] = Pyro
 
 reset_error_code()
-1/0
