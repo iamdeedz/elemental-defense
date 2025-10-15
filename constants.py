@@ -9,7 +9,7 @@ from debug.logs import write_to_log
 import io
 
 version = "0.3.1 dev"
-crash_reporter_active = False
+crash_reporter_active = True
 
 game_base_directory = getcwd()
 nunito_path = "fonts/nunito-Light.ttf"
