@@ -1,3 +1,6 @@
+from debug.logs import write_to_log, set_error_code, reset_error_code
+set_error_code("0100")
+
 from pygame.transform import scale as img_scale
 from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
@@ -5,7 +8,6 @@ from screeninfo import get_monitors
 from urllib.request import urlopen
 from os import makedirs, getcwd
 from os.path import exists
-from debug.logs import write_to_log
 import io
 
 version = "0.3.1 dev"
@@ -152,3 +154,6 @@ def update_towers():
     all_towers["Inferno Beam"] = Inferno
     all_towers["Hellfire Launcher"] = Hellfire
     all_towers["Pyro Nexus"] = Pyro
+
+reset_error_code()
+1/0

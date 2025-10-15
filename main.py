@@ -1,17 +1,21 @@
 import pygame as p
 p.init()
 
-from debug.logs import write_to_log, check_log_length
+from debug.logs import write_to_log, check_log_length, write_error_to_log
 
 check_log_length()
 write_to_log("Info", "Program Running")
 
-from gameplay.game_loop import game_loop
-from gameplay.multiplayer_game_loop import start_multiplayer
-from ui.main_menu.main import main_menu
-from constants import screen_width, screen_height, update_towers, version, crash_reporter_active
-from debug.crash_reporter import crash
-
+try:
+    from gameplay.game_loop import game_loop
+    from gameplay.multiplayer_game_loop import start_multiplayer
+    from ui.main_menu.main import main_menu
+    from constants import screen_width, screen_height, update_towers, version, crash_reporter_active
+    from debug.crash_reporter import crash
+    
+except Exception as e:
+    write_error_to_log(e, "main_imports")
+    exit(-1)
 
 def main():
     screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)

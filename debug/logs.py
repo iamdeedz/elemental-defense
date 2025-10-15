@@ -26,13 +26,13 @@ from datetime import datetime, UTC
 # 22xx = \ui\transfer\transfer.py
 # 23xx = \ui\transfer\button_on_clicks.py
 
-# Refer to each file for 3rd and 4th digits
+# Refer to each file for 3rd and 4th digits (xx00 is the global scope of each file though)
 
-error_code = 0000
-prev_error_codes = [0000]
+error_code = "0000"
+prev_error_codes = ["0000"]
 
 
-def set_error_code(code):
+def set_error_code(code: str):
     global error_code, prev_error_codes
     error_code = code
     prev_error_codes.append(code)
@@ -53,7 +53,7 @@ def write_error_to_log(error, where):
     time = str(datetime.now(UTC))
     with open("./elemental-defense-log.txt", "a") as log:
         error_data = f"{type(error).__name__}: {error}"
-        log.write(f"[ERROR] - {time.split('.')[0]} - {error_data} - during {where}\n")
+        log.write(f"[ERROR] - {time.split('.')[0]} - {error_data} - during {where} - error_code: {error_code}\n")
         # - error_code: {code}
 
 
