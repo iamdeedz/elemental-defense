@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0400")
+
 import pygame as p
 from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height, font_path
 from gameplay.levels.waves import waves
@@ -219,3 +222,5 @@ def start_multiplayer(screen, clock, level_id, port):
     client.start()
 
     asyncio.run(gamestate_manager(screen, clock, level_id))
+
+reset_error_code()

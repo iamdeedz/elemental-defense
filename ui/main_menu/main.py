@@ -1,9 +1,11 @@
+from debug.logs import write_to_log, set_error_code, reset_error_code
+set_error_code("1500")
+
 import pygame as p
 from pgaddons import Button, Slider
 from math import floor
 from constants import screen_width, screen_height, fps, is_clicked, calc_scaled_tuple, calc_scaled_num, \
     server_manager_ip, server_manager_port, small_backgrounds, background_id_to_name, level_ids, medium_backgrounds, font_path, ws_or_wss
-from debug.logs import write_to_log
 from .page import Page # NOQA
 from .page_buttons import buttons_by_page # NOQA
 from .button_on_clicks import button_on_clicks # NOQA
@@ -317,3 +319,6 @@ def main_menu(screen, clock):
 
         p.display.update()
         clock.tick(fps)
+
+
+reset_error_code()
