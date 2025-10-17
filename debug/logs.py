@@ -3,7 +3,7 @@ from datetime import datetime, UTC
 # ERROR CODES:
 # 00xx = \main.py
 # 01xx = \constants.py
-# 02xx = \server.py
+# 02xx = --NOTHING--
 # 03xx = \gameplay\game_loop.py
 # 04xx = \gameplay\multiplayer_game_loop.py
 # 05xx = \gameplay\levels\path.py
@@ -26,7 +26,7 @@ from datetime import datetime, UTC
 # 22xx = \ui\transfer\transfer.py
 # 23xx = \ui\transfer\button_on_clicks.py
 
-# Refer to each file for 3rd and 4th digits (xx00 is the global scope of each file though)
+# Refer to each file for 3rd and 4th digits (xx00 is the always global scope though)
 
 error_code = "0000"
 prev_error_codes = ["0000"]
