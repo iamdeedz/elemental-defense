@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1300")
+
 from math import floor
 from pygame import Color, init as pygame_init
 from pygame.font import Font
@@ -32,3 +35,6 @@ def draw_text(screen, enemies, balance, wave, lives, cancel):
         cancel_font.italic = True
         cancel_text = cancel_font.render(f"Right Click to Cancel...", True, Color("grey 50"))
         screen.blit(cancel_text, ((screen_width//2)-cancel_text.get_width()//2, screen_height - calc_scaled_num(40, direction="vertical") - cancel_text.get_height()))
+
+
+reset_error_code()

@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0300")
+
 import pygame as p
 from constants import fps, backgrounds
 from gameplay.levels.waves import waves
@@ -104,3 +107,6 @@ def game_loop(screen, clock, level_id):
 
         p.display.update()
         clock.tick(fps)
+
+
+reset_error_code()

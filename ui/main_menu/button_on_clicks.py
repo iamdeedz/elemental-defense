@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1800")
+
 def back():
     return "back"
 
@@ -72,3 +75,5 @@ button_on_clicks = {
     ">>>": create_server_level_select_right,
     "Create": create_server_button
 }
+
+reset_error_code()

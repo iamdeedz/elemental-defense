@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("2000")
+
 from math import floor
 from pgaddons import Button
 from pygame import Color
@@ -43,3 +46,6 @@ class ShopWindow:
 
     def __repr__(self):
         return f"ShopWindow({self.name})"
+
+
+reset_error_code()

@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1400")
+
 from math import floor
 from constants import screen_width, screen_height, is_clicked, tower_costs, calc_scaled_tuple, calc_scaled_num, font_path
 from pygame import Rect, Color, Surface, SRCALPHA
@@ -124,3 +127,6 @@ def update_upgrades(tower, balance, towers):
 def toggle_upgrades():
     global are_upgrades_visible
     are_upgrades_visible = not are_upgrades_visible
+
+
+reset_error_code()

@@ -1,5 +1,7 @@
-from math import floor
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1900")
 
+from math import floor
 from pgaddons import Button
 from constants import elements, tower_costs, all_towers, is_clicked, screen_width, screen_height, calc_scaled_tuple, \
     calc_scaled_num, font_path
@@ -77,3 +79,6 @@ class Shop:
         towers.append(tower)
         balance -= tower_costs[tower.name]
         return balance
+
+
+reset_error_code()

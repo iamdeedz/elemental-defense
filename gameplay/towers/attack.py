@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0900")
+
 from pygame import Vector2, Color
 from pygame.draw import circle as draw_circle
 from constants import calc_scaled_num
@@ -24,3 +27,6 @@ class Attack:
     def draw(self, screen):
         draw_circle(screen, Color(self.colour), (int(self.vector.x), int(self.vector.y)), calc_scaled_num(4))
         print(1/0)
+
+
+reset_error_code()

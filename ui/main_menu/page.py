@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1600")
+
 from .page_buttons import buttons_by_page # NOQA
 from .button_on_clicks import button_on_clicks # NOQA
 
@@ -25,3 +28,6 @@ class Page:
 
     def __repr__(self):
         return f"Page({self.name})"
+
+
+reset_error_code()

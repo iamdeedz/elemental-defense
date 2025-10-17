@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0600")
+
 from gameplay.enemies.enemies import RedBall, BlueBall, YellowBall  # NOQA
 from gameplay.enemies.spawn_handler import SpawnHandler  # NOQA
 
@@ -35,3 +38,5 @@ waves = {
                   RedBall(), RedBall()])
     ],
 }
+
+reset_error_code()

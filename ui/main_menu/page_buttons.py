@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1700")
+
 from math import floor
 from pgaddons import Button
 from .button_on_clicks import button_on_clicks # NOQA
@@ -39,3 +42,5 @@ for page in buttons_by_page:
     for button in buttons_by_page[page]:
         if button.text in button_on_clicks:
             button.on_click = button_on_clicks[button.text]
+
+reset_error_code()
