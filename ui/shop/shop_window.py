@@ -11,6 +11,7 @@ from .button_on_clicks import tower_button_on_click, back_button_on_click # NOQA
 
 class ShopWindow:
     def __init__(self, name):
+        set_error_code("2001")
         self.name = name
 
         # Add buttons based on which window it is
@@ -29,6 +30,7 @@ class ShopWindow:
             # Add back button
             self.buttons.append(Button(calc_scaled_tuple((0, 75 * (len(self.buttons) + 1))), calc_scaled_tuple((250, 50)), Color("grey 50"), "Back", Color("white"), font=Font(font_path, floor(calc_scaled_num(30)))))
             self.buttons[-1].on_click = back_button_on_click
+        reset_error_code()
 
     def draw(self, screen):
         [button.draw(screen) for button in self.buttons] if self.name != "closed" else None
