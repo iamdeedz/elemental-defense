@@ -48,6 +48,7 @@ def create_server_level_select_right():
 
 # This has a different naming scheme because it would clash with the pymultiplayer function otherwise
 def create_server_button(parameters):
+    set_error_code("1801")
     from pymultiplayer import create_server
     from constants import server_manager_ip, server_manager_port, ws_or_wss
     from asyncio import run
@@ -58,6 +59,7 @@ def create_server_button(parameters):
     update_servers()
 
     # Return this so that after creating a server, you join that server (it's the same as the join button logic (join_server function))
+    reset_error_code()
     return "join", int(parameters["level_id"]), int(port)
 
 
