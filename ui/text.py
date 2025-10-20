@@ -2,7 +2,7 @@ from debug.logs import set_error_code, reset_error_code
 set_error_code("1300")
 
 from math import floor
-from pygame import Color, init as pygame_init
+from pygame import Color
 from pygame.font import Font
 from constants import screen_width, screen_height, calc_scaled_num, calc_scaled_tuple, font_path
 
@@ -10,6 +10,7 @@ font = Font(font_path, floor(calc_scaled_num(30)))
 
 
 def draw_text(screen, enemies, balance, wave, lives, cancel):
+    set_error_code("1301")
     for i, enemy in enumerate(enemies):
         type_text = font.render(f"Enemy {i+1} Type: {enemy.name}", True, Color("black"))
         hp_text = font.render(f"Enemy {i+1} HP: {enemy.hp}", True, Color("black"))
@@ -35,6 +36,8 @@ def draw_text(screen, enemies, balance, wave, lives, cancel):
         cancel_font.italic = True
         cancel_text = cancel_font.render(f"Right Click to Cancel...", True, Color("grey 50"))
         screen.blit(cancel_text, ((screen_width//2)-cancel_text.get_width()//2, screen_height - calc_scaled_num(40, direction="vertical") - cancel_text.get_height()))
+
+    reset_error_code()
 
 
 reset_error_code()
