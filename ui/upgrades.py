@@ -45,35 +45,44 @@ def upgrade_button_texts():
 
 
 def upgrade_dmg(tower, balance):
+    set_error_code("1401")
     if balance >= costs["dmg"]:
         tower.base_dmg += 1
         return_value = balance - costs["dmg"]
         costs["dmg"] += 15
         upgrade_button_texts()
+        reset_error_code()
         return return_value
 
+    reset_error_code()
     return balance
 
 
 def upgrade_range(tower, balance):
+    set_error_code("1402")
     if balance >= costs["range"]:
         tower.base_range += 20
         return_value = balance - costs["range"]
         costs["range"] += 15
         upgrade_button_texts()
+        reset_error_code()
         return return_value
 
+    reset_error_code()
     return balance
 
 
 def upgrade_fire_rate(tower, balance):
+    set_error_code("1403")
     if balance >= costs["fire_rate"]:
         tower.base_fire_rate -= 0.025
         return_value = balance - costs["fire_rate"]
         costs["fire_rate"] += 15
         upgrade_button_texts()
+        reset_error_code()
         return return_value
 
+    reset_error_code()
     return balance
 
 
@@ -83,6 +92,7 @@ def sell_tower(tower, balance, towers):
 
 
 def draw_upgrades(tower, screen):
+    set_error_code("1404")
     # Draw Tower Range
     surface = Surface((screen_width, screen_height), SRCALPHA)
     draw_circle(surface, (0, 0, 0, 50), tower.vector.xy, tower.range)
