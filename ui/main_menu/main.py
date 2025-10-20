@@ -17,6 +17,7 @@ from random import shuffle
 
 class ServerDisplay:
     def __init__(self, index, level_id, port, max_players, player_count):
+        set_error_code("1501")
         self.rect = p.Rect(calc_scaled_tuple((150, 225 + (calc_scaled_num(100, "vertical") * index))),
                           (screen_width - (calc_scaled_num(150) * 2), calc_scaled_num(90, "vertical")))
 
@@ -38,8 +39,10 @@ class ServerDisplay:
         self.join_button.on_click = button_on_clicks["Join"]
         self.join_button.port = port
         self.join_button.level_id = level_id
+        reset_error_code()
 
     def draw(self, screen):
+        set_error_code("1502")
         # Rect
         p.draw.rect(screen, p.Color("grey 25"), self.rect, border_radius=round(calc_scaled_num(17.5)))
 
@@ -60,12 +63,14 @@ class ServerDisplay:
 
         # Join Button
         self.join_button.draw(screen)
+        reset_error_code()
 
 
 multiplayer_page_joining = True
 server_displays = []
 
 def update_servers():
+    set_error_code("1503")
     write_to_log("Info", "Updating server list")
     all_servers_response = async_run(get_servers(server_manager_ip, server_manager_port, ws_or_wss=ws_or_wss))
 
@@ -91,6 +96,8 @@ def update_servers():
         player_count = player_count_response["content"]
         #player_count = 0
         server_displays.append(ServerDisplay(i, level_id, port, max_players, player_count))
+
+    reset_error_code()
 
 
 # Multiplayer Page Objects
@@ -150,6 +157,7 @@ multiplayer_server_creation_buttons = [left_selector_button, right_selector_butt
 multiplayer_server_creation_parameters = {"level_id": -999, "max_players": 2}
 
 def draw_multiplayer(screen):
+    set_error_code("1504")
     # Rect
     p.draw.rect(screen, p.Color("grey 50"), multiplayer_servers_rect, border_radius=round(multiplayer_servers_rect.width / calc_scaled_num(25.6)))
 
@@ -195,6 +203,8 @@ def draw_multiplayer(screen):
     # Draw Buttons
     [button.draw(screen) for button in buttons_by_page["multiplayer"]]
 
+    reset_error_code()
+
 # {"port", "parameters"}
 
 multiplayer_page = Page("multiplayer", parent="play")
@@ -203,6 +213,7 @@ multiplayer_page.draw = draw_multiplayer
 # -------------------------------------- #
 
 def main_menu(screen, clock):
+    set_error_code("1505")
     global multiplayer_page_joining
 
     current_page = "title"
@@ -261,6 +272,7 @@ def main_menu(screen, clock):
 
                                 # When a level or join button is clicked it returns two variables and so this has to be handled separate to the rest of the buttons
                                 if return_value[0] == "level" or return_value[0] == "join":
+                                    reset_error_code()
                                     return return_value
 
                                 # These buttons are weird because they are nearly identical so have two variables but don't even return anything
