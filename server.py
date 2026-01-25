@@ -1,4 +1,4 @@
-from pymultiplayer import TCPMultiplayerServer, DynamicServerManager
+from pymultiplayer import TCPMultiplayerServer, DynamicServerManager, ServerOptions
 from json import dumps
 
 server = None
@@ -85,9 +85,8 @@ def init_func(ip, port, parameters):
     level_id = parameters["level_id"]
     max_players = parameters["max_players"]
 
-    server = TCPMultiplayerServer(msg_handler, ip, port, max_clients=max_players)
-    server.set_client_joined_func(client_joined)
-    server.set_client_left_func(client_left)
+    server_options = ServerOptions(msg_handler, ip, port, client_joined_func=client_joined, client_left_func=client_left, max_clients=max_players)
+    server = TCPMultiplayerServer(server_options)
     server.run()
 
 
