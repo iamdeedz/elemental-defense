@@ -1,4 +1,4 @@
-from pymultiplayer import TCPMultiplayerServer, ServerManager
+from pymultiplayer import TCPMultiplayerServer, DynamicServerManager
 from json import dumps
 
 server = None
@@ -92,5 +92,5 @@ def init_func(ip, port, parameters):
 
 
 if __name__ == "__main__":
-    server_manager = ServerManager("0.0.0.0", 1300, 4, init_func)
+    server_manager = DynamicServerManager("0.0.0.0", 1300, 4, init_func)
     server_manager.run()

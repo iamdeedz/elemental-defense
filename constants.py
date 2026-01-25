@@ -11,7 +11,7 @@ from os.path import exists
 import io
 
 version = "0.3.1 dev"
-crash_reporter_active = True
+crash_reporter_active = False
 
 game_base_directory = getcwd()
 nunito_path = "fonts/nunito-Light.ttf"
