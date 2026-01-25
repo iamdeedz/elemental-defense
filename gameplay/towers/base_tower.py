@@ -29,11 +29,11 @@ class Tower:
         self.id = time() / 1000000000
 
     def draw(self, screen):
-        for attack in self.attacks:
-            attack.draw(screen)
-
         center = (self.vector.x - (self.img.get_width() // 2), self.vector.y - (self.img.get_height() // 2))
         screen.blit(self.img, center)
+
+        for attack in self.attacks:
+            attack.draw(screen)
 
     def update(self, enemies, towers, balance):
         # Buffs

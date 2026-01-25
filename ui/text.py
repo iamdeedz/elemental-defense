@@ -3,11 +3,10 @@ from pygame import Color, init as pygame_init
 from pygame.font import Font
 from constants import screen_width, screen_height, calc_scaled_num, calc_scaled_tuple, font_path
 
-pygame_init()
 font = Font(font_path, floor(calc_scaled_num(30)))
 
 
-def draw_text(screen, enemies, balance, wave, lives):
+def draw_text(screen, enemies, balance, wave, lives, cancel):
     for i, enemy in enumerate(enemies):
         type_text = font.render(f"Enemy {i+1} Type: {enemy.name}", True, Color("black"))
         hp_text = font.render(f"Enemy {i+1} HP: {enemy.hp}", True, Color("black"))
@@ -27,3 +26,9 @@ def draw_text(screen, enemies, balance, wave, lives):
             y -= prev_text.get_height()
         screen.blit(text, (calc_scaled_num(25), y))
         prev_texts.append(text)
+
+    if cancel:
+        cancel_font = Font(font_path, floor(calc_scaled_num(45)))
+        cancel_font.italic = True
+        cancel_text = cancel_font.render(f"Right Click to Cancel...", True, Color("grey 50"))
+        screen.blit(cancel_text, ((screen_width//2)-cancel_text.get_width()//2, screen_height - calc_scaled_num(40, direction="vertical") - cancel_text.get_height()))

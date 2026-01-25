@@ -36,10 +36,10 @@ class Shop:
         should_tower_place = True
 
         # Check if any of tower is clicked (indicating the player wants to upgrade a tower)
-        for tower in towers:
-            if tower.is_clicked():
-                should_tower_place = False
-                self.tower_being_placed = None
+        if not self.tower_being_placed:
+            for tower in towers:
+                if tower.is_clicked():
+                    should_tower_place = False
 
         if is_clicked(self.toggle_button):
             self.toggle_button.on_click(self)

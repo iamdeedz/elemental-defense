@@ -4,10 +4,12 @@ from .button_on_clicks import button_on_clicks # NOQA
 from constants import screen_width, screen_height, calc_scaled_tuple, calc_scaled_num, font_path
 from pygame.font import Font
 
+scaled_400x100_tuple = calc_scaled_tuple((400, 100))
+
 buttons_by_page = {
     "home": [
-        Button((screen_width // 2, screen_height // 2), calc_scaled_tuple((200, 50)), "grey 50", "Play", "white", font=Font(font_path, floor(calc_scaled_num(30)))),
-        Button((screen_width // 2, screen_height // 2 + calc_scaled_num(200, direction="vertical")), calc_scaled_tuple((200, 50)), "grey 50", "Settings", "white", font=Font(font_path, floor(calc_scaled_num(30))))
+        Button((screen_width // 2 - (scaled_400x100_tuple[0] // 2), screen_height // 2 - (scaled_400x100_tuple[1] // 2) - calc_scaled_num(100, direction="vertical")), scaled_400x100_tuple, "grey 50", "Play", "white", font=Font(font_path, floor(calc_scaled_num(45)))),
+        Button((screen_width // 2 - (scaled_400x100_tuple[0] // 2), screen_height // 2 + calc_scaled_num(100, direction="vertical")), scaled_400x100_tuple, "grey 50", "Settings", "white", font=Font(font_path, floor(calc_scaled_num(45))))
     ],
 
     "play": [
