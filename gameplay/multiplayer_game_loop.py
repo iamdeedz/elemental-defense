@@ -176,7 +176,6 @@ async def multiplayer_game_loop(screen, clock, level_id):
     shop = Shop()
 
     running = True
-    paused = False
 
     while running:
         if lives <= 0:
@@ -191,9 +190,6 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
             if event.type == p.MOUSEBUTTONDOWN or p.KEYDOWN:
                 update_transfer(event)
-
-            if event.type == p.KEYDOWN and event.key == p.K_SPACE:
-                paused = not paused
 
             if event.type == p.MOUSEBUTTONDOWN:
                 if shop.tower_being_placed and event.button == 3:
@@ -217,9 +213,6 @@ async def multiplayer_game_loop(screen, clock, level_id):
                                 break
 
                     balance = shop.update(towers, balance)
-
-        if paused:
-            continue
 
         is_done = wave.update()
         if is_done:
