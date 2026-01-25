@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0500")
+
 from constants import calc_scaled_tuple
 
 base_waypoints = [(1145, 62),
@@ -43,3 +46,5 @@ base_waypoints = [(1145, 62),
                   (331, 1072)]
 
 waypoints = [calc_scaled_tuple(waypoint) for waypoint in base_waypoints]
+
+reset_error_code()

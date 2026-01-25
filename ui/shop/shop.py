@@ -1,5 +1,7 @@
-from math import floor
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1900")
 
+from math import floor
 from pgaddons import Button
 from constants import elements, tower_costs, all_towers, is_clicked, screen_width, screen_height, calc_scaled_tuple, \
     calc_scaled_num, font_path
@@ -13,6 +15,7 @@ from pygame.font import Font
 
 class Shop:
     def __init__(self):
+        set_error_code("1901")
         self.windows = [ShopWindow(name) for name in ["closed", "selection"] + elements]
         self.window_keys = {window.name: i for i, window in enumerate(self.windows)}
         self.current_window = self.windows[0]
@@ -22,8 +25,10 @@ class Shop:
         self.element_being_placed = None
 
         self.range_circle = None
+        reset_error_code()
 
     def draw(self, screen):
+        set_error_code("1902")
         self.toggle_button.draw(screen)
         self.current_window.draw(screen)
 
@@ -32,7 +37,10 @@ class Shop:
             circle(surface, (0, 0, 0, 50), get_mouse_pos(), self.range_circle)
             screen.blit(surface, (0, 0))
 
+        reset_error_code()
+
     def update(self, towers, balance):
+        set_error_code("1903")
         should_tower_place = True
 
         # Check if any of tower is clicked (indicating the player wants to upgrade a tower)
@@ -69,11 +77,17 @@ class Shop:
             balance = self.place_tower(towers, balance, self.tower_being_placed)
             self.tower_being_placed = self.range_circle = None
 
+        reset_error_code()
         return balance
 
     def place_tower(self, towers, balance, tower):
+        set_error_code("1904")
         mouse_pos = get_mouse_pos()
         tower = all_towers[tower](mouse_pos)
         towers.append(tower)
         balance -= tower_costs[tower.name]
+        reset_error_code()
         return balance
+
+
+reset_error_code()

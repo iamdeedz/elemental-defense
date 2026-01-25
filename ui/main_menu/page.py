@@ -1,12 +1,17 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1600")
+
 from .page_buttons import buttons_by_page # NOQA
 from .button_on_clicks import button_on_clicks # NOQA
 
 
 class Page:
     def __init__(self, name, parent="title"):
+        set_error_code("1601")
         self.name = name
         self.parent = parent
         self.buttons = buttons_by_page[name]
+        reset_error_code()
 
     def draw(self, screen):
         for button in self.buttons:
@@ -25,3 +30,6 @@ class Page:
 
     def __repr__(self):
         return f"Page({self.name})"
+
+
+reset_error_code()

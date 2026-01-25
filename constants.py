@@ -1,3 +1,6 @@
+from debug.logs import write_to_log, set_error_code, reset_error_code
+set_error_code("0100")
+
 from pygame.transform import scale as img_scale
 from pygame.image import load as img_load
 from pygame.mouse import get_pos as get_mouse_pos
@@ -5,11 +8,10 @@ from screeninfo import get_monitors
 from urllib.request import urlopen
 from os import makedirs, getcwd
 from os.path import exists
-from debug.logs import write_to_log
 import io
 
 version = "0.3.1 dev"
-crash_reporter_active = False
+crash_reporter_active = True
 
 game_base_directory = getcwd()
 nunito_path = "fonts/nunito-Light.ttf"
@@ -69,6 +71,7 @@ backgrounds_to_load = ["test_bg"]
 
 img_folder_exists = exists("./imgs/")
 if not img_folder_exists:
+    set_error_code("0101")
     # Images are not stored locally, get them from GitHub Page
 
     makedirs("./imgs/")
@@ -96,7 +99,10 @@ if not img_folder_exists:
         with open(f"./imgs/{bg}.png", "wb") as local_bg_file:
             local_bg_file.write(bg_str)
 
+    reset_error_code()
+
 else:
+    set_error_code("0102")
     # Images are stored locally
     write_to_log("Info", "The imgs folder exists.")
 
@@ -118,6 +124,8 @@ else:
         backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), (screen_width, screen_height))
         small_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((100, 56.25)))
         medium_backgrounds[background_name_to_id[bg]] = img_scale(img_load(f"./imgs/{bg}.png"), calc_scaled_tuple((250, 140.625)))
+
+    reset_error_code()
 
 
 # -------------------------------------- #
@@ -152,3 +160,5 @@ def update_towers():
     all_towers["Inferno Beam"] = Inferno
     all_towers["Hellfire Launcher"] = Hellfire
     all_towers["Pyro Nexus"] = Pyro
+
+reset_error_code()
