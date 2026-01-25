@@ -1,6 +1,7 @@
 from debug.logs import set_error_code, reset_error_code
 set_error_code("1900")
 
+from json import dumps
 from math import floor
 from pgaddons import Button
 from constants import elements, tower_costs, all_towers, is_clicked, screen_width, screen_height, calc_scaled_tuple, \
@@ -39,7 +40,7 @@ class Shop:
 
         reset_error_code()
 
-    def update(self, towers, balance):
+    async def update(self, towers, balance, client=None):
         set_error_code("1903")
         should_tower_place = True
 
@@ -74,17 +75,19 @@ class Shop:
                         self.range_circle = all_towers[self.tower_being_placed]((0, 0)).range
 
         if self.tower_being_placed and should_tower_place:
-            balance = self.place_tower(towers, balance, self.tower_being_placed)
+            balance = await self.place_tower(towers, balance, self.tower_being_placed, client)
             self.tower_being_placed = self.range_circle = None
 
         reset_error_code()
         return balance
 
-    def place_tower(self, towers, balance, tower):
+    async def place_tower(self, towers, balance, tower_str, client):
         set_error_code("1904")
         mouse_pos = get_mouse_pos()
-        tower = all_towers[tower](mouse_pos)
+        tower = all_towers[tower_str](mouse_pos)
         towers.append(tower)
+        if client:
+            await client.send(dumps({"type": "new_tower", "vector": tower.vector, "tower": tower_str, "tower_id": tower.id}))
         balance -= tower_costs[tower.name]
         reset_error_code()
         return balance

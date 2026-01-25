@@ -14,7 +14,7 @@ async def msg_handler(server, msg, client):
             # Tell all other clients that a new tower was placed.
             # Give them the coordinates, owner's id, tower's id, and type of tower
             outgoing_msg = {"type": "new_tower", "content": {
-                "coordinates": msg["content"]["coordinates"],
+                "vector": msg["content"]["vector"],
                 "owner": client.id,
                 "tower_id": msg["content"]["tower_id"],
                 "tower": msg["content"]["tower"]

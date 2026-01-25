@@ -212,7 +212,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
                                 toggle_upgrades()
                                 break
 
-                    balance = shop.update(towers, balance)
+                    balance = shop.update(towers, balance, client=client)
 
         is_done = wave.update()
         if is_done:
