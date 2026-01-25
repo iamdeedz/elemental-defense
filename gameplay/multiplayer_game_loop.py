@@ -13,7 +13,7 @@ from pgaddons import InputField, Button, is_clicked
 
 import asyncio
 from pymultiplayer import MultiplayerClient
-from json import loads, dumps
+from json import dumps
 
 all_ids = []
 id_to_name = {}
@@ -26,8 +26,6 @@ go_to_game = False
 async def msg_handler(msg):
     set_error_code("0401")
     global id_to_name, all_ids, is_owner, go_to_game
-    msg = loads(msg)
-    print(msg)
 
     match msg["type"]:
         case "client_joined":

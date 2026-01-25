@@ -1,13 +1,12 @@
 from pymultiplayer import TCPMultiplayerServer, DynamicServerManager, ServerOptions
 from json import dumps
 
-server = None
 id_to_name = {}
 
 level_id = None
 in_game = False
 
-async def msg_handler(msg, client):
+async def msg_handler(server, msg, client):
     print(f"Client {client.id} sent: {msg}")
 
     match msg["type"]:
@@ -56,7 +55,7 @@ async def msg_handler(msg, client):
 #
 
 
-async def client_joined(new_client):
+async def client_joined(server, new_client):
     print(f"Client {new_client.id} joined.")
     if in_game:
         outgoing_msg = {"type": "error", "content": "game_in_progress"}
@@ -76,7 +75,7 @@ async def client_joined(new_client):
         await server.send(new_client, dumps(outgoing_msg))
 
 
-async def client_left(client):
+async def client_left(server, client):
     print(f"Client {client.id} left.")
 
 
