@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("2100")
+
 from constants import tower_costs
 
 
@@ -16,3 +19,6 @@ def tower_button_on_click(button, balance):
 
 def back_button_on_click(shop):
     shop.current_window = shop.windows[1]
+
+
+reset_error_code()

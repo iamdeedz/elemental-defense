@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1100")
+
 from gameplay.enemies.base_enemy import Enemy # NOQA
 from constants import imgs, calc_scaled_num
 
@@ -21,3 +24,6 @@ class YellowBall(Enemy):
         speed = calc_scaled_num(5)
         super().__init__(20, speed, imgs["yellow_ball"], spawn_delay)
         self.name = "Yellow Ball"
+
+
+reset_error_code()
