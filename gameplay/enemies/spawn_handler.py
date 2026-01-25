@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1200")
+
 from time import perf_counter
 
 
@@ -19,3 +22,6 @@ class SpawnHandler:
             if elapsed_time >= enemy.spawn_delay:
                 self.enemies_to_spawn.append(enemy)
                 self.enemies_spawned.append(enemy)
+
+
+reset_error_code()

@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0800")
+
 from gameplay.towers.base_tower import Tower # NOQA
 from constants import imgs, calc_scaled_num, calc_scaled_tuple
 
@@ -34,3 +37,5 @@ class Pyro(Tower):
         super().__init__(imgs["pyro"], 2, calc_scaled_num(500), 1, pos, calc_scaled_tuple((imgs["pyro"].get_width() // 2, 6)), "orange")
         self.name = "Pyro Nexus"
         self.buff = "pyro"
+
+reset_error_code()

@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0700")
+
 from pygame import Vector2
 from pygame.mouse import get_pos as get_mouse_pos
 from time import time, perf_counter
@@ -116,3 +119,6 @@ class Tower:
 
     def __ne__(self, other):
         return self.id != other.id
+
+
+reset_error_code()

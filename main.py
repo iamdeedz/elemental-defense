@@ -1,18 +1,22 @@
-from pygame import init as pygame_init
-pygame_init()
+import pygame as p
+p.init()
 
-from debug.logs import write_to_log, check_log_length
+from debug.logs import write_to_log, check_log_length, write_error_to_log
 
 check_log_length()
 write_to_log("Info", "Program Running")
 
-from gameplay.game_loop import game_loop  # noqa: E402
-from gameplay.multiplayer_game_loop import start_multiplayer # noqa: E402
-from ui.main_menu.main import main_menu  # noqa: E402
-from constants import screen_width, screen_height, update_towers, version, crash_reporter_active  # noqa: E402
-from debug.crash_reporter import crash  # noqa: E402
-import pygame as p  # noqa: E402
+try:
+    from gameplay.game_loop import game_loop
+    from gameplay.multiplayer_game_loop import start_multiplayer
+    from ui.main_menu.main import main_menu
+    from constants import screen_width, screen_height, update_towers, version, crash_reporter_active
+    from debug.crash_reporter import crash
 
+except Exception as e:
+    write_error_to_log(e, "main_imports")
+    input("\n!------ READ ME ------!\nSorry, the game has crashed. Terribly.\nIf you are reading this, that means that I messed something up REAL bad. This is worse than a normal crash because the game hasn't even loaded yet so I can't give you a fancy crash screen.\nAnyways, this has been saved into a log. Press enter to close...")
+    exit("\nit won't happen again i swear...")
 
 def main():
     screen = p.display.set_mode((screen_width, screen_height), p.NOFRAME)

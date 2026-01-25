@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("2200")
+
 from math import floor
 from pgaddons import Button, InputField, NUMERALS
 from constants import calc_scaled_tuple, screen_width, screen_height, calc_scaled_num, is_clicked, font_path
@@ -71,3 +74,6 @@ def update_transfer(event):
 
         case p.KEYDOWN:
             money_input.on_key_press(event.key)
+
+
+reset_error_code()

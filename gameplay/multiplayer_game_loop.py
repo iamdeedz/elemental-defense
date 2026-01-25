@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("0400")
+
 import pygame as p
 from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height, font_path
 from gameplay.levels.waves import waves
@@ -21,6 +24,7 @@ go_to_game = False
 
 
 async def msg_handler(msg):
+    set_error_code("0401")
     global id_to_name, all_ids, is_owner, go_to_game
     msg = loads(msg)
     print(msg)
@@ -51,18 +55,24 @@ async def msg_handler(msg):
                 case "game_in_progress":
                     await client.disconnect()
                     quit()
+    reset_error_code()
 
 
 async def gamestate_manager(screen, clock, level_id):
+    set_error_code("0402")
     await lobby(screen, clock, level_id)
 
     await multiplayer_game_loop(screen, clock, level_id)
+    reset_error_code()
 
 
 async def lobby(screen, clock, level_id):
+    set_error_code("0403")
     while True:
+
         # Connecting
         if client.id:
+            reset_error_code()
             break
 
         font = p.font.Font(font_path, floor(calc_scaled_num(75)))
@@ -75,6 +85,7 @@ async def lobby(screen, clock, level_id):
         p.display.update()
         clock.tick(fps)
 
+    set_error_code("0404")
     msg = {"type": "name", "content": name}
     await client.send(dumps(msg))
 
@@ -86,9 +97,12 @@ async def lobby(screen, clock, level_id):
                           calc_scaled_tuple((275, 275/4)), "grey 25", "Start", "grey 90",
                           border_radius=round(17.5),
                           font=p.font.Font(font_path, floor(calc_scaled_num(37.5))))
+    reset_error_code()
 
+    set_error_code("0405")
     while True:
         if go_to_game:
+            reset_error_code()
             return
 
         for event in p.event.get():
@@ -151,6 +165,7 @@ async def lobby(screen, clock, level_id):
 
 
 async def multiplayer_game_loop(screen, clock, level_id):
+    set_error_code("0406")
     while True:
         for event in p.event.get():
             if event.type == p.QUIT or (event.type == p.KEYDOWN and event.key == p.K_ESCAPE):
@@ -165,6 +180,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
 
 def get_name(screen, clock):
+    set_error_code("0407")
     element_size = calc_scaled_tuple((300, 75))
 
     name_input = InputField(
@@ -183,6 +199,7 @@ def get_name(screen, clock):
 
             if event.type == p.KEYDOWN and event.key == p.K_RETURN:
                 if len(name_input.text) > 3:
+                    reset_error_code()
                     return name_input.text
                 else:
                     text = font.render("Name must be longer than 3 characters", True, "white")
@@ -191,6 +208,7 @@ def get_name(screen, clock):
                 name_input.active = True if is_clicked(name_input) else False
                 if is_clicked(submit_button):
                     if len(name_input.text) > 3:
+                        reset_error_code()
                         return name_input.text
                     else:
                         text = font.render("Name must be longer than 3 characters", True, "white")
@@ -210,6 +228,7 @@ def get_name(screen, clock):
 
 
 def start_multiplayer(screen, clock, level_id, port):
+    set_error_code("0408")
     input_name = get_name(screen, clock)
     global name
     name = input_name
@@ -219,3 +238,5 @@ def start_multiplayer(screen, clock, level_id, port):
     client.start()
 
     asyncio.run(gamestate_manager(screen, clock, level_id))
+
+reset_error_code()

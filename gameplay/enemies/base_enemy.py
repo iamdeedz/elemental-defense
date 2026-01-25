@@ -1,3 +1,6 @@
+from debug.logs import set_error_code, reset_error_code
+set_error_code("1000")
+
 from pygame import Vector2
 from gameplay.levels.path import waypoints
 
@@ -31,3 +34,6 @@ class Enemy:
     def draw(self, screen):
         center = (self.vector.x - (self.img.get_width() // 2), self.vector.y - (self.img.get_height() // 2))
         screen.blit(self.img, center)
+
+
+reset_error_code()
