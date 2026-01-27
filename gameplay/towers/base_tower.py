@@ -9,7 +9,7 @@ from constants import buffs
 
 
 class Tower:
-    def __init__(self, img, dmg, attack_range, fire_rate, pos, atk_pos, atk_colour):
+    def __init__(self, img, dmg, attack_range, fire_rate, pos, atk_pos, atk_colour, owner_id=None):
         self.name = __name__
         self.base_range = attack_range
         self.base_dmg = dmg
@@ -30,6 +30,7 @@ class Tower:
         self.buff = None
 
         self.id = time() / 1000000000
+        self.owner_id = owner_id
 
     def draw(self, screen):
         center = (self.vector.x - (self.img.get_width() // 2), self.vector.y - (self.img.get_height() // 2))
