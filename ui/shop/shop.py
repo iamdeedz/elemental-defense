@@ -81,13 +81,21 @@ class Shop:
         reset_error_code()
         return balance
 
-    async def place_tower(self, towers, balance, tower_str, client):
+    async def place_tower(self, towers, balance, tower_str, client=None):
         set_error_code("1904")
         mouse_pos = get_mouse_pos()
         tower = all_towers[tower_str](mouse_pos)
         towers.append(tower)
         if client:
-            await client.send(dumps({"type": "new_tower", "vector": tower.vector, "tower": tower_str, "tower_id": tower.id}))
+            await client.send(dumps(
+                {"type": "new_tower",
+                 "content": {
+                     "tower": tower_str,
+                     "tower_id": tower.id,
+                     "owner": client.id,
+                     "pos": mouse_pos
+                 }}
+            ))
         balance -= tower_costs[tower.name]
         reset_error_code()
         return balance

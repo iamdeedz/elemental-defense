@@ -2,7 +2,7 @@ from debug.logs import set_error_code, reset_error_code
 set_error_code("0400")
 
 import pygame as p
-from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height, font_path
+from constants import fps, backgrounds, medium_backgrounds, background_id_to_name, server_manager_ip, calc_scaled_tuple, calc_scaled_num, screen_width, screen_height, font_path, all_towers
 from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
@@ -21,6 +21,10 @@ client = None
 name = None
 is_owner = False
 go_to_game = False
+
+# Game objects that need to be altered by msg_handler
+balance = 250
+towers = []
 
 
 async def msg_handler(msg):
@@ -53,6 +57,10 @@ async def msg_handler(msg):
                 case "game_in_progress":
                     await client.disconnect()
                     quit()
+
+        case "new_tower":
+            towers.append(all_towers[msg["content"]["tower"]](msg["content"]["pos"], tower_id=msg["content"]["tower_id"], owner_id=msg["content"]["owner"]))
+
     reset_error_code()
 
 
@@ -165,12 +173,10 @@ async def lobby(screen, clock, level_id):
 async def multiplayer_game_loop(screen, clock, level_id):
     set_error_code("0406")
 
-    # Copied from game_loop.py
     # Game objects
-    balance = 250
     lives = 3
-    towers = []
     tower_being_upgraded = None
+    global balance, towers
 
     wave = waves[level_id][0]
     shop = Shop()
@@ -212,7 +218,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
                                 toggle_upgrades()
                                 break
 
-                    balance = shop.update(towers, balance, client=client)
+                    balance = await shop.update(towers, balance, client=client)
 
         is_done = wave.update()
         if is_done:
