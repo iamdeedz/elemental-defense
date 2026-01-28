@@ -140,16 +140,20 @@ def draw_upgrades(tower, screen, id_to_name=None):
         owner_bottom_text_pos = (owner_bottom_text_x, owner_bottom_text_y)
         screen.blit(owner_top_text, owner_top_text_pos)
         screen.blit(owner_bottom_text, owner_bottom_text_pos)
+    reset_error_code()
 
 
 async def update_upgrades(tower, balance, towers, client=None):
+    set_error_code("1405")
     global are_upgrades_visible
 
     if not are_upgrades_visible:
+        reset_error_code()
         return balance, False, False
 
     if not is_clicked(upgrade_rect):
         are_upgrades_visible = False
+        reset_error_code()
         return balance, False, False
 
     for button in buttons:
@@ -168,6 +172,7 @@ async def update_upgrades(tower, balance, towers, client=None):
                     ))
 
                 are_upgrades_visible = False
+                reset_error_code()
                 return balance, False, True
 
             # Wasn't sell button
@@ -182,12 +187,36 @@ async def update_upgrades(tower, balance, towers, client=None):
                     }
                 ))
 
+    reset_error_code()
     return balance, True, False
 
 
 def toggle_upgrades():
     global are_upgrades_visible
     are_upgrades_visible = not are_upgrades_visible
+
+
+def multiplayer_sell(towers, sold_tower_id):
+    tower_being_sold = [tower for tower in towers if tower.id == sold_tower_id][0]
+    tower_being_sold.sell(towers)
+
+def multiplayer_upgrade_handler(towers, upgraded_tower_id, upgrade):
+    set_error_code("1406")
+    tower_being_upgraded = [tower for tower in towers if tower.id == upgraded_tower_id][0]
+    match upgrade:
+        case "dmg":
+            # damage upgrade
+            tower_being_upgraded.base_dmg += 1
+
+        case "fire_rate":
+            # fire rate upgrade
+            tower_being_upgraded.base_fire_rate -= 0.025
+
+        case "range":
+            # range upgrade
+            tower_being_upgraded.base_range += 20
+
+    reset_error_code()
 
 
 reset_error_code()

@@ -6,7 +6,7 @@ from constants import fps, backgrounds, medium_backgrounds, background_id_to_nam
 from gameplay.levels.waves import waves
 from ui.text import draw_text
 from ui.shop.shop import Shop
-from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
+from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades, multiplayer_upgrade_handler, multiplayer_sell
 from ui.transfer.transfer import update_transfer, draw_transfer
 from math import floor
 from pgaddons import InputField, Button, is_clicked
@@ -60,6 +60,12 @@ async def msg_handler(msg):
 
         case "new_tower":
             towers.append(all_towers[msg["content"]["tower"]](msg["content"]["pos"], tower_id=msg["content"]["tower_id"], owner_id=msg["content"]["owner"]))
+
+        case "tower_sold":
+            multiplayer_sell(towers, msg["content"]["tower_id"])
+
+        case "upgrade":
+            multiplayer_upgrade_handler(towers, msg["content"]["tower_id"], msg["content"]["upgrade"])
 
     reset_error_code()
 
