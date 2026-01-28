@@ -122,7 +122,15 @@ def draw_upgrades(tower, screen, id_to_name=None):
             player_name_str = f"Player {tower.owner_id}"
 
         owner_text = owner_font.render(f"This tower is owned by: {player_name_str}", True, Color("black"))
-        owner_text_pos = () # TODO -------------------------------
+
+        tower_icon_top_y = calc_scaled_num(margin[1] * 2, direction="vertical")
+        tower_icon_bottom_y = tower_icon_top_y + calc_scaled_num(100, direction="vertical")
+        bottom_of_rect = upgrade_rect.y + upgrade_rect.height
+        owner_text_y = ((bottom_of_rect - tower_icon_bottom_y) / 2) - (owner_text.get_height()/2)
+
+        owner_text_x = (((upgrade_rect.x+upgrade_rect.width) - upgrade_rect.x) / 2) - (owner_text.get_width()/2)
+
+        owner_text_pos = (owner_text_x, owner_text_y)
         screen.blit(owner_text, owner_text_pos)
 
 
