@@ -92,7 +92,7 @@ class Tower:
         for enemy in enemies:
             if self.vector.distance_to(enemy.vector) <= self.range:
                 if self.last_shot is None or perf_counter() - self.last_shot >= self.fire_rate:
-                    self.attacks.append(Attack(self.attack_pos, enemy, self.dmg, self.attack_colour))
+                    self.attacks.append(Attack(self.attack_pos, enemy, self.dmg, self.attack_colour, self.owner_id))
                     self.last_shot = perf_counter()
 
         return balance
