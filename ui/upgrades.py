@@ -172,7 +172,6 @@ async def update_upgrades(tower, balance, towers, client=None):
 
             # Wasn't sell button
             if client:
-                print(button.text)
                 await client.send(dumps(
                     {
                         "type": "upgrade",
