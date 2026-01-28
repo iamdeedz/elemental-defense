@@ -121,17 +121,24 @@ def draw_upgrades(tower, screen, id_to_name=None):
         except KeyError:
             player_name_str = f"Player {tower.owner_id}"
 
-        owner_text = owner_font.render(f"This tower is owned by: {player_name_str}", True, Color("black"))
+        owner_top_text = owner_font.render("This tower is owned by:", True, Color("black"))
+        owner_bottom_text = owner_font.render(player_name_str, True, Color("black"))
 
         tower_icon_top_y = calc_scaled_num(margin[1] * 2, direction="vertical")
         tower_icon_bottom_y = tower_icon_top_y + calc_scaled_num(100, direction="vertical")
         bottom_of_rect = upgrade_rect.y + upgrade_rect.height
-        owner_text_y = ((bottom_of_rect - tower_icon_bottom_y) / 2) - (owner_text.get_height()/2)
+        middle_y_of_icon_and_rect = tower_icon_bottom_y + ((bottom_of_rect - tower_icon_bottom_y) / 2)
+        owner_top_text_y = middle_y_of_icon_and_rect - owner_top_text.get_height() - calc_scaled_num(5, direction="vertical")
+        owner_bottom_text_y = middle_y_of_icon_and_rect + calc_scaled_num(5, direction="vertical")
 
-        owner_text_x = (((upgrade_rect.x+upgrade_rect.width) - upgrade_rect.x) / 2) - (owner_text.get_width()/2)
+        middle_x_of_rect = upgrade_rect.x + (((upgrade_rect.x+upgrade_rect.width)-upgrade_rect.x)/2)
+        owner_top_text_x = middle_x_of_rect - (owner_top_text.get_width()/2)
+        owner_bottom_text_x = middle_x_of_rect - (owner_bottom_text.get_width() / 2)
 
-        owner_text_pos = (owner_text_x, owner_text_y)
-        screen.blit(owner_text, owner_text_pos)
+        owner_top_text_pos = (owner_top_text_x, owner_top_text_y)
+        owner_bottom_text_pos = (owner_bottom_text_x, owner_bottom_text_y)
+        screen.blit(owner_top_text, owner_top_text_pos)
+        screen.blit(owner_bottom_text, owner_bottom_text_pos)
 
 
 def update_upgrades(tower, balance, towers):
