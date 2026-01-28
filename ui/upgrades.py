@@ -91,7 +91,7 @@ def sell_tower(tower, balance, towers):
     return balance + (tower_costs[tower.name] / 2)
 
 
-def draw_upgrades(tower, screen):
+def draw_upgrades(tower, screen, id_to_name=None):
     set_error_code("1404")
     # Draw Tower Range
     surface = Surface((screen_width, screen_height), SRCALPHA)
@@ -110,8 +110,20 @@ def draw_upgrades(tower, screen):
         buff_text = buff_font.render(f"{buff['name']}", True, Color("black"))
         screen.blit(buff_text, calc_scaled_tuple((margin[0] * 4, margin[1] * 1.5 + (buff_index * 100))))
 
-    for button in buttons:
-        button.draw(screen)
+    if not tower.owner_id:
+        for button in buttons:
+            button.draw(screen)
+    else:
+        owner_font = Font(font_path, floor(calc_scaled_num(50)))
+
+        try:
+            player_name_str = id_to_name[tower.owner_id]
+        except KeyError:
+            player_name_str = f"Player {tower.owner_id}"
+
+        owner_text = owner_font.render(f"This tower is owned by: {player_name_str}", True, Color("black"))
+        owner_text_pos = () # TODO -------------------------------
+        screen.blit(owner_text, owner_text_pos)
 
 
 def update_upgrades(tower, balance, towers):

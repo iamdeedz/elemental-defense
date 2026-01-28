@@ -253,7 +253,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
         shop.draw(screen)
         if tower_being_upgraded:
-            draw_upgrades(tower_being_upgraded, screen)
+            draw_upgrades(tower_being_upgraded, screen, id_to_name=id_to_name)
 
         draw_transfer(screen)
 

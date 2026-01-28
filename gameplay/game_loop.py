@@ -10,7 +10,7 @@ from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades
 from ui.transfer.transfer import update_transfer, draw_transfer
 
 
-def game_loop(screen, clock, level_id):
+async def game_loop(screen, clock, level_id):
     # Game objects
     balance = 250
     lives = 3
@@ -60,7 +60,7 @@ def game_loop(screen, clock, level_id):
                                 toggle_upgrades()
                                 break
 
-                    balance = shop.update(towers, balance)
+                    balance = await shop.update(towers, balance)
 
         if paused:
             continue

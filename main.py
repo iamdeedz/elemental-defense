@@ -12,6 +12,7 @@ try:
     from ui.main_menu.main import main_menu
     from constants import screen_width, screen_height, update_towers, version, crash_reporter_active
     from debug.crash_reporter import crash
+    from asyncio import run as async_run
 
 except Exception as e:
     write_error_to_log(e, "main_imports")
@@ -34,7 +35,7 @@ def main():
 
         if return_value[0] == "level":
             try:
-                game_loop(screen, clock, return_value[1])
+                async_run(game_loop(screen, clock, return_value[1]))
             except Exception as e:
                 crash(e, "game_loop")
 
@@ -49,7 +50,7 @@ def main():
         return_value = main_menu(screen, clock)
 
         if return_value[0] == "level":
-            game_loop(screen, clock, return_value[1])
+            async_run(game_loop(screen, clock, return_value[1]))
 
         elif return_value[0] == "join":
             start_multiplayer(screen, clock, return_value[1], return_value[2])
