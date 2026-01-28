@@ -63,6 +63,7 @@ async def msg_handler(msg):
 
         case "tower_sold":
             multiplayer_sell(towers, msg["content"]["tower_id"])
+            towers.remove([tower for tower in towers if tower.id == msg["content"]["tower_id"]][0])
 
         case "upgrade":
             multiplayer_upgrade_handler(towers, msg["content"]["tower_id"], msg["content"]["upgrade"])
