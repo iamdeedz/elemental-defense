@@ -154,7 +154,7 @@ async def update_upgrades(tower, balance, towers, client=None):
 
     for button in buttons:
         if is_clicked(button):
-            balance = button.on_click(tower, balance, client) if button.text[0] != "Sell" else button.on_click(tower, balance, towers, client)
+            balance = button.on_click(tower, balance) if button.text[0] != "Sell" else button.on_click(tower, balance, towers)
             if button.text[0] == "Sell":
                 # Send tower_sold message if multiplayer active
                 if client:
@@ -172,12 +172,13 @@ async def update_upgrades(tower, balance, towers, client=None):
 
             # Wasn't sell button
             if client:
+                print(button.text)
                 await client.send(dumps(
                     {
                         "type": "upgrade",
                         "content": {
                             "tower_id": tower.id,
-                            "upgrade": upgrades_l_to_s[button.text[0]]
+                            "upgrade": upgrades_l_to_s[button.text[0].split(" ")[1]]
                         }
                     }
                 ))
