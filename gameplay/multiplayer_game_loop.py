@@ -203,7 +203,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
                 if event.button == 1:
                     # Upgrades + Shop
-                    balance, were_upgrades_visible, sold = update_upgrades(tower_being_upgraded, balance, towers)
+                    balance, were_upgrades_visible, sold = await update_upgrades(tower_being_upgraded, balance, towers, client=client)
                     if sold:
                         towers.remove(tower_being_upgraded)
                         tower_being_upgraded = None

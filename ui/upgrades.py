@@ -1,6 +1,7 @@
 from debug.logs import set_error_code, reset_error_code
 set_error_code("1400")
 
+from json import dumps
 from math import floor
 from constants import screen_width, screen_height, is_clicked, tower_costs, calc_scaled_tuple, calc_scaled_num, font_path
 from pygame import Rect, Color, Surface, SRCALPHA
@@ -141,7 +142,7 @@ def draw_upgrades(tower, screen, id_to_name=None):
         screen.blit(owner_bottom_text, owner_bottom_text_pos)
 
 
-def update_upgrades(tower, balance, towers):
+async def update_upgrades(tower, balance, towers, client=None):
     global are_upgrades_visible
 
     if not are_upgrades_visible:
@@ -153,10 +154,33 @@ def update_upgrades(tower, balance, towers):
 
     for button in buttons:
         if is_clicked(button):
-            balance = button.on_click(tower, balance) if button.text[0] != "Sell" else button.on_click(tower, balance, towers)
+            balance = button.on_click(tower, balance, client) if button.text[0] != "Sell" else button.on_click(tower, balance, towers, client)
             if button.text[0] == "Sell":
+                # Send tower_sold message if multiplayer active
+                if client:
+                    await client.send(dumps(
+                        {
+                            "type": "tower_sold",
+                            "content": {
+                                "tower_id": tower.id
+                            }
+                        }
+                    ))
+
                 are_upgrades_visible = False
                 return balance, False, True
+
+            # Wasn't sell button
+            if client:
+                await client.send(dumps(
+                    {
+                        "type": "upgrade",
+                        "content": {
+                            "tower_id": tower.id,
+                            "upgrade": upgrades_l_to_s[button.text[0]]
+                        }
+                    }
+                ))
 
     return balance, True, False
 

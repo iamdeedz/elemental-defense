@@ -21,6 +21,12 @@ async def msg_handler(server, msg, client):
             }}
             await server.send_to_all_except(client, dumps(outgoing_msg))
 
+        case "upgrade":
+            # Tell all other clients that a tower was upgraded
+            # Give them the tower's id and which upgrade it was
+            outgoing_msg = {"type": "upgrade", "content": {"tower_id": msg["content"]["tower_id"], "upgrade": msg["content"]["upgrade"]}}
+            await server.send_to_all_except(client, dumps(outgoing_msg))
+
         case "tower_sold":
             # Tell all other clients that a tower was sold.
             # Give them the id
