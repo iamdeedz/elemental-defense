@@ -17,7 +17,8 @@ async def msg_handler(server, msg, client):
                 "pos": msg["content"]["pos"],
                 "owner": client.id,
                 "tower_id": msg["content"]["tower_id"],
-                "tower": msg["content"]["tower"]
+                "tower": msg["content"]["tower"],
+                "init_time": msg["content"]["init_time"]
             }}
             await server.send_to_all_except(client, dumps(outgoing_msg))
 

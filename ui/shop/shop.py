@@ -3,6 +3,7 @@ set_error_code("1900")
 
 from json import dumps
 from math import floor
+from time import time
 from pgaddons import Button
 from constants import elements, tower_costs, all_towers, is_clicked, screen_width, screen_height, calc_scaled_tuple, \
     calc_scaled_num, font_path
@@ -40,13 +41,13 @@ class Shop:
 
         reset_error_code()
 
-    async def update(self, towers, balance, client=None):
+    async def update(self, active_towers, idle_towers, balance, client=None):
         set_error_code("1903")
         should_tower_place = True
 
         # Check if any of tower is clicked (indicating the player wants to upgrade a tower)
         if not self.tower_being_placed:
-            for tower in towers:
+            for tower in active_towers+idle_towers:
                 if tower.is_clicked():
                     should_tower_place = False
 
@@ -75,7 +76,7 @@ class Shop:
                         self.range_circle = all_towers[self.tower_being_placed]((0, 0)).range
 
         if self.tower_being_placed and should_tower_place:
-            balance = await self.place_tower(towers, balance, self.tower_being_placed, client)
+            balance = await self.place_tower(idle_towers, balance, self.tower_being_placed, client)
             self.tower_being_placed = self.range_circle = None
 
         reset_error_code()
@@ -84,7 +85,12 @@ class Shop:
     async def place_tower(self, towers, balance, tower_str, client=None):
         set_error_code("1904")
         mouse_pos = get_mouse_pos()
-        tower = all_towers[tower_str](mouse_pos)
+        if client:
+            init_time = time() + 1.5
+            tower = all_towers[tower_str](mouse_pos, init_time=init_time)
+        else:
+            tower = all_towers[tower_str](mouse_pos)
+
         towers.append(tower)
         if client:
             await client.send(dumps(
@@ -93,7 +99,8 @@ class Shop:
                      "tower": tower_str,
                      "tower_id": tower.id,
                      "owner": client.id,
-                     "pos": mouse_pos
+                     "pos": mouse_pos,
+                     "init_time": init_time
                  }}
             ))
         balance -= tower_costs[tower.name]

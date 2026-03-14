@@ -9,6 +9,7 @@ from ui.shop.shop import Shop
 from ui.upgrades import draw_upgrades, update_upgrades, toggle_upgrades, multiplayer_upgrade_handler, multiplayer_sell
 from ui.transfer.transfer import update_transfer, draw_transfer
 from math import floor
+from time import time
 from pgaddons import InputField, Button, is_clicked
 
 import asyncio
@@ -24,7 +25,8 @@ go_to_game = False
 
 # Game objects that need to be altered by msg_handler
 balance = 250
-towers = []
+idle_towers = []
+active_towers = []
 
 
 async def msg_handler(msg):
@@ -59,7 +61,7 @@ async def msg_handler(msg):
                     quit()
 
         case "new_tower":
-            towers.append(all_towers[msg["content"]["tower"]](msg["content"]["pos"], tower_id=msg["content"]["tower_id"], owner_id=msg["content"]["owner"]))
+            idle_towers.append(all_towers[msg["content"]["tower"]](msg["content"]["pos"], tower_id=msg["content"]["tower_id"], owner_id=msg["content"]["owner"], init_time=msg["content"]["init_time"]))
 
         case "tower_sold":
             multiplayer_sell(towers, msg["content"]["tower_id"])
@@ -183,7 +185,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
     # Game objects
     lives = 3
     tower_being_upgraded = None
-    global balance, towers
+    global balance, idle_towers, active_towers
 
     wave = waves[level_id][0]
     shop = Shop()
@@ -210,22 +212,22 @@ async def multiplayer_game_loop(screen, clock, level_id):
 
                 if event.button == 1:
                     # Upgrades + Shop
-                    balance, were_upgrades_visible, sold = await update_upgrades(tower_being_upgraded, balance, towers, client=client)
+                    balance, were_upgrades_visible, sold = await update_upgrades(tower_being_upgraded, balance, active_towers, client=client)
                     if sold:
-                        towers.remove(tower_being_upgraded)
+                        active_towers.remove(tower_being_upgraded)
                         tower_being_upgraded = None
 
                     if not were_upgrades_visible:
                         tower_being_upgraded = None
 
                     if not shop.tower_being_placed:
-                        for tower in towers:
+                        for tower in active_towers+idle_towers:
                             if tower.is_clicked():
                                 tower_being_upgraded = tower
                                 toggle_upgrades()
                                 break
 
-                    balance = await shop.update(towers, balance, client=client)
+                    balance = await shop.update(active_towers, idle_towers, balance, client=client)
 
         is_done = wave.update()
         if is_done:
@@ -234,8 +236,16 @@ async def multiplayer_game_loop(screen, clock, level_id):
             except IndexError:
                 print("you win but i dont have a win screen yet")
                 running = False
-        for tower in towers:
-            balance = tower.update(wave.alive_enemies, towers, balance)
+
+        # Move any newly activated towers to active list
+        for tower in idle_towers.copy():
+            if time() > tower.init_time:
+                idle_towers.remove(tower)
+                active_towers.append(tower)
+
+        # Update active towers
+        for tower in active_towers:
+            balance = tower.update(wave.alive_enemies, active_towers, balance)
 
         # Move enemies
         for enemy in wave.alive_enemies:
@@ -252,7 +262,7 @@ async def multiplayer_game_loop(screen, clock, level_id):
         screen.fill(p.Color("black"))
         screen.blit(backgrounds[level_id], (0, 0))
 
-        for tower in towers:
+        for tower in idle_towers + active_towers:
             tower.draw(screen)
 
         for enemy in wave.alive_enemies:
